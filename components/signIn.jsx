@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    backgroundColor: 'rgb(108,178,103)',
+    backgroundColor: '#2DA15F',
     alignItems: 'center',
     alignContent: 'center',
   },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   input: {
     color: 'black',
     borderBottomWidth: 3,
-    borderColor: 'rgb(108,178,103)',
+    borderColor: '#2DA15F',
     marginTop: 30,
     fontFamily: 'Poppins-SemiBold',
     fontSize: 12,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   signInButton: {
     marginTop: 70,
-    backgroundColor: 'rgb(108,178,103)',
+    backgroundColor: '#2DA15F',
     borderRadius: 20,
     alignItems: 'center',
     padding: 15,

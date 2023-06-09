@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     paddingBottom: 90,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    backgroundColor: 'rgb(108,178,103)',
+    backgroundColor: '#2DA15F',
 
 
   },
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 
   home: {
     marginLeft: 100,
-    backgroundColor: 'rgb(108,178,103)',
+    backgroundColor: '#2DA15F',
     paddingTop: 20,
     paddingBottom: 20,
     borderRadius: 100,
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     marginRight:50,
     alignItems: "center",
     color: '#FFFFFF',
-    fontFamily: 'Poppins-Reguler',
-    fontSize: 12,
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 10,
     textAlign: 'center',
 
 

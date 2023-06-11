@@ -5,14 +5,20 @@ import Custom_colors from '../assets/colors/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-<Icon name="rocket" size={30} color="#900" />
+
 
 
 const Splash = () => {
   return (
 
     <View style={styles.container}>
+
+     
       <View style={styles.info_container}>
+
+      <Image source={require("../assets/images/map-bro.png")}
+        style={styles.home_image}
+        ></Image>
 
         <Text style={styles.header}>
           Field Inspection
@@ -58,10 +64,17 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#FFFFFF',
   },
+  home_image:{
+
+    width:300,height:300,
+    marginLeft:40,
+    alignItems: "center"
+    
+  },
   info_container: {
 
 
-    paddingTop: 280,
+    
     paddingBottom: 90,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,

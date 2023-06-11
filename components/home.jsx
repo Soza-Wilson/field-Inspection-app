@@ -1,9 +1,11 @@
 import React from 'react';
+import BottomNavigation from './navigation/bottom-navigation';
 import {View, Text, StyleSheet, Colors, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 function Home() {
   return (
@@ -28,7 +30,7 @@ function Home() {
       <View style={styles.headerSeparator}></View>
 
       <View style={styles.align_card}>
-      <View style={styles.home_items}>
+        <View style={styles.home_items}>
           <View style={styles.category_icon}>
             <MaterialIcons
               style={styles.category_icon}
@@ -82,7 +84,8 @@ function Home() {
         </View>
       </View>
 
-      <View></View>
+      <BottomNavigation/>
+
     </View>
   );
 }
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 17,
     marginLeft: 5,
-    color:"black"
+    color: 'black',
   },
   headerSeparator: {
     width: 350,
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
     fontSize: 12,
     marginTop: 75,
-    color:"black"
+    color: 'black',
   },
   // info_container: {
 

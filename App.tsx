@@ -10,7 +10,7 @@ import BottomNavigation from './components/navigation/bottom-navigation';
 
 const App = () => {
   return (
-    <View style={{flex: 1}}><Splash /></View>
+    <View style={{flex: 1}}><Home/></View>
   )
 }
 

@@ -25,6 +25,7 @@ const  Loading =({ navigation })=>{
 
   return (
     <View style={styles.container}>
+     
       <View style={styles.info_container}>
         <View style={styles.icon_home}>
           <Icon

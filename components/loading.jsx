@@ -1,14 +1,25 @@
+import React, { useEffect } from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import { StatusBar } from 'react';
-import React from 'react';
 
 
 
 
 
-function Loading() {
+
+const  Loading =({ navigation })=>{
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        // Navigate to the desired screen after 3 seconds (adjust the delay as needed)
+        navigation.navigate('splash'); // Replace 'Home' with the appropriate screen name
+      }, 3000);
+  
+      return () => clearTimeout(timer); // Clear the timer if the component unmounts
+  
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
  
 

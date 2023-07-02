@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image, Button } from 'react-native';
+import { Text, View, StyleSheet, Image, Button, TouchableHighlight, Alert } from 'react-native';
 import React from 'react';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Custom_colors from '../assets/colors/colors';
@@ -7,17 +7,16 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
-
-const Splash = () => {
+const Splash = ({ navigation }) => {
   return (
 
     <View style={styles.container}>
 
-     
+
       <View style={styles.info_container}>
 
-      <Image source={require("../assets/images/map-bro.png")}
-        style={styles.home_image}
+        <Image source={require("../assets/images/map-bro.png")}
+          style={styles.home_image}
         ></Image>
 
         <Text style={styles.header}>
@@ -44,11 +43,18 @@ const Splash = () => {
 
         </Text>
 
-        <View style={styles.home}>
+        <TouchableHighlight activeOpacity={0.9}
+          underlayColor="#DDDDDD"
+          onPress={() => navigation.navigate('signin')}>
 
-          <Icon style={styles.home_icon} name="arrow-right" size={15} color="#FFFFFF" />
+          <View style={styles.home}>
 
-        </View >
+            <Icon style={styles.home_icon} name="arrow-right" size={15} color="#FFFFFF" />
+
+          </View >
+        </TouchableHighlight>
+
+
 
       </View>
     </View>
@@ -64,17 +70,17 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#FFFFFF',
   },
-  home_image:{
+  home_image: {
 
-    width:300,height:300,
-    marginLeft:40,
+    width: 300, height: 300,
+    marginLeft: 40,
     alignItems: "center"
-    
+
   },
   info_container: {
 
 
-    
+
     paddingBottom: 90,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     textAlign: 'center',
     marginLeft: 70,
-    marginRight: 0,
+    marginRight:100
 
 
 
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
   },
 
   home: {
-    marginLeft: 100,
+    marginLeft: 0,
     backgroundColor: '#2DA15F',
     paddingTop: 20,
     paddingBottom: 20,
@@ -146,8 +152,8 @@ const styles = StyleSheet.create({
   text: {
 
     marginTop: 10,
-    marginLeft:50,
-    marginRight:50,
+    marginLeft: 50,
+    marginRight: 50,
     alignItems: "center",
     color: '#FFFFFF',
     fontFamily: 'Poppins-SemiBold',

@@ -50,7 +50,7 @@ function BottomNavigation() {
 
 const styles = StyleSheet.create({
   category_icon: {
-    paddingBottom: 5,
+   
   },
 
   iconWripper: {

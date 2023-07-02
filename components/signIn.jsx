@@ -3,19 +3,15 @@ import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Custom_colors from '../assets/colors/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 function SignIn() {
   return (
     <View style={styles.container}>
       <View style={styles.info_container}>
         <Text style={styles.header}>Sign In</Text>
-
-        <Icon
-          style={styles.sign_in_icon}
-          name="sign-in"
-          size={20}
-          color="#FFFFFF"
-        />
       </View>
 
       <View>
@@ -40,8 +36,28 @@ function SignIn() {
       </View>
 
       <View style={styles.signInButton}>
-        <Text style={styles.signInButtonText}>Continue</Text>
+        <Text style={styles.signInButtonText}>Continue </Text>
+
+        <AntDesign
+        style={styles.sign_in_icon}
+        name="login"
+        size={20}
+        color="#FFFFFF"
+      />
       </View>
+      
+       
+      
+      <View style={styles.configureButton}>
+        <Text style={styles.signInButtonText}>Setup</Text>
+        <MaterialIcons
+          style={styles.setup_icon}
+          name="phonelink-setup"
+          size={20}
+          color="#FFFFFF"
+        />
+      </View>
+      
     </View>
   );
 }
@@ -63,11 +79,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
 
-  sign_in_icon: {
-    marginLeft: 7,
-    marginRight: 22,
-    marginTop: 9,
-  },
+
 
   header: {
     marginTop: 10,
@@ -92,13 +104,27 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   signInButton: {
-    marginTop: 70,
+    marginTop: 50,
     backgroundColor: '#2DA15F',
     borderRadius: 20,
     alignItems: 'center',
     padding: 15,
     marginLeft: 20,
     marginRight: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+
+  configureButton: {
+    marginTop: 50,
+    backgroundColor: '#2DA15F',
+    borderRadius: 20,
+    alignItems: 'center',
+    padding: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 
   signInButtonText: {
@@ -106,6 +132,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FFFFFF',
   },
+
+  splitButtons: {
+   
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 14,
+    color: 'Black',
+
+
+  }
 });
 
 export default SignIn;

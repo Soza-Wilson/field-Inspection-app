@@ -1,13 +1,12 @@
-import {Text, View, StyleSheet, Image, Button, TextInput} from 'react-native';
+import {Text, View, StyleSheet, Image, Button, TextInput,TouchableHighlight,Alert} from 'react-native';
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Custom_colors from '../assets/colors/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-function SignIn() {
+function SignIn({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.info_container}>
@@ -47,7 +46,9 @@ function SignIn() {
       </View>
       
        
-      
+      <TouchableHighlight activeOpacity={0.9}
+          underlayColor=""
+          onPress={() => navigation.navigate("setup")}>
       <View style={styles.configureButton}>
         <Text style={styles.signInButtonText}>Setup</Text>
         <MaterialIcons
@@ -57,6 +58,8 @@ function SignIn() {
           color="#FFFFFF"
         />
       </View>
+      </TouchableHighlight>
+      
       
     </View>
   );
@@ -70,6 +73,7 @@ const styles = StyleSheet.create({
   },
   info_container: {
     flexDirection: 'row',
+    justifyContent:"space-around",
     paddingTop: 240,
     paddingBottom: 40,
     borderBottomLeftRadius: 40,
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
 
   header: {
     marginTop: 10,
-    marginLeft: 140,
+   
     alignItems: 'center',
     color: '#FFFFFF',
     fontFamily: 'Poppins-Bold',

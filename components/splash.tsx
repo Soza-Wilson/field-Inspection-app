@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   home_image: {
 
     width: 300, height: 300,
-    marginLeft: 40,
+    marginLeft: 45,
     alignItems: "center"
 
   },

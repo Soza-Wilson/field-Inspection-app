@@ -8,7 +8,6 @@ import Loading from './components/loading';
 import Home from './components/home';
 import BottomNavigation from './components/navigation/bottom-navigation';
 import MyStack from './routes/StackNavigator';
-import CreateDatabase from './database/database';
 
 const App = () => {
   return (

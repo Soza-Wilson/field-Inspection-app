@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet,StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import { StatusBar } from 'react';
+import createDatabase from '../database/database';
+
+
 
 
 
@@ -15,7 +17,7 @@ const  Loading =({ navigation })=>{
         // Navigate to the desired screen after 3 seconds (adjust the delay as needed)
         navigation.navigate('splash'); // Replace 'Home' with the appropriate screen name
       }, 3000);
-  
+      //  <createDatabase/>
       return () => clearTimeout(timer); // Clear the timer if the component unmounts
   
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -25,6 +27,7 @@ const  Loading =({ navigation })=>{
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor='#2DA15F'/>
      
       <View style={styles.info_container}>
         <View style={styles.icon_home}>

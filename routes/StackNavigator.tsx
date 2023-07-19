@@ -3,10 +3,10 @@ import Home from '../components/home';
 import Loading from '../components/loading';
 import Splash from '../components/splash';
 import SignIn from '../components/signIn';
+import Loader from '../components/loaders/loader';
 import DeviceSetup from '../components/setup';
 import { NavigationContainer } from '@react-navigation/native';
 const Stack = createStackNavigator();
-
 function MyStack() {
     return (
         <NavigationContainer>
@@ -17,6 +17,7 @@ function MyStack() {
                 <Stack.Screen name="splash" component={Splash} options={{headerShown:false}}/>
                 <Stack.Screen name="signin" component={SignIn} options={{headerShown:false}}/>
                 <Stack.Screen name="setup" component={DeviceSetup} options={{headerShown:false}}/>
+                <Stack.Screen name="loader" component={Loader} options={{headerShown:false}}/>
                 
             </Stack.Navigator>
 

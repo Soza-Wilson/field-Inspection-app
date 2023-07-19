@@ -4,10 +4,13 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Custom_colors from '../assets/colors/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+type SplashProps ={
+  
+
+}
 
 
-
-const Splash = ({ navigation }) => {
+const Splash = ({navigation}: {navigation: any}) => {
   return (
 
     <View style={styles.container}>

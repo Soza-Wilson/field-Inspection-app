@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-function SignIn({navigation}) {
+function SignIn({navigation}: {navigation: any}) {
   return (
     <View style={styles.container}>
       <View style={styles.info_container}>
@@ -29,7 +29,7 @@ function SignIn({navigation}) {
           placeholder="Password"
           keyboardType="ascii-capable"
           secureTextEntry={true}
-          passwordRules={true}
+          passwordRules={null}
           autoCorrect={false}
         />
       </View>
@@ -38,7 +38,7 @@ function SignIn({navigation}) {
         <Text style={styles.signInButtonText}>Continue </Text>
 
         <AntDesign
-        style={styles.sign_in_icon}
+      
         name="login"
         size={20}
         color="#FFFFFF"
@@ -52,7 +52,7 @@ function SignIn({navigation}) {
       <View style={styles.configureButton}>
         <Text style={styles.signInButtonText}>Setup</Text>
         <MaterialIcons
-          style={styles.setup_icon}
+          
           name="phonelink-setup"
           size={20}
           color="#FFFFFF"

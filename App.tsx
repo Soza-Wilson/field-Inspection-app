@@ -8,13 +8,13 @@ import Loading from './components/loading';
 import Home from './components/home';
 import BottomNavigation from './components/navigation/bottom-navigation';
 import MyStack from './routes/StackNavigator';
-import Loader from './components/loader';
+import Loader from './components/loaders/loader';
 
 const App = () => {
   return (
 
    
-    <View style={{flex: 1}}><Home /></View>
+    <View style={{flex: 1}}><MyStack/></View>
   )
 }
 

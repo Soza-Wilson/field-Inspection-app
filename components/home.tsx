@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomNavigation from './navigation/bottom-navigation';
-import {View, Text, StyleSheet, Colors, Image} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -12,7 +12,7 @@ function Home() {
   return (
     <View style={styles.container}>
        <StatusBar backgroundColor='rgb(247,247,249)'/>
-       <StatusBar color='rgb(247,247,249)'/>
+      
        
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
@@ -24,7 +24,7 @@ function Home() {
 
         <View>
           <Entypo
-            style={styles.home_icon}
+           
             name="list"
             size={20}
             color="black"

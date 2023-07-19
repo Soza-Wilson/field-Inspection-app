@@ -11,7 +11,7 @@ import createDatabase from '../util/database';
 
 
 
-const  Loading =({ navigation })=>{
+const  Loading =({ navigation } : {navigation : any})=>{
     useEffect(() => {
       const timer = setTimeout(() => {
         // Navigate to the desired screen after 3 seconds (adjust the delay as needed)
@@ -29,10 +29,10 @@ const  Loading =({ navigation })=>{
     <View style={styles.container}>
       <StatusBar backgroundColor='#2DA15F'/>
      
-      <View style={styles.info_container}>
+      <View >
         <View style={styles.icon_home}>
           <Icon
-            style={styles.home_icon}
+            
             name="map-o"
             size={40}
             color="#FFFFFF"

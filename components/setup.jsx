@@ -11,54 +11,90 @@ import {
 import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import db from '../util/database';
+import user from '../models/user';
+import Crop from '../models/crop';
 
-const connectToServer = () => {
-  fetch('http://192.168.56.1:8080/sts/android/get_user.php')
+const connectToServer = async() => {
+  fetch('https://61e2-129-140-0-5.ngrok-free.app/requests/connection')
     .then(response => response.json())
-    .then(data => {
-      // fullname = data.fullname;
-      console.log(data);
+    .then(jsonData => {
+      if (jsonData[0].status == 'connected') {
+        getAlldata();
+      }
     })
     .catch(error => {
       //   console.log(error);
-      Alert.alert(error.toString());
+      console.log(error);
     });
 };
 
-// //    fetch("https://www.boredapi.com/api/activity")
-// .then((response) => response.json())
-// .then((data) => {
-//   fullname = data.fullname;
-//   console.log(fullname);
-// })
-// .catch((error) => {
-//   console.log(error);
-// });
+// getting all required data
+async function getAlldata() {
+  const host = 'https://61e2-129-140-0-5.ngrok-free.app/requests';
+ 
+  await createUsers(host);
+  await createCrop(host);
+  console.log("await worked ")
+}
+
+async function createUsers (url) {
+  //   const User = new user(
+  //    "0023","wilson","soza@outlook.com","00000"
+  //   );
+  // User.registerUser();
+
+  fetch(url + '/getUsers')
+    .then(response => response.json())
+    .then(jsonData => {
+      jsonData.forEach(element => {
+        const User = new user(
+          element.id,
+          element.fullname,
+          element.email,
+          element.password,
+        );
+        User.registerUser();
+      });
+    })
+    .catch(error => {
+      //   console.log(error);
+      console.log(error);
+    });
+};
+
+async function createCrop (url) {
+  fetch(url + '/getCrops')
+    .then(response => response.json())
+    .then(jsonData => {
+      jsonData.forEach(element => {
+        const crop = new Crop(element.crop_id, element.crop);
+        crop.createCrop()
+        
+      });
+    })
+    .catch(error => {
+      //   console.log(error);
+      console.log(error);
+    });
+};
 
 const DeviceSetup = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.info_container}>
-        <Text style={styles.text}>Connect to local server</Text>
+        <Text style={styles.text}>Connect to server</Text>
       </View>
 
       <View>
         <TextInput
           placeholderTextColor="rgb(100,101,118)"
           style={styles.input}
-          placeholder="IP address"
-          keyboardType="numeric"
+          placeholder="Host name "
+          keyboardType="default"
         />
       </View>
 
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="rgb(100,101,118)"
-          placeholder="Port"
-          keyboardType="numeric"
-        />
-      </View>
       <TouchableHighlight
         activeOpacity={0.9}
         underlayColor=""

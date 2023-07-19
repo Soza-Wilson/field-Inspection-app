@@ -6,10 +6,14 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { StatusBar } from 'react-native';
 
 function Home() {
   return (
     <View style={styles.container}>
+       <StatusBar backgroundColor='rgb(247,247,249)'/>
+       <StatusBar color='rgb(247,247,249)'/>
+       
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image

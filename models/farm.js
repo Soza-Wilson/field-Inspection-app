@@ -1,3 +1,5 @@
+import db from "../util/database";
+
 class Farm {
   constructor(
     farm_id,
@@ -12,27 +14,27 @@ class Farm {
     variety_id,
     grower_id,
   ) {
-    (farm_id = this.farm_id),
-      (hectors = this.hectors),
-      (region = this.region),
-      (district = this.district),
-      (area_name = this.area_name),
-      (physical_address = this.physical_address),
-      (address = this.address),
-      (epa = this.epa),
-      (crop_id = this.crop_id),
-      (variety_id = this.variety_id),
-      (grower_id = this.grower_id);
+    (this.farm_id = farm_id),
+      ( this.hectors = hectors),
+      (this.region = region),
+      (this.district =district),
+      (this.area_name = area_name),
+      (this.physical_address = physical_address),
+      (this.address = address),
+      (this.epa = epa),
+      ( this.crop_id =crop_id),
+      (this.variety_id = variety_id),
+      (this.grower_id = grower_id );
   }
 
   createFarm() {
+  
     db.transaction(tx => {
       tx.executeSql(
-        'INSERT INTO farm (farm_id,hectors,region_id,district,area_name,address,physical_address,address,epa,crop_id,variety_id,grower_id) VALUES (?,?,?)',
+        'INSERT INTO farms (farm_id,hectors,region_id,district,area_name,address,physical_address,address,epa,crop_id,variety_id,grower_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
         [
           this.farm_id,
           this.hectors,
-          this.region,
           this.region,
           this.district,
           this.area_name,

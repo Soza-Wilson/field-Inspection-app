@@ -1,12 +1,12 @@
 import db from '../util/database';
 class Variety {
   constructor(variety_id, variety, crop_id) {
-    (variety_id = this.variety_id),
-      (variety = this.variety),
-      (crop_id = this.crop_id);
+    (this.variety_id=variety_id),
+      (this.variety=variety),
+      (this.crop_id=crop_id);
   }
 
-  createCrop() {
+  createVariety() {
     db.transaction(tx => {
       tx.executeSql(
         'INSERT INTO variety (variety_id,variety,crop_id) VALUES (?,?,?)',

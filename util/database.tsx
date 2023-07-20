@@ -11,7 +11,7 @@ import { Sequelize } from 'sequelize';
 const db = SQLite.openDatabase(
 
   {
-    name: "STTSlite",
+    name: "local-db",
     location: "default"
   }, () => { console.log("database created succesfully") }, error => { console.log(error) }
 );
@@ -33,7 +33,7 @@ const db = SQLite.openDatabase(
 db.transaction((tx) => {
   tx.executeSql(
     
-        'CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, name TEXT, email TEXT, [password] TEXT)',
+        'CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY NOT NULL, name TEXT, email TEXT, [password] TEXT)',
         [],
         () => {
           console.log('Users table created successfully');
@@ -51,7 +51,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS growers (grower_id TEXT PRIMARY KEY, fullname TEXT, email TEXT)',
+    'CREATE TABLE IF NOT EXISTS growers (grower_id TEXT PRIMARY KEY NOT NULL, fullname TEXT, email TEXT)',
     [],
     () => {
       console.log('Growers table created successfully');
@@ -65,7 +65,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS crop (crop_id TEXT PRIMARY KEY, crop TEXT)',
+    'CREATE TABLE IF NOT EXISTS crop (crop_id TEXT PRIMARY KEY NOT NULL, crop TEXT)',
     [],
     () => {
       console.log('Crop table created successfully');
@@ -76,9 +76,11 @@ db.transaction((tx) => {
   );
 });
 
+
+
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS variety (variety_id TEXT PRIMARY KEY, variety TEXT,crop_id TEXT, FOREIGN KEY(crop_id)  REFERENCES crop(crop_id))',
+    'CREATE TABLE IF NOT EXISTS variety (variety_id TEXT PRIMARY KEY NOT NULL, variety TEXT,crop_id TEXT, FOREIGN KEY(crop_id)  REFERENCES crop(crop_id))',
     [],
     () => {
       console.log('variety table created successfully');
@@ -92,7 +94,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS farms (farm_id TEXT PRIMARY KEY, hectors TEXT,region_id TEXT,district TEXT,area_name TEXT,address TEXT,physical_address TEXT,epa TEXT, crop_id TEXT, variety_id TEXT,grower_id TEXT, FOREIGN KEY(crop_id)  REFERENCES crop(crop_id),FOREIGN KEY(variety_id)  REFERENCES variety(variety_id),FOREIGN KEY(grower_id) REFERENCES growers(grower_id))',
+    'CREATE TABLE IF NOT EXISTS farms (farm_id TEXT PRIMARY KEY NOT NULL, hectors TEXT,region_id TEXT,district TEXT,area_name TEXT,address TEXT,physical_address TEXT,epa TEXT, crop_id TEXT, variety_id TEXT,grower_id TEXT, FOREIGN KEY(crop_id)  REFERENCES crop(crop_id),FOREIGN KEY(variety_id)  REFERENCES variety(variety_id),FOREIGN KEY(grower_id) REFERENCES growers(grower_id))',
     [],
     () => {
       console.log('Farms table created successfully');

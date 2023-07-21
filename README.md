@@ -26,17 +26,17 @@
 
 <h5>Seed Tracking API:</h5> The app communicates with the Seed Tracking API to synchronize the collected data with the central database.
 
-Redux: Redux is used for state management, ensuring a consistent and predictable data flow throughout the app.
+<h5>Redux:<h5> Redux is used for state management, ensuring a consistent and predictable data flow throughout the app.
 
-React Navigation: React Navigation handles navigation and routing within the app, providing a smooth user experience.
+<h5>React Navigation: </h5>> React Navigation handles navigation and routing within the app, providing a smooth user experience.
 
-Camera API: The Camera API is used to enable photo capture directly from the app.
+<h5>Camera API:</h5> The Camera API is used to enable photo capture directly from the app.
 
-Geolocation API: The Geolocation API is used to track and record GPS location data during inspections.
+<h5>Geolocation API:</h5> The Geolocation API is used to track and record GPS location data during inspections.
 
-User Authentication System: The app implements a user authentication system to manage user access and data security.
+<h5>User Authentication System:</h5> The app implements a user authentication system to manage user access and data security.
 
-Getting Started
+<h3>Getting Started<h3>
 Follow these steps to get started with the FieldInspection app:
 
 Clone the repository:
@@ -59,7 +59,7 @@ Connect your mobile device or use an emulator to run the app on iOS or Android.
 
 Begin field inspections and data collection.
 
-Contributing
+<h3>Contributing</h3>
 We welcome contributions to the FieldInspection app. If you find any bugs or have ideas for improvements, feel free to open an issue or submit a pull request.
 
 License

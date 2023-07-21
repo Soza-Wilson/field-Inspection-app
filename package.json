@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.17",
     "@types/react-native-vector-icons": "^6.4.13",
+    "formik": "^2.4.2",
     "lottie-react-native": "^5.1.6",
     "react": "18.2.0",
     "react-native": "0.71.8",
@@ -27,7 +28,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-navigation-stack": "^2.10.4",
     "sequelize": "^6.32.1",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,7 +1,12 @@
 import db from '../util/database';
 
+
 class Grower {
-  constructor(grower_id, fullname, email) {
+  grower_id:string 
+  fullname:string
+  email:string
+
+  constructor(grower_id :string, fullname :string, email:string) {
     ( this.grower_id = grower_id),
       (this.fullname = fullname),
       (this.email = email);

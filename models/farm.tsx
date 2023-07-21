@@ -1,18 +1,45 @@
 import db from "../util/database";
 
+type FarmProps ={
+
+  farm_id:string,
+    hectors:string,
+    region:string,
+    district:string,
+    area_name:string,
+    physical_address: string,
+    address:string,
+    epa:string,
+    crop_id:string,
+    variety_id:string,
+    grower_id:string
+}
+
 class Farm {
+  farm_id:String
+  hectors:String
+  region:String
+  district:String
+  area_name:String
+  physical_address:String
+  address:String
+  epa:String
+  crop_id:String
+  variety_id:String
+  grower_id:String
+  
   constructor(
-    farm_id,
-    hectors,
-    region,
-    district,
-    area_name,
-    physical_address,
-    address,
-    epa,
-    crop_id,
-    variety_id,
-    grower_id,
+    farm_id:string,
+    hectors:string,
+    region:string,
+    district:string,
+    area_name:string,
+    physical_address: string,
+    address:string,
+    epa:string,
+    crop_id:string,
+    variety_id:string,
+    grower_id:string
   ) {
     (this.farm_id = farm_id),
       ( this.hectors = hectors),

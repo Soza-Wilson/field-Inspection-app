@@ -3,7 +3,12 @@ import db from '../util/database';
 //  user class resposible for hundling al user processes, these include check id and register new user
 
 class user {
-  constructor(id, fullname, email, password) {
+  id:string
+  fullname:string
+  email:string 
+  password: string
+
+  constructor(id :string, fullname :string, email: string, password :string) {
     (this.id = id),
       (this.fullname = fullname),
       (this.email = email),
@@ -23,6 +28,23 @@ class user {
         },
       );
     });
+  }
+
+  signIn(){
+
+    db.transaction(tx => {
+      tx.executeSql('SELECT * FROM users', [], (tx, results) => {
+        let len = results.rows.length;
+        if (len > 0) {
+          for (let i = 0; i < len; i++) {
+            console.log(results.rows.item(i));
+          }
+        }
+      });
+    });
+
+ 
+
   }
 
   checkTables() {

@@ -5,13 +5,13 @@
 <h3>Features<h3>
 <h5>Offline Data Collection: </h5> Field inspectors can perform their tasks and collect inspection data even in areas with no internet connectivity. The app utilizes a local SQLite database to store the collected data.
 
-Data Synchronization: When the user is back online, the app allows them to synchronize the collected data with the Seed Tracking API. This ensures that all data is securely stored and accessible from the central database.
+<h5>Data Synchronization:</h5> When the user is back online, the app allows them to synchronize the collected data with the Seed Tracking API. This ensures that all data is securely stored and accessible from the central database.
 
-Field Inspection Forms: The app provides customizable field inspection forms tailored to specific tasks. Inspectors can fill out the forms with relevant information during their inspections.
+<h5>Field Inspection Forms:</h5> The app provides customizable field inspection forms tailored to specific tasks. Inspectors can fill out the forms with relevant information during their inspections.
 
-Photo Capture: Field inspectors can capture photos directly from within the app and associate them with inspection records. Photos serve as visual evidence and aid in documentation.
+<h5>Photo Capture:</h5> Field inspectors can capture photos directly from within the app and associate them with inspection records. Photos serve as visual evidence and aid in documentation.
 
-GPS Location Tracking: The app records the GPS location of each inspection, providing precise location data for the fieldwork.
+<h5>GPS Location Tracking:</h5> The app records the GPS location of each inspection, providing precise location data for the fieldwork.
 
 Offline Data Storage: All collected data is stored securely in the local SQLite database, ensuring that inspection records are not lost, even when there is no internet connection.
 

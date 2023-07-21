@@ -1,6 +1,6 @@
 <h2>FieldInspection App</h2>
-Overview
-FieldInspection is a mobile application designed for field inspection tasks. It enables users to collect data while working offline using a SQLite database. The collected data can later be synchronized with the Seed Tracking API when an internet connection is available.
+<4>Overview</h4>
+<p>FieldInspection is a mobile application designed for field inspection tasks. It enables users to collect data while working offline using a SQLite database. The collected data can later be synchronized with the Seed Tracking API when an internet connection is available.</p>
 
 Features
 Offline Data Collection: Field inspectors can perform their tasks and collect inspection data even in areas with no internet connectivity. The app utilizes a local SQLite database to store the collected data.

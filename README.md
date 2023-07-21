@@ -41,19 +41,20 @@ Follow these steps to get started with the FieldInspection app:
 
 Clone the repository:
 
-bash
-Copy code
+
+1.
+bash....
 git clone https://github.com/soza-wilson/FieldInspection.git
 cd field-inspection-app
 Install dependencies:
 
-bash
-Copy code
+2.
+bash...
 npm install
 Start the app on your development environment:
 
-bash
-Copy code
+3.
+bash...
 npm run start
 Connect your mobile device or use an emulator to run the app on iOS or Android.
 

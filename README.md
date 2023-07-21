@@ -26,7 +26,7 @@
 
 <h5>Seed Tracking API:</h5> * The app communicates with the Seed Tracking API to synchronize the collected data with the central database.
 
-<h5>Redux:<h5> * Redux is used for state management, ensuring a consistent and predictable data flow throughout the app.
+<h5>Redux:</h5> * Redux is used for state management, ensuring a consistent and predictable data flow throughout the app.
 
 <h5>React Navigation: </h5> * React Navigation handles navigation and routing within the app, providing a smooth user experience.
 

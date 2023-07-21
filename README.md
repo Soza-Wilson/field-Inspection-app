@@ -62,4 +62,4 @@ Begin field inspections and data collection.
 <h3>Contributing</h3>
 We welcome contributions to the FieldInspection app. If you find any bugs or have ideas for improvements, feel free to open an issue or submit a pull request.
 
-License
+License MIT

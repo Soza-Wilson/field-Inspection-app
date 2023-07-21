@@ -36,7 +36,7 @@
 
 <h5>User Authentication System:</h5> The app implements a user authentication system to manage user access and data security.
 
-<h3>Getting Started<h3>
+<h3>Getting Started</h3>>
 Follow these steps to get started with the FieldInspection app:
 
 Clone the repository:

@@ -13,18 +13,18 @@
 
 <h5>GPS Location Tracking:</h5> The app records the GPS location of each inspection, providing precise location data for the fieldwork.
 
-Offline Data Storage: All collected data is stored securely in the local SQLite database, ensuring that inspection records are not lost, even when there is no internet connection.
+<h5>Offline Data Storage: </h5>All collected data is stored securely in the local SQLite database, ensuring that inspection records are not lost, even when there is no internet connection.
 
-User Authentication: To ensure data security, the app requires user authentication for accessing and modifying inspection data. Each user has specific access permissions based on their role.
+<h5>User Authentication: </h5> To ensure data security, the app requires user authentication for accessing and modifying inspection data. Each user has specific access permissions based on their role.
 
-Data Export and Reporting: Users can export inspection data in various formats (e.g., CSV, Excel) and generate reports for further analysis and reporting.
+<h5>Data Export and Reporting: </h5> Users can export inspection data in various formats (e.g., CSV, Excel) and generate reports for further analysis and reporting.
 
-Technologies Used
-React Native: The app is built using React Native, a popular JavaScript framework for building cross-platform mobile applications.
+<h3>Technologies Used <h3>
+<h5>React Native:</h5> The app is built using React Native, a popular JavaScript framework for building cross-platform mobile applications.
 
-SQLite Database: The app utilizes SQLite, a lightweight and embedded database, to store the inspection data locally on the mobile device.
+<h5>SQLite Database:</h5> The app utilizes SQLite, a lightweight and embedded database, to store the inspection data locally on the mobile device.
 
-Seed Tracking API: The app communicates with the Seed Tracking API to synchronize the collected data with the central database.
+<h5>Seed Tracking API:</h5> The app communicates with the Seed Tracking API to synchronize the collected data with the central database.
 
 Redux: Redux is used for state management, ensuring a consistent and predictable data flow throughout the app.
 

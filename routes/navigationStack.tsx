@@ -1,19 +1,26 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../components/isLoggedIn/home';
+import Settings from '../components/isLoggedIn/settings';
 import LandingPage from '../components/landingPage';
 import Splash from '../components/splashScreen';
 import SignIn from '../components/isLoggedOut/signIn';
 import Loader from '../components/loaders/loader';
 import DeviceSetup from '../components/isLoggedOut/setup';
 import { NavigationContainer } from '@react-navigation/native';
-import logInProvider, { UseLogIn } from '../context/logInProvider';
-import { useContext, useState } from 'react';
+import { UseLogIn } from '../context/logInProvider';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import New from '../components/isLoggedIn/add_new';
+
+import FarmLibrary from '../components/isLoggedIn/library';
+
+
 
 
 
 
 const AuthStack = createStackNavigator();
-const mainStack = createStackNavigator()
+const Tab = createBottomTabNavigator();
 
 
 const IsLoggedOutStack = () => {
@@ -35,29 +42,55 @@ const IsLoggedOutStack = () => {
 
 }
 
-const IsLoggedInStack = () => {
 
 
+
+function MyTabs() {
     return (
+        <Tab.Navigator screenOptions={{
+            tabBarActiveTintColor: '#2DA15F',
+        }}>
+            <Tab.Screen name="Home" component={Home} options={{
+                headerShown: false,
+                tabBarLabel: 'Home',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialIcons name="home" color={color} size={size} />
+                ),
+            }} />
+
+            <Tab.Screen name="New" component={New} options={{
+                headerShown: false,
+                tabBarLabel: 'New',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialIcons name="add-location-alt" color={color} size={size} />
+                ),
+            }} />
+
+            <Tab.Screen name="Library" component={FarmLibrary} options={{
+                headerShown: false,
+                tabBarLabel: 'Library',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialIcons name="list" color={color} size={size} />
+                ),
+            }} />
 
 
-        <mainStack.Navigator initialRouteName="splash">
-            <mainStack.Screen name="home" component={Home} options={{ headerShown: false, presentation: 'transparentModal' }} />
-            <mainStack.Screen name="splash" component={Splash} options={{ headerShown: false, presentation: 'transparentModal' }} />
-            <mainStack.Screen name="loader" component={Loader} options={{ headerShown: false, presentation: 'transparentModal' }} />
-        </mainStack.Navigator>
-
-
-
-    )
-
-
+            <Tab.Screen name="settings" component={Settings} options={{
+                headerShown: false,
+                tabBarLabel: 'settings',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialIcons name="settings" color={color} size={size} />
+                ),
+            }} />
+            {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+        </Tab.Navigator>
+    );
 }
 function MyStack() {
     const { isLoggedIn }: any = UseLogIn()
     return (<NavigationContainer>
-        {isLoggedIn ? <IsLoggedInStack /> : <IsLoggedOutStack />}
-        </NavigationContainer>)
+        {isLoggedIn ? <MyTabs /> : <IsLoggedOutStack />}
+    </NavigationContainer>)
 
 }
 

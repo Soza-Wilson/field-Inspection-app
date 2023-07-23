@@ -1,5 +1,5 @@
 import React from 'react';
-import BottomNavigation from '../navigation/bottom-navigation';
+
 import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -11,7 +11,7 @@ import { StatusBar } from 'react-native';
 function Home() {
   return (
     <View style={styles.container}>
-       <StatusBar backgroundColor='rgb(247,247,249)'/>
+       
       
        
       <View style={styles.headerWrapper}>
@@ -88,7 +88,7 @@ function Home() {
         </View>
       </View>
 
-      <BottomNavigation/>
+      {/* <BottomNavigation/> */}
 
     </View>
   );

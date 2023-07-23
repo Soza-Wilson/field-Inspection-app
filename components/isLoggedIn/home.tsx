@@ -1,5 +1,5 @@
 import React from 'react';
-import BottomNavigation from './navigation/bottom-navigation';
+import BottomNavigation from '../navigation/bottom-navigation';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -17,7 +17,7 @@ function Home() {
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image
-            source={require('../assets/images/user.jpg')}
+            source={require('../../assets/images/user.jpg')}
             style={styles.profile_image}></Image>
           <Text style={styles.profileText}>John doe</Text>
         </View>

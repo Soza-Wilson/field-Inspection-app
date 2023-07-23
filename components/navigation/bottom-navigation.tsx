@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Colors, Image} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
   iconWripper: {
     justifyContent: 'center',
-    justifyContent: 'space-between',
+   
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',

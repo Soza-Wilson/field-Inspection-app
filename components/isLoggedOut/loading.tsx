@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {Text, View, StyleSheet,StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import createDatabase from '../util/database';
+import createDatabase from '../../util/database';
 
 
 

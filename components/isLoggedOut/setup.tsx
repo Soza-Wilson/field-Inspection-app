@@ -12,14 +12,14 @@ import React, { useState, useEffect } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import NetInfo from "@react-native-community/netinfo";
-import db from '../util/database';
-import user from '../models/user';
-import Crop from '../models/crop';
-import Loader from './loaders/loader';
-import CheckLoader from './loaders/check';
-import Variety from '../models/variety';
-import Grower from '../models/grower';
-import Farm from '../models/farm';
+import db from '../../util/database';
+import user from '../../models/user';
+import Crop from '../../models/crop';
+import Loader from '../loaders/loader';
+import CheckLoader from '../loaders/check';
+import Variety from '../../models/variety';
+import Grower from '../../models/grower';
+import Farm from '../../models/farm';
 import { validatePathConfig } from '@react-navigation/native';
 
 

@@ -1,12 +1,13 @@
 import { Text, View, StyleSheet, Image, Button, TextInput, TouchableHighlight, Alert } from 'react-native';
 import React from 'react';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Custom_colors from '../assets/colors/colors';
+import Custom_colors from '../../assets/colors/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Formik } from 'formik';
-import { object,string } from 'yup';
+import { object, string } from 'yup';
+import user from '../../models/user';
 
 const validationSchema = object().shape({
   // Define your form fields and their validation rules here
@@ -17,6 +18,16 @@ const validationSchema = object().shape({
   // Add more fields and their validations as needed
 });
 
+const sendLogInData = (email: string, password: string) => {
+
+  // sending entered email and password to the user model for login 
+  // the signin function return a string that will be assigned to the isLoggedIn hook 
+  // 
+
+  const User = new user("", "", email, password);
+  User.signIn()
+}
+
 function SignIn({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
@@ -26,9 +37,9 @@ function SignIn({ navigation }: { navigation: any }) {
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
-        onSubmit={values => console.log(values)}
+        onSubmit={values => sendLogInData(values.email,values.password)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values,errors }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <View>
             <TextInput
               placeholderTextColor="rgb(100,101,118)"
@@ -40,7 +51,7 @@ function SignIn({ navigation }: { navigation: any }) {
               value={values.email}
 
             />
-             {errors.email && <Text style={styles.validationText}>{errors.email}</Text>}
+            {errors.email && <Text style={styles.validationText}>{errors.email}</Text>}
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(100,101,118)"
@@ -53,7 +64,7 @@ function SignIn({ navigation }: { navigation: any }) {
               onBlur={handleBlur('password')}
               value={values.password}
             />
-             {errors.password && <Text style={styles.validationText}>{errors.password}</Text>}
+            {errors.password && <Text style={styles.validationText}>{errors.password}</Text>}
 
             <TouchableHighlight activeOpacity={0.9}
               underlayColor=""
@@ -77,7 +88,7 @@ function SignIn({ navigation }: { navigation: any }) {
         )}
       </Formik>
 
-     
+
 
 
       <TouchableHighlight activeOpacity={0.9}
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
-  validationText:{
+  validationText: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 10,
     color: '#FF0000',

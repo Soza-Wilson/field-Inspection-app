@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import db from '../util/database';
+import { UseLogIn } from '../context/logInProvider';
 
 //  user class resposible for hundling al user processes, these include check id and register new user
 
@@ -15,7 +16,10 @@ class user {
       (this.fullname = fullname),
       (this.email = email),
       (this.password = password);
+     
+     
   }
+   
 
   registerUser() {
     db.transaction(tx => {
@@ -34,10 +38,11 @@ class user {
 
   async signIn() {
     try {
+     
       const tx: any = await new Promise((resolve, reject) => {
         db.transaction((tx) => resolve(tx), reject);
       });
-
+     
       const results: any = await new Promise((resolve, reject) => {
         tx.executeSql(
           'SELECT * FROM users WHERE email=? AND password=?',
@@ -51,6 +56,8 @@ class user {
       if (len === 1) {
         // Sign-in success code here
         console.log("Sign-in successful");
+       
+       
       } else {
         // Sign-in failure code here
 

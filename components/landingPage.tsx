@@ -4,13 +4,14 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Custom_colors from '../assets/colors/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
 type SplashProps ={
   
 
 }
 
 
-const Splash = ({navigation}: {navigation: any}) => {
+const LandingPage = ({navigation}: {navigation: any}) => {
   return (
 
     <View style={styles.container}>
@@ -170,4 +171,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Splash;
+export default LandingPage;

@@ -1,38 +1,39 @@
 import React, { useEffect } from 'react';
-import {Text, View, StyleSheet,StatusBar} from 'react-native';
+import { Text, View, StyleSheet, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import createDatabase from '../../util/database';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import createDatabase from '../util/database';
+import { NavigationContainer } from '@react-navigation/native';
+import logInProvider, { UseLogIn } from '../context/logInProvider';
+import { useContext, useState } from 'react';
 
 
 
+const Splash = ({ navigation }: { navigation: any }) => {
+  const { isLoggedIn }: any = UseLogIn()
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      return (<NavigationContainer>
+        {isLoggedIn ? navigation.navigate('home') : navigation.navigate('landingPage')}
+      </NavigationContainer>)
+
+    }, 3000);
+    //  <createDatabase/>
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
-
-
-
-const  Loading =({ navigation } : {navigation : any})=>{
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        // Navigate to the desired screen after 3 seconds (adjust the delay as needed)
-        navigation.navigate('splash'); // Replace 'Home' with the appropriate screen name
-      }, 3000);
-      //  <createDatabase/>
-      return () => clearTimeout(timer); // Clear the timer if the component unmounts
-  
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
- 
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor='#2DA15F'/>
-     
+      <StatusBar backgroundColor='#2DA15F' />
+
       <View >
         <View style={styles.icon_home}>
           <Icon
-            
+
             name="map-o"
             size={40}
             color="#FFFFFF"
@@ -86,4 +87,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-export default Loading;
+export default Splash;

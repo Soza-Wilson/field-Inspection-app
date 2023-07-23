@@ -8,6 +8,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Formik } from 'formik';
 import { object, string } from 'yup';
 import user from '../../models/user';
+import db from '../../util/database';
+import { UseLogIn } from '../../context/logInProvider';
+
+
 
 const validationSchema = object().shape({
   // Define your form fields and their validation rules here
@@ -18,17 +22,61 @@ const validationSchema = object().shape({
   // Add more fields and their validations as needed
 });
 
-const sendLogInData = (email: string, password: string) => {
 
-  // sending entered email and password to the user model for login 
-  // the signin function return a string that will be assigned to the isLoggedIn hook 
-  // 
 
-  const User = new user("", "", email, password);
-  User.signIn()
-}
+
 
 function SignIn({ navigation }: { navigation: any }) {
+  const { setIsLoggedIn }: any = UseLogIn()
+
+  const userAuth = async (email: string, password: string) => {
+
+    try {
+
+      const tx: any = await new Promise((resolve, reject) => {
+        db.transaction((tx) => resolve(tx), reject);
+      });
+
+      const results: any = await new Promise((resolve, reject) => {
+        tx.executeSql(
+          'SELECT * FROM users WHERE email=? AND password=?',
+          [email, password],
+          (tx: any, results: any) => resolve(results),
+          (_: any, error: any) => reject(error)
+        );
+      });
+
+      const len = results.rows.length;
+      if (len === 1) {
+        // Sign-in success code here
+        console.log("Sign-in successful");
+        setIsLoggedIn(true)
+      } else {
+        // Sign-in failure code here
+
+        Alert.alert("Invalid email or password")
+      }
+    } catch (error) {
+      // Error handling code here
+      console.error("Error during sign-in:", error);
+    }
+
+
+
+  }
+
+
+
+  const sendLogInData = (email: string, password: string) => {
+    userAuth(email, password)
+  }
+
+
+
+
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.info_container}>
@@ -37,7 +85,7 @@ function SignIn({ navigation }: { navigation: any }) {
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
-        onSubmit={values => sendLogInData(values.email,values.password)}
+        onSubmit={values => sendLogInData(values.email, values.password)}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <View>

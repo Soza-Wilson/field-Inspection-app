@@ -13,7 +13,7 @@ function Home() {
     <View style={styles.container}>
        
       
-       
+     
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image

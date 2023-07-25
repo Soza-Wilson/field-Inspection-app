@@ -49,6 +49,7 @@ function MyTabs() {
     return (
         <Tab.Navigator screenOptions={{
             tabBarActiveTintColor: '#2DA15F',
+            tabBarLabelStyle: { textAlign: 'center',fontFamily:'Poppins-SemiBold'},
         }}>
             <Tab.Screen name="Home" component={Home} options={{
                 headerShown: false,

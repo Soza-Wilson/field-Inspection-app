@@ -6,11 +6,15 @@ import Splash from './components/landingPage';
 import SignIn from './components/isLoggedOut/signIn';
 import Loading from './components/splashScreen';
 import Home from './components/isLoggedIn/home';
-import BottomNavigation from './components/navigation/bottom-navigation';
+
 import MyStack from './routes/navigationStack';
 import Loader from './components/loaders/loader';
 import { NavigationContainer } from '@react-navigation/native';
 import LogInProvider from './context/logInProvider';
+
+
+
+
 
 
 

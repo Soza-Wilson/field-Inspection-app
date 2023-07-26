@@ -11,6 +11,7 @@ import MyStack from './routes/navigationStack';
 import Loader from './components/loaders/loader';
 import { NavigationContainer } from '@react-navigation/native';
 import LogInProvider from './context/logInProvider';
+import FarmDetailsModal from './components/isLoggedIn/farm_components/farmDetailsModal';
 
 
 
@@ -23,6 +24,7 @@ const App = () => {
 
 
     <View style={{ flex: 1 }}>
+     
       <LogInProvider>
         <MyStack />
       </LogInProvider>

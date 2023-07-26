@@ -65,7 +65,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS crop (crop_id TEXT PRIMARY KEY NOT NULL, crop TEXT)',
+    'CREATE TABLE IF NOT EXISTS crop (crop_id TEXT PRIMARY KEY NOT NULL,crop TEXT)',
     [],
     () => {
       console.log('Crop table created successfully');
@@ -94,7 +94,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS farms (farm_id TEXT PRIMARY KEY NOT NULL, hectors TEXT,region_id TEXT,district TEXT,area_name TEXT,address TEXT,physical_address TEXT,epa TEXT, crop_id TEXT, variety_id TEXT,grower_id TEXT, FOREIGN KEY(crop_id)  REFERENCES crop(crop_id),FOREIGN KEY(variety_id)  REFERENCES variety(variety_id),FOREIGN KEY(grower_id) REFERENCES growers(grower_id))',
+    'CREATE TABLE IF NOT EXISTS farms ( TEXT PRIMARY KEY NOT NULL, hectors TEXT,region_id TEXT,district TEXT,area_name TEXT,address TEXT,physical_address TEXT,epa TEXT, crop_id TEXT, variety_id TEXT,grower_id TEXT, FOREIGN KEY(crop_id)  REFERENCES crop(crop_id),FOREIGN KEY(variety_id)  REFERENCES variety(variety_id),FOREIGN KEY(grower_id) REFERENCES growers(grower_id))',
     [],
     () => {
       console.log('Farms table created successfully');

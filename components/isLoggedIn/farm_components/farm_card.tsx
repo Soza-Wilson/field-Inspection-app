@@ -1,26 +1,44 @@
 import { View, Text, StyleSheet } from 'react-native'
+import { TouchableHighlight } from 'react-native-gesture-handler'
 import React from 'react'
+interface Farm {
+    farm_id: string;
+    fullname:string;
+    area_name:string;
+    crop:string;
+    variety:string;
+    name: string;
+    hectors: string;
+    district: string;
+  }
+  
+  interface FarmCardProps {
+    farmDetails: Farm;
+  }
+  
+  const FarmCard: React.FC<FarmCardProps> =({farmDetails})=> {
 
-const FarmCard = () => {
     return (
+    
         <View style={styles.container}>
+            
             <View style={styles.firstRowContainer}>
                 <View style={styles.firstColumnContainer}>
                     <Text style={styles.growerNameText} >
-                        Wilson Soza
+                       {farmDetails.fullname}
 
                     </Text>
 
                     <View style={styles.locationContainer}>
-                        <Text style={styles.locationText}>Lilongwe, </Text>
-                        <Text style={styles.locationText}>Kamiloro</Text>
+                        <Text style={styles.locationText}>{farmDetails.district}  ,</Text>
+                        <Text style={styles.locationText}>{farmDetails.area_name}</Text>
 
                     </View>
 
                     <View style={styles.locationContainer}>
-                        <Text style={styles.CropText}>Maize, </Text>
-                        <Text style={styles.CropText}>ZM 265</Text>
-                        <Text style={styles.CropText}>Certified</Text>
+                        <Text style={styles.CropText}>{farmDetails.crop} , </Text>
+                        <Text style={styles.CropText}>{farmDetails.variety}</Text>
+                        
 
                     </View>
 
@@ -31,9 +49,9 @@ const FarmCard = () => {
 
                 <View style={styles.farmContainer}>
 
-                    <Text style={styles.IdText}>ID : Farm 19087619862</Text>
+                    <Text style={styles.IdText}>ID{farmDetails.farm_id}</Text>
                     <Text style={styles.IdText}> | </Text>
-                    <Text style={styles.FarmText}> 10 Hectors</Text>
+                    <Text style={styles.FarmText}> {farmDetails.hectors} Hectors</Text>
 
 
 
@@ -69,9 +87,11 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginHorizontal: 10,
         borderRadius: 10,
+        elevation:3,
+       
         
         height: 110,
-        borderColor: "rgb(212,212,212)",
+      
         flexDirection: "row",
 
 

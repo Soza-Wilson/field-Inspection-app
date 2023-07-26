@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 2,
     marginLeft: 20,
+    
   },
 
   home_items: {
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 10,
     alignSelf: 'center',
+    elevation:10
   },
   align_card: {
     marginTop: 40,

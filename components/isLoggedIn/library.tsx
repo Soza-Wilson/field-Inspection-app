@@ -1,50 +1,98 @@
 
 import React from 'react';
-import { View, ScrollView, TouchableOpacity,TouchableHighlight, Text, StyleSheet, SafeAreaView, Alert } from 'react-native';
+import { View, ScrollView, TouchableOpacity, TouchableHighlight, Text, StyleSheet, SafeAreaView, Alert } from 'react-native';
 
 
 
 import Font from 'react-native-vector-icons/FontAwesome';
-import FarmCard from './farm_components/farm_card';
-import DynamicHeader from './farm_components/dynamicHeader';
+import FarmCard from './farm/farm_card';
+import DynamicHeader from './farm/dynamicHeader';
 import { Animated } from 'react-native';
 import { useRef, useState } from 'react';
 import db from '../../util/database';
-import farmDetailsModal from './farm_components/farmDetailsModal';
+import farmDetailsModal from './farm/farmDetailsModal';
+import { useEffect } from 'react';
+import FarmDetailsModal from './farm/farmDetailsModal';
+import BottomNavigator from '../navigation/custom/bottomNavigator';
+
 
 
 
 // Now use the Farm interface in your component
 interface FarmCardProps {
-  
-  
- 
+
+
+
   location: string;
 
   farm_id: string;
-  fullname:string;
-  area_name:string;
-  crop:string;
-  variety:string;
- 
+  fullname: string;
+  area_name: string;
+  crop: string;
+  variety: string;
+
   hectors: string;
   district: string;
 }
 
 
 
-const MyComponent = () => {
+const MyComponent = ({navigation}:any) => {
 
-  const [farms, setFarms] = useState([]);
+  // hooks
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [farms, setFarms] = useState([])
+  const [farmDetails, setFarmDetails] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
+  let tempFarmData: any = []
 
-  let tempFarmData :any = [];
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  //  Calling the getFarmsItems in the main library component was causing an infinity loop , instead i have used the use effect hook
+  useEffect(() => {
+    const timer = setTimeout(() => {
+
+      getFarmItems();
+
+    }, 0);
+    //  <createDatabase/>
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
+
+
+
+  const handleLongPress = (farm_id:string,grower_name:string,crop:string,variety:string,hectors:string,district:string,area_name:string,physical_address:string) => {
+
+   let farmDetails : any = [farm_id,grower_name,crop,variety,hectors,district,area_name,physical_address,]
+    setFarmDetails(farmDetails)
+    handleOpenModal();
+
+   
+
+
+
+  };
 
 
   const getFarmItems = async () => {
 
+
     try {
 
+
+      //  using async and await to wait for the data to be retrived first before displaying the data 
       const tx: any = await new Promise((resolve, reject) => {
         db.transaction((tx) => resolve(tx), reject);
       });
@@ -52,7 +100,9 @@ const MyComponent = () => {
       const results: any = await new Promise((resolve, reject) => {
         tx.executeSql(
 
-          'SELECT farm_id,variety,crop,Hectors,fullname,district,area_name FROM farms INNER JOIN crop ON crop.crop_id = farms.crop_id LEFT JOIN variety ON variety.variety_id = farms.variety_id INNER JOIN growers ON growers.grower_id = farms.grower_id',
+          // query for getting all registered farms 
+
+          'SELECT farm_id,variety,crop,Hectors,fullname,physical_address,district,area_name FROM farms INNER JOIN crop ON crop.crop_id = farms.crop_id LEFT JOIN variety ON variety.variety_id = farms.variety_id INNER JOIN growers ON growers.grower_id = farms.grower_id',
           [],
           (tx: any, results: any) => resolve(results),
           (_: any, error: any) => reject(error)
@@ -60,26 +110,20 @@ const MyComponent = () => {
       });
 
       const len = results.rows.length;
+
       if (len > 0) {
-      // getting each row and pushing it to the tempFamData array 
+        // getting each row and pushing it to the tempFamData array 
         for (let i = 0; i < len; i++) {
-          tempFarmData.push(results.rows.item(i));   
-          
+
+          tempFarmData.push(results.rows.item(i))
         }
-        // adding data to the setDfarms hook
-        // I'm getting some sort of loop which is causing the app to under perfome
-        // Need to the the last pushed item, after the last pushed item we should call the setFarms hook
-
         setFarms(tempFarmData)
-
-      
 
       } else {
         // Sign-in failure code here
-
         console.log("Error getting data ")
       }
-          // setFarms(tempFarmData)
+      // setFarms(tempFarmData)
 
     } catch (error) {
       // Error handling code here
@@ -88,20 +132,33 @@ const MyComponent = () => {
 
 
 
-
   }
 
-  getFarmItems()
-  const handleItemClick = (item: any) => {
-    // Handle the click action here
-    console.log('Item clicked:', item);
-  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //  adding default value for animating the header 
+
+
+
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
-  const items: any = [];
+
 
   return (
-    <SafeAreaView style={styles.container} >
-      <DynamicHeader animHeaderValue={scrollOffsetY} />
+    <View style={styles.container} >
+       <DynamicHeader animHeaderValue={scrollOffsetY} />
+      <View style={styles.viewWrappper}>
+     
       <ScrollView style={styles.scrollView}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
@@ -109,19 +166,66 @@ const MyComponent = () => {
           [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
           { useNativeDriver: false }
         )}>
-        {farms.map((farm : any)  => (
-          <TouchableHighlight key={farm.farm_id} onPress={() => {console.log(farm)}} onLongPress={()=>{Alert.alert(farm.farm_id)}} activeOpacity={0.9}
-          underlayColor="">
-            <View  >
-              <FarmCard farmDetails={farm} />
-            </View>
-          </TouchableHighlight>
+
+
+      
+        {farms.map((farm: any) => (
+          <View key={farm.farm_id}>
+            <TouchableHighlight  onPress={() => { console.log(farm) }} onLongPress={() => { handleLongPress(farm.farm_id,farm.fullname,farm.crop,farm.variety,farm.hectors,farm.district,farm.area_name,farm.physical_address) }} activeOpacity={0.9}
+              underlayColor="">
+              <View  >
+                <FarmCard farmDetails={farm} />
+              </View>
+            </TouchableHighlight>
+
+            
+
+          </View>
 
         ))}
       </ScrollView>
 
+      </View>
 
-    </SafeAreaView>
+      
+              <FarmDetailsModal visible={isModalOpen} onClose={handleCloseModal} >
+
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Grower name: </Text><Text style={styles.growerModalName}> {farmDetails[1]}</Text></View> 
+
+             <View style={styles.modalSeparator}></View>
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Crop: </Text><Text style={styles.cropDetailsText}> {farmDetails[2]}</Text></View> 
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Variety: </Text><Text style={styles.cropDetailsText}> {farmDetails[3]}</Text></View> 
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Class: </Text><Text style={styles.cropDetailsText}> -</Text></View> 
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Hectors: </Text><Text style={styles.cropDetailsText}> {farmDetails[4]}</Text></View> 
+
+             <View style={styles.modalSeparator}></View>
+
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>District: </Text><Text style={styles.cropDetailsText}> {farmDetails[5]}</Text></View> 
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Area name : </Text><Text style={styles.cropDetailsText}> {farmDetails[6]}</Text></View> 
+            
+             <View style={styles.modalSeparator}></View>
+
+
+             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Physical Address: </Text></View> 
+             <Text style={styles.cropDetailsText}>{farmDetails[7]}</Text>
+          
+            
+             <View style={styles.modalSeparator}></View>
+
+             
+
+             
+            
+
+
+            </FarmDetailsModal>
+
+
+      
+      <BottomNavigator navigation={navigation} page={"library"}/>
+
+     
+    </View>
 
   );
 };
@@ -131,6 +235,8 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+   
+    justifyContent:"space-between"
 
   },
   backItemsContainer: {
@@ -177,11 +283,59 @@ const styles = StyleSheet.create({
 
   },
   scrollView: {
+    
     backgroundColor: 'rgb(247,247,249)',
 
+  },
+
+  viewWrappper:{
+
+    flex:1,
   },
   text: {
     fontSize: 42,
   },
+
+
+  // style for modal items 
+
+  growerWrapper: {
+    flexDirection:"row"
+
+
+  },
+
+  growerModalNameTitle:{
+
+    fontFamily:"Poppins-SemiBold",
+    fontSize:10,
+  color:"grey"
+  },
+  growerModalName:{
+
+    fontFamily:"Poppins-SemiBold",
+    fontSize:13,
+  color:"black"
+
+  },
+ cropDetailsText:{
+
+
+  
+  fontFamily:"Poppins-Medium",
+  fontSize:11,
+color:"black"
+
+
+ },
+ modalSeparator:{
+
+
+  borderBottomColor: 'black',
+  borderBottomWidth: 2,
+  marginTop:5
+
+ }
+
 });
 export default MyComponent;

@@ -3,14 +3,16 @@ import React from 'react'
 import BottomNavigator from '../navigation/custom/bottomNavigator'
 import { StyleSheet } from 'react-native'
 
-const Settings = ({navigation}:any) => {
+const Map = ({navigation}:any) => {
   return (
     <View style={styles.container}>
-      <Text>settings</Text>
-      <BottomNavigator navigation={navigation} page={"settings"}/>
+      <Text>New</Text>
+      <BottomNavigator navigation={navigation} page="map"/>
+
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -31,4 +33,4 @@ const styles = StyleSheet.create({
   
  } )
 
-export default Settings
+export default Map

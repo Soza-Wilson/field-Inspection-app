@@ -1,5 +1,6 @@
 import db from "../util/database";
 
+
 type FarmProps ={
 
   farm_id:string,
@@ -83,5 +84,9 @@ class Farm {
     });
   }
 }
+
+
+
+
 
 export default Farm;

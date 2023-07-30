@@ -5,11 +5,13 @@ import Font from 'react-native-vector-icons/FontAwesome';
 import Ion from 'react-native-vector-icons/Ionicons';
 import { TextInput } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
+import { Image } from 'react-native-elements';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 
 
 const Header_Max_Height = 150;
-const Header_Min_Height = 85;
+const Header_Min_Height = 94;
 
 
 
@@ -57,41 +59,32 @@ const DynamicHeader = ({ animHeaderValue }: any) => {
             ]}
         >
 
-            <View style={styles.backItemsContainer}>
-                <Animated.View style={[
-                styles.header,
-                {
-                  
-                    backgroundColor: backButtonBackgroundColor,
+            
+      <View style={styles.headerWrapper}>
+        <View style={styles.profileWrapper}>
+          <Image
+            source={require('../../../assets/images/modalBackGround.png')}
+            style={styles.profile_image}></Image>
+          <Text style={styles.profileText}>John doe</Text>
+        </View>
 
+        <View>
+          <Entypo
+           
+            name="list"
+            size={20}
+            color="black"
+          />
+        </View>
+      </View>
 
-                    padding: 15,
-                    alignItems: "center",
-                    elevation:5,
-                    borderRadius: 15
-
-
-
-                }
-
-            ]}>
-                    <Font
-                        name="arrow-left"
-                        size={10}
-                        color="black"
-                        
-                    />
-                </Animated.View>
-                <View>
-                    <Text style={styles.customHeader}> Farm list</Text>
-                </View>
-            </View>
+           
             <View style={styles.searchContainer}>
 
                        <Ion
                         name="ios-search"
-                        size={20}
-                        color="black"
+                        size={15}
+                        color="grey"
                         style={{
 
                             padding:10
@@ -142,6 +135,15 @@ const styles = StyleSheet.create({
         flex: 1,
 
     },
+
+    profile_image: {
+        width: 55,
+        height: 55,
+    
+        alignItems: 'center',
+        borderRadius: 60,
+      },
+    
     backItemsContainer: {
 
         flexDirection: "row",
@@ -154,13 +156,24 @@ const styles = StyleSheet.create({
 
     },
 
+    profileWrapper: {
+        flexDirection: 'row',
+      },
+      headerWrapper: {
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        alignItems: 'center',
+      },
+
     searchContainer: {
         flexDirection:"row",
         backgroundColor:'white',
         marginHorizontal:10,
-        elevation:1,
+      
         margin:20,
-        borderRadius:20, 
+        
         alignItems:"center",
         height:45
 
@@ -171,6 +184,9 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Medium",
         fontSize: 11,
         backgroundColor:"white",
+        borderBottomWidth:2,
+        borderBottomColor:"black",
+        marginRight:20
         
       
        
@@ -179,6 +195,14 @@ const styles = StyleSheet.create({
        
 
     },
+
+    profileText: {
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 10,
+        marginTop: 17,
+        marginLeft: 5,
+        color: 'black',
+      },
 
     customHeader: {
         fontFamily: "Poppins-Bold",

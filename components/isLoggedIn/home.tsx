@@ -8,16 +8,21 @@ import CommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { StatusBar } from 'react-native';
 
-function Home() {
+import { TouchableHighlight } from 'react-native';
+import BottomNavigator from '../navigation/custom/bottomNavigator';
+
+function Home({navigation}:any) {
+
   return (
     <View style={styles.container}>
-       
-      
-     
+
+
+      <View>
+
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image
-            source={require('../../assets/images/user.jpg')}
+            source={require('../../assets/images/modalBackGround.png')}
             style={styles.profile_image}></Image>
           <Text style={styles.profileText}>John doe</Text>
         </View>
@@ -47,7 +52,11 @@ function Home() {
           <Text style={styles.category_text}>New Location </Text>
         </View>
 
-        <View style={styles.home_items}>
+        
+          <TouchableHighlight
+           onPress={() => navigation.navigate("farmLibrary")}>
+
+          <View style={styles.home_items}>
           <View style={styles.category_icon}>
             <Entypo
               style={styles.category_icon}
@@ -59,6 +68,9 @@ function Home() {
 
           <Text style={styles.category_text}>Farm Library </Text>
         </View>
+            
+          </TouchableHighlight>
+       
       </View>
 
       <View style={styles.align_card}>
@@ -88,7 +100,15 @@ function Home() {
         </View>
       </View>
 
-      {/* <BottomNavigation/> */}
+
+
+      </View>
+       
+      
+     
+     
+
+      <BottomNavigator navigation={navigation} page={"home"}/>
 
     </View>
   );
@@ -98,6 +118,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgb(247,247,249)',
+    flexDirection:"column",
+    justifyContent:"space-between"
   },
   profile_image: {
     width: 55,

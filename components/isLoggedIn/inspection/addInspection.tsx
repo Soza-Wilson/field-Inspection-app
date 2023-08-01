@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: "column",
-        justifyContent: "space-between",
+      
         backgroundColor: "white"
 
     },
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
 
 
     },
+    
     textWrapper:{
      flexDirection:"column",
      justifyContent:"center",
@@ -174,6 +175,8 @@ const styles = StyleSheet.create({
     
 
     },
+
+    
     labelText:{
 
         fontFamily:"Poppins-Medium",

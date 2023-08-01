@@ -11,7 +11,7 @@ import { UseLogIn } from '../context/logInProvider';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Map from '../components/isLoggedIn/map';
-
+import ViewInspection from '../components/isLoggedIn/inspection/viewInspection';
 import FarmLibrary from '../components/isLoggedIn/library';
 import BottomNavigator from '../components/navigation/custom/bottomNavigator';
 
@@ -108,6 +108,7 @@ function MyTabs() {
 <mainStack.Screen name="settings" component={Settings} options={{ headerShown: false, presentation: 'transparentModal' }} />
 <mainStack.Screen name="farmLibrary" component={FarmLibrary} options={{ headerShown: false, presentation: 'transparentModal' }} />
 <mainStack.Screen name="map" component={Map} options={{ headerShown: false, presentation: 'transparentModal' }} />
+<mainStack.Screen name="viewInspection" component={ViewInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
 
 
 

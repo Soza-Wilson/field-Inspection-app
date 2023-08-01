@@ -53,7 +53,8 @@ function Home({navigation}:any) {
         </View>
 
         
-          <TouchableHighlight
+          <TouchableHighlight activeOpacity={0.9}
+        underlayColor=""
            onPress={() => navigation.navigate("farmLibrary")}>
 
           <View style={styles.home_items}>

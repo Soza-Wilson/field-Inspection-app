@@ -171,7 +171,7 @@ const MyComponent = ({navigation}:any) => {
       
         {farms.map((farm: any) => (
           <View key={farm.farm_id}>
-            <TouchableHighlight  onPress={() => { console.log(farm) }} onLongPress={() => { handleLongPress(farm.farm_id,farm.fullname,farm.crop,farm.variety,farm.hectors,farm.district,farm.area_name,farm.physical_address) }} activeOpacity={0.9}
+            <TouchableHighlight  onPress={() => navigation.navigate("viewInspection") } onLongPress={() => { handleLongPress(farm.farm_id,farm.fullname,farm.crop,farm.variety,farm.hectors,farm.district,farm.area_name,farm.physical_address) }} activeOpacity={0.9}
               underlayColor="">
               <View  >
                 <FarmCard farmDetails={farm} />

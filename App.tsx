@@ -13,6 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import LogInProvider from './context/logInProvider';
 import FarmDetailsModal from './components/isLoggedIn/farm/farmDetailsModal';
 import AddInspection from './components/isLoggedIn/inspection/addInspection';
+import ViewInspection from './components/isLoggedIn/inspection/viewInspection';
 
 
 
@@ -30,6 +31,8 @@ const App = () => {
       <LogInProvider>
         <MyStack />
       </LogInProvider>
+
+   
 
  
     </View>

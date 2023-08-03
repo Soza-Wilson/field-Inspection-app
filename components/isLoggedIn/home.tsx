@@ -2,6 +2,7 @@ import React from 'react';
 
 import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Font5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -41,15 +42,15 @@ function Home({navigation}:any) {
       <View style={styles.align_card}>
         <View style={styles.home_items}>
           <View style={styles.category_icon}>
-            <MaterialIcons
+            <Font5
               style={styles.category_icon}
-              name="location-history"
+              name="route"
               size={25}
               color="black"
             />
           </View>
 
-          <Text style={styles.category_text}>New Location </Text>
+          <Text style={styles.category_text}>Routing </Text>
         </View>
 
         

@@ -14,6 +14,8 @@ import Map from '../components/isLoggedIn/map';
 import ViewInspection from '../components/isLoggedIn/inspection/viewInspection';
 import FarmLibrary from '../components/isLoggedIn/library';
 import BottomNavigator from '../components/navigation/custom/bottomNavigator';
+import AddInspection from '../components/isLoggedIn/inspection/addInspection';
+import AddGeoLocation from '../components/isLoggedIn/inspection/addGeoLocation';
 
 
 
@@ -109,6 +111,10 @@ function MyTabs() {
 <mainStack.Screen name="farmLibrary" component={FarmLibrary} options={{ headerShown: false, presentation: 'transparentModal' }} />
 <mainStack.Screen name="map" component={Map} options={{ headerShown: false, presentation: 'transparentModal' }} />
 <mainStack.Screen name="viewInspection" component={ViewInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
+<mainStack.Screen name="addInspection" component={AddInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
+<mainStack.Screen name="addGeoLocation" component={AddGeoLocation} options={{ headerShown: false, presentation: 'transparentModal' }} />
+
+
 
 
 

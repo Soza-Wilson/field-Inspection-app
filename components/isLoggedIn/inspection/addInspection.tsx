@@ -1,24 +1,19 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableHighlight } from 'react-native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import Mate from 'react-native-vector-icons/Entypo'
 import { TextInput } from 'react-native'
+import BackHeader from './backHeader'
 
-const AddInspection = () => {
+const AddInspection = ({navigation}:any) => {
     return (
         <View style={styles.mainContainer}>
-            <View>
-                <View style={styles.headerWrapper}><View style={styles.backButton}>
-                    <Mate
-                        name='chevron-left'
-                        size={15}
-                        color={'black'}
-                    />
-                </View><View></View></View>
-                <View style={styles.titleWrapper}><Text style={styles.heading}>Inspection</Text><Text style={styles.title}>Land verification</Text></View>
+            
+               
 
 
                 <View>
+                    <BackHeader/>
 
 <View style={styles.textWrapper}>
 
@@ -80,19 +75,24 @@ const AddInspection = () => {
 
 
 
-</View>
+
 
 
             </View>
 
            
 
+           <TouchableHighlight onPress={()=>navigation.navigate("addGeoLocation")}>
 
-            <View style={styles.saveButton}>
+           <View style={styles.saveButton}>
 
-                <Text style={styles.saveText} > Next</Text>
+<Text style={styles.saveText} > Next</Text>
 
-            </View>
+</View>
+
+
+           </TouchableHighlight>
+            
         </View>
     )
 }
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: "column",
+        justifyContent:"space-between",
       
         backgroundColor: "white"
 
@@ -109,18 +110,18 @@ const styles = StyleSheet.create({
 
     saveButton: {
 
-        padding: 20,
+        padding: 25,
         margin: 10,
-        borderRadius: 10,
+        borderRadius: 5,
         backgroundColor: "#2DA15F",
 
     },
     saveText: {
 
-
         textAlign: "center",
-        color: "white",
-        fontFamily: "Poppins-Medium"
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 12,
+        color: "#FFFFFF"
 
 
 

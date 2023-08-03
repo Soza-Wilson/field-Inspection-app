@@ -13,21 +13,23 @@ import {
 } from 'react-native';
 import { AnimationEventHandler } from 'react';
 import { TouchableHighlight } from 'react-native';
+import DataNotFound from '../../loaders/dataNotFound';
 
 
 
 import Mate from 'react-native-vector-icons/Entypo'
+import { Image } from 'react-native-elements';
 
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Land verification',
-    color: "red"
+    color: "#C2E0C1"
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Vergitative',
-    color: "gold"
+    color: "#86C082"
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
@@ -190,18 +192,46 @@ const ViewInspection = ({ navigation }: any) => {
           scrollEventThrottle={16}
           renderItem={({ item, index }) =>
 
-            <Item {...item} />
+          <View style={styles.item}>
+
+              <Image source={require("../../../assets/images/no_data.png")}
+          style={styles.noDataImage}
+
+        
+        ></Image>
+
+        <Text style={{fontFamily:"Poppins-SemiBold",
+      fontSize:11,
+      color:"grey"}}>
+          No Data Found !!
+        </Text>
+
+
+
+              
+           
+
+          </View>
+
+           
           }
 
         />
       </SafeAreaView>
-
+    
       <View style={styles.saveButton}>
+      <TouchableHighlight onPress={()=>navigation.navigate("addInspection")}>
 
-        <Text style={styles.saveText} > Next</Text>
+      <Text style={styles.saveText} > Add </Text>
+
+      </TouchableHighlight>
 
       </View>
 
+
+
+     
+      
 
     </View>
 
@@ -272,6 +302,15 @@ const styles = StyleSheet.create({
 
   },
 
+  noDataImage: {
+
+    width: 300, height: 300,
+    justifyContent:"center",
+    
+    alignItems: "center"
+
+  },
+
   heading: {
 
     fontFamily: "Poppins-Medium",
@@ -281,7 +320,7 @@ const styles = StyleSheet.create({
 
   saveButton: {
 
-    marginTop: 145,
+    marginTop: 165,
     padding: 20,
     margin: 10,
     borderRadius: 10,

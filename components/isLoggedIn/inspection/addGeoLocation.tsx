@@ -4,15 +4,11 @@ import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid } from 'react-native';
 import { useState } from 'react';
 import BackHeader from './backHeader';
+import StageTips from './stageTips';
 
-type geolocation ={
- 
-coords :any
 
-}
-
-const AddGeoLocation = ({}: geolocation) => {
-    const [location, setLocation] = useState(false);
+const AddGeoLocation = ({navigation}:any) => {
+    const [location, setLocation]: any[]  = useState(false);
     
 
 
@@ -85,7 +81,7 @@ const AddGeoLocation = ({}: geolocation) => {
         <View style={styles.container}>
 
             <View>
-            <BackHeader />
+            <StageTips stage={2} heading='Geo Location' description='Getting GPS Locations '/>
 
                 <View style={styles.textWrapper}>
 
@@ -150,7 +146,8 @@ const AddGeoLocation = ({}: geolocation) => {
 
 
 
-            <TouchableHighlight onPress={() =>{}}>
+            <TouchableHighlight activeOpacity={0.9}
+              underlayColor="" onPress={() =>navigation.navigate("addInspectionImages")}>
                 <View style={styles.getLocation}>
                     <Text style={styles.buttonText}>Next</Text>
                 </View>

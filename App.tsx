@@ -11,10 +11,8 @@ import MyStack from './routes/navigationStack';
 import Loader from './components/loaders/loader';
 import { NavigationContainer } from '@react-navigation/native';
 import LogInProvider from './context/logInProvider';
-import FarmDetailsModal from './components/isLoggedIn/farm/farmDetailsModal';
-import AddInspection from './components/isLoggedIn/inspection/addInspection';
-import ViewInspection from './components/isLoggedIn/inspection/viewInspection';
-import AddGeoLocation from './components/isLoggedIn/inspection/addGeoLocation';
+import StageTips from './components/isLoggedIn/inspection/stageTips';
+
 
 
 

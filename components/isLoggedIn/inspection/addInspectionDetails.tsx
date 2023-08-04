@@ -4,8 +4,15 @@ import { StyleSheet } from 'react-native'
 import Mate from 'react-native-vector-icons/Entypo'
 import { TextInput } from 'react-native'
 import BackHeader from './backHeader'
+import StageTips from './stageTips'
+
+type StageTippsProps={
+
+}
 
 const AddInspection = ({navigation}:any) => {
+
+
     return (
         <View style={styles.mainContainer}>
             
@@ -13,7 +20,10 @@ const AddInspection = ({navigation}:any) => {
 
 
                 <View>
-                    <BackHeader/>
+                   
+                    <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details'/>
+                 
+
 
 <View style={styles.textWrapper}>
 
@@ -82,7 +92,8 @@ const AddInspection = ({navigation}:any) => {
 
            
 
-           <TouchableHighlight onPress={()=>navigation.navigate("addGeoLocation")}>
+           <TouchableHighlight activeOpacity={0.9}
+              underlayColor="" onPress={()=>navigation.navigate("addGeoLocation")}>
 
            <View style={styles.saveButton}>
 

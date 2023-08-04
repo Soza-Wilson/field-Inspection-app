@@ -148,8 +148,7 @@ const ViewInspection = ({ navigation }: any) => {
   return (<View style={styles.container}>
 
 
-
-    
+     
       <View>
 
         <View style={styles.headerWrapper}><TouchableHighlight 
@@ -219,21 +218,26 @@ const ViewInspection = ({ navigation }: any) => {
         />
       </SafeAreaView>
     
-      <View style={styles.saveButton}>
-      <TouchableHighlight onPress={()=>navigation.navigate("addInspection")}>
-
-      <Text style={styles.saveText} > Add </Text>
-
-      </TouchableHighlight>
-
-      </View>
-
+     
 
 
      
       
 
     </View>
+
+    <TouchableHighlight activeOpacity={0.9}
+              underlayColor="" style={styles.saveButton} onPress={()=>navigation.navigate("addInspection")}>
+    <View >
+     
+
+      <Text style={styles.saveText} > Add </Text>
+
+      
+
+      </View>
+      </TouchableHighlight>
+    
 
     <Pagination scrollx={scrollx} />
 
@@ -320,10 +324,12 @@ const styles = StyleSheet.create({
 
   saveButton: {
 
-    marginTop: 165,
-    padding: 20,
+    position:'absolute',
+    bottom:0,
+    width:width/1.05,
+    padding: 25,
     margin: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: "#2DA15F",
 
   },
@@ -405,10 +411,9 @@ const styles = StyleSheet.create({
 
 
     textAlign: "center",
-    color: "white",
-    fontFamily: "Poppins-Medium"
-
-
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 12,
+        color: "#FFFFFF"
 
 
   },

@@ -1,4 +1,4 @@
-import { View, Text, TouchableHighlight, PermissionsAndroid } from 'react-native'
+import { View, Text, TouchableHighlight, PermissionsAndroid, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import StageTips from './stageTips'
@@ -8,17 +8,26 @@ import Ios from 'react-native-vector-icons/Ionicons';
 import { CameraOptions, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { ImageCropPicker, openCamera } from 'react-native-image-crop-picker';
 import { UseTempImageContext } from '../../../context/tempImagesProvider';
+import { Image } from 'react-native';
+import { Dimensions } from 'react-native';
+
 
 const AddInspectionImages = ({ navigation }: any) => {
 
-    const [tempImageFiles, setTempImageFiles] :any = useState([])
+    const [tempImageFiles, setTempImageFiles]: any = useState([])
     // state for camera and image upload 
     const [showButton, setShowButton] = useState(false)
     // adding images to the groball tempImagesContext
-    const { tempImages, setTempImages } = UseTempImageContext()
 
 
 
+    // ImageHight and width 
+
+    const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width;
+
+
+    // requesting user camera permissions 
     const requestCameraPermission = async () => {
         try {
             const granted = await PermissionsAndroid.request(
@@ -44,7 +53,7 @@ const AddInspectionImages = ({ navigation }: any) => {
     };
 
 
-
+    // using the react native image picker library to take images and upload already existing
     const openCamera = () => {
         const res = requestCameraPermission();
         res.then(async () => {
@@ -60,8 +69,17 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             }
 
-            const result = await launchCamera(options, response => {
-                console.log(response)
+            const result = await launchCamera(options, (response: any)=> {
+                if(response.didCancel){
+                    console.log(response)
+                }
+
+                else{
+                    response.assets.forEach((element: any) => {
+                        setTempImageFiles([...tempImageFiles, element.uri]);
+                    });
+
+                }
             })
 
         }
@@ -78,7 +96,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             const options: CameraOptions = {
                 mediaType: 'photo',
-                cameraType: 'back',
+
                 quality: 1,
                 includeBase64: true,
                 saveToPhotos: true,
@@ -88,11 +106,18 @@ const AddInspectionImages = ({ navigation }: any) => {
             }
 
             const result = await launchImageLibrary(options, (response: any) => {
-                response.assets.forEach((element: any) => {
-                    setTempImageFiles([...tempImageFiles, element.uri]);
-                });
+                if(response.didCancel){
+                    console.log(response)
+                }
+                else{
+                    response.assets.forEach((element: any) => {
+                        setTempImageFiles([...tempImageFiles, element.uri]);
+                    });
 
-                console.log(tempImageFiles[1])
+                }
+               
+
+               
 
             });
 
@@ -103,7 +128,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     }
 
-
+    // using the showButton state hook to manipulate the take image and upload image buttons
     const CameraButtons = () => {
 
         if (showButton) {
@@ -181,6 +206,57 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     }
 
+    const TempImageGallary = () => {
+
+        if (tempImageFiles[0] == null) {
+
+            return (<Text>
+                emputy
+            </Text>)
+
+        } else {
+
+            return (
+                <ScrollView showsVerticalScrollIndicator={false}>
+
+
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center', alignItems: 'center' }}>
+
+                        {tempImageFiles.map((data: any, index: number) => (
+                            // Step 3: Render components based on the array elements
+                            <TouchableHighlight key={index} >
+
+                                <Image
+                                    style={{ height: 150, width: 90 * 2, margin: 4, borderRadius: 5 }}
+                                    source={{ uri: data }}
+
+
+                                />
+
+                            </TouchableHighlight>
+                        ))}
+
+
+                    </View>
+
+
+
+                </ScrollView>
+
+            )
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
     return (
 
 
@@ -188,11 +264,7 @@ const AddInspectionImages = ({ navigation }: any) => {
             <StageTips stage={3} heading='Field Images' description='Take or upload field images ' />
 
             <View style={styles.galleryView}>
-
-
-                <Text>
-                    galleryView
-                </Text>
+                <TempImageGallary />
 
                 <TouchableHighlight activeOpacity={0.9}
                     underlayColor="" style={styles.uploadCategory} onPress={() => {
@@ -293,11 +365,12 @@ const styles = StyleSheet.create({
 
     },
     galleryView: {
-
-        padding: 180,
+        flex: 1,
+        flexDirection: "row",
         margin: 5,
-        elevation: 10,
-        borderRadius: 20,
+        borderColor: "grey",
+        borderWidth: 2,
+        borderRadius: 5,
         backgroundColor: "white"
     },
 

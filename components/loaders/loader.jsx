@@ -6,7 +6,7 @@ import AnimatedLoader from 'react-native-animated-loader';
 
 
 
-const Loader=props=> {
+const Loader=(props)=> {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     setInterval(() => {

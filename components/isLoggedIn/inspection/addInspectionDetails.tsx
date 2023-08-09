@@ -5,12 +5,15 @@ import Mate from 'react-native-vector-icons/Entypo'
 import { TextInput } from 'react-native'
 import BackHeader from './backHeader'
 import StageTips from './stageTips'
+import { useInspectionType } from '../../../context/inspectionType'
 
 type StageTippsProps={
 
 }
 
 const AddInspection = ({navigation}:any) => {
+
+    const {inspectionType}= useInspectionType()
 
 
     return (
@@ -93,7 +96,7 @@ const AddInspection = ({navigation}:any) => {
            
 
            <TouchableHighlight activeOpacity={0.9}
-              underlayColor="" onPress={()=>navigation.navigate("addGeoLocation")}>
+              underlayColor="" onPress={()=>{console.log(inspectionType)}}>
 
            <View style={styles.saveButton}>
 

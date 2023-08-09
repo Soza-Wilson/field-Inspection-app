@@ -17,6 +17,7 @@ import BottomNavigator from '../components/navigation/custom/bottomNavigator';
 import AddInspection from '../components/isLoggedIn/inspection/addInspectionDetails';
 import AddGeoLocation from '../components/isLoggedIn/inspection/addGeoLocation';
 import AddInspectionImages from '../components/isLoggedIn/inspection/addInspectionImages';
+import SelectedInspectionType from '../context/inspectionType';
 
 
 
@@ -131,7 +132,7 @@ function MyTabs() {
 function MyStack() {
     const { isLoggedIn }: any = UseLogIn()
     return (<NavigationContainer>
-        {isLoggedIn ? <MyTabs /> : <IsLoggedOutStack />}
+        {isLoggedIn ? <SelectedInspectionType><MyTabs /></SelectedInspectionType>  :  <IsLoggedOutStack />}
     </NavigationContainer>)
 
 }

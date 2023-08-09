@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -15,10 +15,14 @@ import { AnimationEventHandler } from 'react';
 import { TouchableHighlight } from 'react-native';
 import DataNotFound from '../../loaders/dataNotFound';
 
+import SelectedInspectionType from '../../../context/inspectionType';
+import { useInspectionType } from '../../../context/inspectionType';
+
 
 
 import Mate from 'react-native-vector-icons/Entypo'
 import { Image } from 'react-native-elements';
+import { number } from 'yup';
 
 const DATA = [
   {
@@ -61,23 +65,32 @@ const screenWidth = Dimensions.get('window').width;
 //  animating the instection type to change when we scroll the flatlist
 const InspectionType = ({ scrollx }: any) => {
 
+
+ 
+   
   const inputRange = [-width, 0, width]
   const translateY = scrollx.interpolate({
     inputRange,
     outputRange: [titleHeight, 0, -titleHeight]
   })
 
-  return (<View style={styles.title}>
+  return (
 
-    <Animated.View style={{ transform: [{ translateY }] }}>
-      {DATA.map(({ title }, index) => {
-        return <Text key={index} style={styles.titleText}>{title}</Text>
+    <View style={styles.title}>
 
-      })}
-    </Animated.View>
+      <Animated.View style={{ transform: [{ translateY }] }}>
+        {DATA.map(({ title }, index) => {
+        
+
+          return (
+
+            <Text key={index} style={styles.titleText}>{title}</Text>)
+
+        })}
+      </Animated.View>
 
 
-  </View>
+    </View>
 
 
 
@@ -86,6 +99,8 @@ const InspectionType = ({ scrollx }: any) => {
 
 }
 
+
+
 const Pagination = ({ scrollx }: any) => {
 
   const inputRange = [-width, 0, width]
@@ -93,6 +108,8 @@ const Pagination = ({ scrollx }: any) => {
     inputRange,
     outputRange: [-DOT_SIZE, 0, DOT_SIZE]
   })
+
+  
 
 
   return (
@@ -138,30 +155,52 @@ const Pagination = ({ scrollx }: any) => {
 
 
   )
-}
+}  
+
+
 
 
 const ViewInspection = ({ navigation }: any) => {
 
+
+  //  getting the current index on the flatlist and updating the insctionType contex, 0 = land-verification 1= vergitative 2= pre-harvest
+    
   const scrollx = React.useRef(new Animated.Value(0)).current;
+  const {inspectionType,setInspectionType} = useInspectionType()
 
-  return (<View style={styles.container}>
+  const handleScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { x: scrollx } } }],
+    {
+      useNativeDriver: true,
+      listener: (event :any) => {
+        const xOffset = event.nativeEvent.contentOffset.x;
+        const index = Math.floor(xOffset / 300);
+        setInspectionType(index);
+        console.log(inspectionType)
+      },
+    }
+  );
+
+  return (
 
 
-     
+    <View style={styles.container}>
+
+
+
       <View>
 
-        <View style={styles.headerWrapper}><TouchableHighlight 
-         activeOpacity={0.9}
-         underlayColor="" onPress={() => navigation.navigate("farmLibrary") }><View style={styles.backButton}>
-        
-          <Mate
-            name='chevron-left'
-            size={15}
-            color={'black'}
-          />
-         
-        </View>
+        <View style={styles.headerWrapper}><TouchableHighlight
+          activeOpacity={0.9}
+          underlayColor="" onPress={() => navigation.navigate("farmLibrary")}><View style={styles.backButton}>
+
+            <Mate
+              name='chevron-left'
+              size={15}
+              color={'black'}
+            />
+
+          </View>
         </TouchableHighlight><View></View></View>
         <View style={styles.titleWrapper}><Text style={styles.heading}>Inspection</Text></View>
 
@@ -169,80 +208,99 @@ const ViewInspection = ({ navigation }: any) => {
       </View>
 
 
-    
 
 
 
 
-    <View style={styles.body}>
-      <SafeAreaView style={styles.mainContainer}>
-        <Animated.FlatList
-          data={DATA}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={Animated.event([{
-            nativeEvent: { contentOffset: { x: scrollx } }
 
-          }], { useNativeDriver: true }
-          )}
-
-          keyExtractor={(item) => item.id}
-          scrollEventThrottle={16}
-          renderItem={({ item, index }) =>
-
-          <View style={styles.item}>
-
-              <Image source={require("../../../assets/images/no_data.png")}
-          style={styles.noDataImage}
-
-        
-        ></Image>
-
-        <Text style={{fontFamily:"Poppins-SemiBold",
-      fontSize:11,
-      color:"grey"}}>
-          No Data Found !!
-        </Text>
-
-
+      <View style={styles.body}>
+        <SafeAreaView style={styles.mainContainer}>
+          <Animated.FlatList
+            data={DATA}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+           
+            onScroll={
+                      handleScroll
+              
+            //   Animated.event([{
+            //   nativeEvent: { contentOffset: {x: scrollx } }
 
               
-           
+              
 
-          </View>
-
-           
+            // }], { useNativeDriver: true },
+            // )
           }
 
-        />
-      </SafeAreaView>
-    
-     
+            keyExtractor={(item) => item.id}
+            scrollEventThrottle={16}
+            renderItem={({ item, index }) => {
+
+             
+              
+              return (<View style={styles.item}>
+               
+
+                <Image source={require("../../../assets/images/no_data.png")}
+                  style={styles.noDataImage}
 
 
-     
-      
+                ></Image>
 
-    </View>
+                <Text style={{
+                  fontFamily: "Poppins-SemiBold",
+                  fontSize: 11,
+                  color: "grey"
+                }}>
+                  No Data Found !!
+                </Text>
 
-    <TouchableHighlight activeOpacity={0.9}
-              underlayColor="" style={styles.saveButton} onPress={()=>navigation.navigate("addInspection")}>
-    <View >
-     
 
-      <Text style={styles.saveText} > Add </Text>
 
-      
+
+
+
+              </View>)
+            }
+
+
+
+
+
+            }
+
+          />
+        </SafeAreaView>
+
+
+
+
+
+
 
       </View>
+
+      <TouchableHighlight activeOpacity={0.9}
+        underlayColor="" style={styles.saveButton} onPress={() => {navigation.navigate("addInspection")}}>
+        <View >
+
+
+          <Text style={styles.saveText} > Add </Text>
+
+
+
+        </View>
       </TouchableHighlight>
-    
 
-    <Pagination scrollx={scrollx} />
 
-    <InspectionType scrollx={scrollx} />
-  </View>
+      <Pagination scrollx={scrollx} />
+
+      <InspectionType scrollx={scrollx} />
+    </View>
+
+
 
   );
 };
@@ -309,8 +367,8 @@ const styles = StyleSheet.create({
   noDataImage: {
 
     width: 300, height: 300,
-    justifyContent:"center",
-    
+    justifyContent: "center",
+
     alignItems: "center"
 
   },
@@ -324,9 +382,9 @@ const styles = StyleSheet.create({
 
   saveButton: {
 
-    position:'absolute',
-    bottom:0,
-    width:width/1.05,
+    position: 'absolute',
+    bottom: 0,
+    width: width / 1.05,
     padding: 25,
     margin: 10,
     borderRadius: 5,
@@ -411,9 +469,9 @@ const styles = StyleSheet.create({
 
 
     textAlign: "center",
-        fontFamily: "Poppins-SemiBold",
-        fontSize: 12,
-        color: "#FFFFFF"
+    fontFamily: "Poppins-SemiBold",
+    fontSize: 12,
+    color: "#FFFFFF"
 
 
   },

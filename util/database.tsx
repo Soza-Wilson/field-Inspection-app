@@ -105,6 +105,45 @@ db.transaction((tx) => {
   );
 });
 
+// db.transaction((tx) => {
+//   tx.executeSql(
+//     'DROP TABLE inspection',
+//     [],
+//     () => {
+//       console.log('Farms table created successfully');
+//     },
+//     (error) => {
+//       console.error('Failed to create table:', error);
+//     }
+//   );
+// });
+
+db.transaction((tx) => {
+  tx.executeSql(
+    'CREATE TABLE IF NOT EXISTS inspection ( inspection_id TEXT PRIMARY KEY NOT NULL, inspection_date date, inspection_time time,farm_id TEXT,user_id,inspection_type text,isolation_distance number,planting_pattern number,off_type_percentange number,pest_disease_incidence number,defective_plants number,pollinating_females_percentage number,male_elemination number, off_typecobs_at_shelling number,remarks TEXT,FOREIGN KEY(farm_id) REFERENCES farms(farm_id),FOREIGN KEY(user_id) REFERENCES users(id))',
+    [],
+    () => {
+      console.log('Inspection table created successfully');
+    },
+    (error) => {
+      console.error('Failed to create table:', error);
+    }
+  );
+});
+
+db.transaction((tx) => {
+  tx.executeSql(
+    'CREATE TABLE IF NOT EXISTS inspection_image ( images_url TEXT PRIMARY KEY NOT NULL,inspection_id TEXT,FOREIGN KEY(inspection_id) REFERENCES inspection(inspection_id))',
+    [],
+    () => {
+      console.log('Images table created');
+    },
+    (error) => {
+      console.error('Failed to create table:', error);
+    }
+  );
+});
+
 
 
 

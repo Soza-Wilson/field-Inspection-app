@@ -12,6 +12,7 @@ import Loader from './components/loaders/loader';
 import { NavigationContainer } from '@react-navigation/native';
 import LogInProvider from './context/logInProvider';
 import StageTips from './components/isLoggedIn/inspection/stageTips';
+import SelectedInspectionType from './context/inspectionType';
 
 
 

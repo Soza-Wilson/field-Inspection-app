@@ -10,6 +10,8 @@ import { ImageCropPicker, openCamera } from 'react-native-image-crop-picker';
 import { UseTempImageContext } from '../../../context/tempImagesProvider';
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
+import GalleryView from './imagesComponants/galleryView';
+import { number } from 'yup';
 
 
 const AddInspectionImages = ({ navigation }: any) => {
@@ -17,6 +19,8 @@ const AddInspectionImages = ({ navigation }: any) => {
     const [tempImageFiles, setTempImageFiles]: any = useState([])
     // state for camera and image upload 
     const [showButton, setShowButton] = useState(false)
+    const [fullImageView,setFullImageView] = useState(false)
+    const [selectImageIndex,setSelectedImageIndex] : any = useState(0)
     // adding images to the groball tempImagesContext
 
 
@@ -69,12 +73,12 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             }
 
-            const result = await launchCamera(options, (response: any)=> {
-                if(response.didCancel){
+            const result = await launchCamera(options, (response: any) => {
+                if (response.didCancel) {
                     console.log(response)
                 }
 
-                else{
+                else {
                     response.assets.forEach((element: any) => {
                         setTempImageFiles([...tempImageFiles, element.uri]);
                     });
@@ -97,7 +101,7 @@ const AddInspectionImages = ({ navigation }: any) => {
             const options: CameraOptions = {
                 mediaType: 'photo',
 
-                quality: 1,
+
                 includeBase64: true,
                 saveToPhotos: true,
 
@@ -106,18 +110,18 @@ const AddInspectionImages = ({ navigation }: any) => {
             }
 
             const result = await launchImageLibrary(options, (response: any) => {
-                if(response.didCancel){
+                if (response.didCancel) {
                     console.log(response)
                 }
-                else{
+                else {
                     response.assets.forEach((element: any) => {
                         setTempImageFiles([...tempImageFiles, element.uri]);
                     });
 
                 }
-               
 
-               
+
+
 
             });
 
@@ -206,13 +210,44 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     }
 
+    const ViewImage = (images : string[], selectedIndex : number ) =>{
+        return(
+            
+          <GalleryView images={images} selectedIndex={selectedIndex}/>
+        )
+
+
+    }
+
     const TempImageGallary = () => {
 
         if (tempImageFiles[0] == null) {
 
-            return (<Text>
-                emputy
-            </Text>)
+            return (
+
+                <View style={{ alignContent: "center", justifyContent: "center" }}>
+
+
+                    <Mat
+
+                        name="image-plus"
+                        size={350}
+                        color="black"
+                        style={{
+
+                            color: "grey",
+
+
+
+
+                        }}
+                    />
+
+
+
+
+                </View>
+            )
 
         } else {
 
@@ -224,7 +259,8 @@ const AddInspectionImages = ({ navigation }: any) => {
 
                         {tempImageFiles.map((data: any, index: number) => (
                             // Step 3: Render components based on the array elements
-                            <TouchableHighlight key={index} >
+                            <TouchableHighlight activeOpacity={0.9}
+                            underlayColor="" key={index} onPress={()=>setFullImageView(true)}>
 
                                 <Image
                                     style={{ height: 150, width: 90 * 2, margin: 4, borderRadius: 5 }}
@@ -254,84 +290,136 @@ const AddInspectionImages = ({ navigation }: any) => {
     }
 
 
+  
+         if(fullImageView){
 
 
+            return(
 
-    return (
+                <View style={{  flex:1,
+                    backgroundColor:'black'}}>
 
+                        <View style={{  position:'absolute',
+                       padding:6,
+                    backgroundColor:"translucent",top:50,right:40}} >
 
-        <View style={styles.mainContainer}>
-            <StageTips stage={3} heading='Field Images' description='Take or upload field images ' />
-
-            <View style={styles.galleryView}>
-                <TempImageGallary />
-
-                <TouchableHighlight activeOpacity={0.9}
-                    underlayColor="" style={styles.uploadCategory} onPress={() => {
-                        if (showButton) {
-                            setShowButton(false)
-                        }
-                        else {
-
-                            setShowButton(true)
-
-                        }
-
-                    }}>
-
-                    <View >
-                        {/* <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}></View> */}
 
                         <Enty
+    
+    name="plus"
+    size={20}
+    color="black"
+    style={{
 
-                            name="plus"
-                            size={20}
-                            color="black"
-                            style={{
-
-                                color: "#FFFFFF",
-
-
-
-
-                            }}
-                        />
-
-
-
-                        <CameraButtons />
-
-
-                    </View>
-
-
-                </TouchableHighlight>
+        color: "#FFFFFF",
 
 
 
 
+    }}
+/>
 
-            </View>
 
-            <TouchableHighlight activeOpacity={0.9}
-                underlayColor="" onPress={() => navigation.navigate("addGeoLocation")}>
+                        </View>
 
-                <View style={styles.saveButton}>
-
-                    <Text style={styles.saveText} > Save Data</Text>
+<GalleryView images={tempImageFiles} selectedIndex={selectImageIndex}/>
 
                 </View>
+               
+                
+            )
+            
+            
+         }
+       else{
+
+        return (
+        
 
 
-            </TouchableHighlight>
+            <View style={styles.mainContainer}>
+                <StageTips stage={3} heading='Field Images' description='Take or upload field images ' />
+    
+                <View style={styles.galleryView}>
+                    <TempImageGallary />
+                   
+    
+                    <TouchableHighlight activeOpacity={0.9}
+                        underlayColor="" style={styles.uploadCategory} onPress={() => {
+                            if (showButton) {
+                                setShowButton(false)
+                            }
+                            else {
+    
+                                setShowButton(true)
+    
+                            }
+    
+                        }}>
+    
+                        <View >
+                            {/* <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}></View> */}
+    
+                            <Enty
+    
+                                name="plus"
+                                size={20}
+                                color="black"
+                                style={{
+    
+                                    color: "#FFFFFF",
+    
+    
+    
+    
+                                }}
+                            />
+    
+    
+    
+                            <CameraButtons />
+    
+    
+                        </View>
+    
+    
+                    </TouchableHighlight>
+    
+    
+    
+    
+    
+                </View>
+    
+                <TouchableHighlight activeOpacity={0.9}
+                    underlayColor="" onPress={() => navigation.navigate("addGeoLocation")}>
+    
+                    <View style={styles.saveButton}>
+    
+                        <Text style={styles.saveText} > Save Data</Text>
+    
+                    </View>
+    
+    
+                </TouchableHighlight>
+    
+    
+    
+    
+            </View>
+    
+    
+        )
+    
 
 
+       }  
 
+  
 
-        </View>
+    
 
-
-    )
+    
 }
 
 const styles = StyleSheet.create({

@@ -19,7 +19,6 @@ import SelectedInspectionType from './context/inspectionType';
 
 
 
-
 const App = () => {
   return (
 

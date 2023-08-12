@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -27,12 +27,12 @@ import { number } from 'yup';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Land verification',
+    title: 'Vergitative',
     color: "#C2E0C1"
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Vergitative',
+    title: 'Flowering',
     color: "#86C082"
   },
   {
@@ -162,6 +162,12 @@ const Pagination = ({ scrollx }: any) => {
 
 const ViewInspection = ({ navigation }: any) => {
 
+
+  useEffect(() => {
+
+    setInspectionType(0)
+   
+  }, []);
 
   //  getting the current index on the flatlist and updating the insctionType contex, 0 = land-verification 1= vergitative 2= pre-harvest
     

@@ -5,10 +5,11 @@ import { PermissionsAndroid } from 'react-native';
 import { useState } from 'react';
 import BackHeader from './backHeader';
 import StageTips from './stageTips';
-
+import { useInspectionType } from '../../../context/inspectionType';
 
 const AddGeoLocation = ({navigation}:any) => {
     const [location, setLocation]: any[]  = useState(false);
+    const {inspectionType} = useInspectionType()
     
 
 
@@ -81,13 +82,19 @@ const AddGeoLocation = ({navigation}:any) => {
         <View style={styles.container}>
 
             <View>
-            <StageTips stage={2} heading='Geo Location' description='Getting GPS Locations '/>
+            <StageTips stage={2} heading='Geo Location' description='Getting GPS Locations' inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation} 
+            previousPage='addInspection'/>
+
+            <View style={{ borderWidth: 0.3, borderColor: "grey", margin: 5, borderRadius: 5, }}>
+
+
+           
 
                 <View style={styles.textWrapper}>
 
                     <Text style={styles.labelText}> Latitude  *</Text>
                     <TextInput style={styles.userInput}
-
+                        placeholder='0000000'
                         placeholderTextColor={"grey"}>
                         {location ? location.coords.latitude : null}
 
@@ -101,7 +108,7 @@ const AddGeoLocation = ({navigation}:any) => {
 
                     <Text style={styles.labelText}> Longitude  *</Text>
                     <TextInput style={styles.userInput}
-
+                        placeholder='000000'
                         placeholderTextColor={"grey"}>
                         {location ? location.coords.longitude : null}
 
@@ -116,7 +123,7 @@ const AddGeoLocation = ({navigation}:any) => {
 
                     <Text style={styles.labelText}> Accurancy  *</Text>
                     <TextInput style={styles.userInput}
-                        placeholder='Distance'
+                        placeholder='000000'
                         placeholderTextColor={"grey"}>
                         {location ? location.coords.accuracy : null}    
 
@@ -130,7 +137,7 @@ const AddGeoLocation = ({navigation}:any) => {
 
                     <Text style={styles.labelText}> Speed  *</Text>
                     <TextInput style={styles.userInput}
-                        placeholder='Distance'
+                        placeholder='0000000'
                         placeholderTextColor={"grey"}>
                         {location ? location.coords.speed : null}
 
@@ -140,7 +147,7 @@ const AddGeoLocation = ({navigation}:any) => {
 
                 </View>
 
-
+                </View>
 
             </View>
 

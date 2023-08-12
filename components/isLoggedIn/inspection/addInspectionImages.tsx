@@ -12,9 +12,12 @@ import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import GalleryView from './imagesComponants/galleryView';
 import { number } from 'yup';
+import { useInspectionType } from '../../../context/inspectionType';
 
 
 const AddInspectionImages = ({ navigation }: any) => {
+
+    const {inspectionType} = useInspectionType()
 
     const [tempImageFiles, setTempImageFiles]: any = useState([])
     // state for camera and image upload 
@@ -254,6 +257,8 @@ const AddInspectionImages = ({ navigation }: any) => {
             return (
                 <ScrollView showsVerticalScrollIndicator={false}>
 
+                    
+
 
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center', alignItems: 'center' }}>
 
@@ -263,7 +268,7 @@ const AddInspectionImages = ({ navigation }: any) => {
                             underlayColor="" key={index} onPress={()=>setFullImageView(true)}>
 
                                 <Image
-                                    style={{ height: 150, width: 90 * 2, margin: 4, borderRadius: 5 }}
+                                    style={{ height: 150, width: 91 * 2, margin: 4, borderRadius: 5 }}
                                     source={{ uri: data }}
 
 
@@ -338,7 +343,8 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
             <View style={styles.mainContainer}>
-                <StageTips stage={3} heading='Field Images' description='Take or upload field images ' />
+                <StageTips stage={3} heading='Field Images' description='Take or upload field images'  inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation} 
+            previousPage='addGeoLocation' />
     
                 <View style={styles.galleryView}>
                     <TempImageGallary />
@@ -457,7 +463,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         margin: 5,
         borderColor: "grey",
-        borderWidth: 2,
+        borderWidth: 0.3,
         borderRadius: 5,
         backgroundColor: "white"
     },

@@ -6,10 +6,16 @@ import { TextInput } from 'react-native'
 import BackHeader from './backHeader'
 import StageTips from './stageTips'
 import { useInspectionType } from '../../../context/inspectionType'
+import InspectionDetailsForm from './inspectionDetailsForm'
+
+import { Formik } from 'formik'
 
 type StageTippsProps={
 
 }
+
+
+
 
 const AddInspection = ({navigation}:any) => {
 
@@ -21,82 +27,22 @@ const AddInspection = ({navigation}:any) => {
             
                
 
-
-                <View>
+               
+                <View >
                    
-                    <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details'/>
+                    <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details' inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'}  navigation={navigation} 
+            previousPage='viewInspection'/>
+
+                    <InspectionDetailsForm/>
                  
-
-
-<View style={styles.textWrapper}>
-
-    <Text style= {styles.labelText}> Land requirements *</Text>
-    <TextInput style={styles.userInput}
-        placeholder='Land requirements'
-        placeholderTextColor={"grey"}>
-
-    </TextInput>
-
-
-
-
-</View>
-
-
-<View style={styles.textWrapper}>
-
-    <Text  style= {styles.labelText}> Isolation Distance  *</Text>
-    <TextInput style={styles.userInput}
-        placeholder='Distance'
-        placeholderTextColor={"grey"}>
-
-    </TextInput>
-
-
-
-</View>
-
-<View style={styles.textWrapper}>
-
-    <Text style= {styles.labelText}> Planting pattern *</Text>
-    <TextInput  style={styles.userInput}
-        placeholder='Distance'
-        placeholderTextColor={"grey"}>
-
-    </TextInput>
-
-
-</View>
-
-
-<View style={styles.textWrapper}>
-
-    <Text style= {styles.labelText}> Remarks *</Text>
-    <TextInput style={styles.remarks}
-    multiline={true}
-    numberOfLines={4}
-        placeholder='Inspection Remarks'
-        placeholderTextColor={"grey"}
-       >
-
-    </TextInput>
-
-    
-
-
-</View>
-
-
-
-
-
+       
 
             </View>
 
            
-
+          
            <TouchableHighlight activeOpacity={0.9}
-              underlayColor="" onPress={()=>{console.log(inspectionType)}}>
+              underlayColor="" onPress={()=>{navigation.navigate('addGeoLocation')}}>
 
            <View style={styles.saveButton}>
 
@@ -106,6 +52,8 @@ const AddInspection = ({navigation}:any) => {
 
 
            </TouchableHighlight>
+
+
             
         </View>
     )

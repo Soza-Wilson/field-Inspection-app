@@ -1,26 +1,37 @@
-import { View, Text } from 'react-native'
+import { View, Text,TouchableHighlight } from 'react-native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { color } from 'react-native-elements/dist/helpers'
 import Mate from 'react-native-vector-icons/Entypo'
 
+
 type StageTippsProps ={
     stage:number,
     heading:string,
     description:string
+    inspectionType:string
+    navigation:any
+    previousPage:string
 }
 
-const StageTips = ({stage,heading,description} :StageTippsProps) => {
+const StageTips = ({stage,heading,description,inspectionType,navigation,previousPage} :StageTippsProps) => {
   return (
     <View style={styles.container}>
 
-<View style={styles.headerWrapper}><View style={styles.backButton}>
+<View style={styles.headerWrapper}>
+  
+  <TouchableHighlight onPress={()=>{
+    navigation.navigate(previousPage)
+
+  }}>
+  <View style={styles.backButton}>
                     <Mate
                         name='chevron-left'
                         size={15}
                         color={'black'}
                     />
-                </View><View></View></View>    
+                </View>
+                </TouchableHighlight><View><Text style={styles.typeText}>{inspectionType} stage</Text></View></View>    
    <Text style={styles.stages}>{stage}/3</Text>
    <Text style={styles.heading}>{heading}</Text>
    <Text style={styles.description}>{description} </Text>
@@ -38,6 +49,19 @@ const styles = StyleSheet.create({
       flexDirection:'column',
       marginBottom:10,
 
+    },
+    typeText:{
+
+      fontFamily:"Poppins-SemiBold",
+      fontSize:13,
+      textAlign:'center',
+      color:'grey',
+     
+     borderColor:'black',
+      borderWidth:0.6,
+      borderRadius:5,
+      padding:5
+      
     },
 
     headerWrapper: {

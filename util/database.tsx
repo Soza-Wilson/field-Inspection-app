@@ -33,7 +33,7 @@ const db = SQLite.openDatabase(
 db.transaction((tx) => {
   tx.executeSql(
     
-        'CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY NOT NULL, name TEXT, email TEXT, [password] TEXT)',
+        'CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY NOT NULL, name TEXT, email TEXT, [password] TEXT,profile_picture TEXT)',
         [],
         () => {
           console.log('Users table created successfully');
@@ -120,7 +120,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS inspection ( inspection_id TEXT PRIMARY KEY NOT NULL, inspection_date date, inspection_time time,farm_id TEXT,user_id,inspection_type text,isolation_distance number,planting_pattern TEXT,off_type_percentange number,pest_disease_incidence number,defective_plants number,pollinating_females_percentage number,female_receptive_skills,male_elemination number, off_typecobs_at_shelling number,remarks TEXT,FOREIGN KEY(farm_id) REFERENCES farms(farm_id),FOREIGN KEY(user_id) REFERENCES users(id))',
+    'CREATE TABLE IF NOT EXISTS inspection ( inspection_id TEXT PRIMARY KEY NOT NULL, inspection_date date, inspection_time time,farm_id TEXT,user_id TEXT,inspection_type text,isolation_distance number,planting_pattern TEXT,off_type_percentange number,pest_disease_incidence number,defective_plants number,pollinating_females_percentage number,female_receptive_skills number,male_elemination number, off_typecobs_at_shelling number,defective_cobs_at_shelling number,remarks TEXT,FOREIGN KEY(farm_id) REFERENCES farms(farm_id),FOREIGN KEY(user_id) REFERENCES users(id))',
     [],
     () => {
       console.log('Inspection table created successfully');

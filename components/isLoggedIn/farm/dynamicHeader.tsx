@@ -7,6 +7,9 @@ import { TextInput } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import { Image } from 'react-native-elements';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
 
 
 
@@ -16,6 +19,44 @@ const Header_Min_Height = 94;
 
 
 const DynamicHeader = ({ animHeaderValue }: any) => {
+
+    
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+        getUserData()
+        }, 0);
+        return () => clearTimeout(timer); // Clear the timer if the component unmounts
+      }, []);
+    
+    const [userName,setUserName] = useState()
+    const[userProfilePicture,setUserProfilePicture]= useState('')
+    
+     
+    const getUserData = async()=>{
+    
+    
+        try {
+          const value: string | null = await AsyncStorage.getItem('user-data');
+    
+          if (value) {
+            const parsedData: any = JSON.parse(value);
+            setUserName(parsedData.fullName)
+    
+            if(parsedData.profilePicture==null){
+              setUserProfilePicture('')
+    
+            }else{
+              setUserProfilePicture(parsedData.profilePicture)
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      
+    
+    
+    }  
 
     const animateHeaderBackgroundColor = animHeaderValue.interpolate({
         inputRange: [0, Header_Max_Height - Header_Min_Height],
@@ -63,9 +104,9 @@ const DynamicHeader = ({ animHeaderValue }: any) => {
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image
-            source={require('../../../assets/images/modalBackGround.png')}
+            source= {userProfilePicture !=='' ? userProfilePicture: require('../../../assets/images/user.jpg')}
             style={styles.profile_image}></Image>
-          <Text style={styles.profileText}>John doe</Text>
+          <Text style={styles.profileText}>{userName}</Text>
         </View>
 
         <View>

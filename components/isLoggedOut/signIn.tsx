@@ -10,6 +10,7 @@ import { object, string } from 'yup';
 import user from '../../models/user';
 import db from '../../util/database';
 import { UseLogIn } from '../../context/logInProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -21,6 +22,18 @@ const validationSchema = object().shape({
   password: string().required('Password is required'),
   // Add more fields and their validations as needed
 });
+
+
+
+// using async storage to store logged in user data 
+const storeUserData = async(userData : Object)=>{
+    try {
+      const jsonValue = JSON.stringify(userData);
+      await AsyncStorage.setItem('user-data', jsonValue);
+    } catch (e) {
+      console.log(e)
+    }
+}
 
 
 
@@ -49,8 +62,16 @@ function SignIn({ navigation }: { navigation: any }) {
       const len = results.rows.length;
       if (len === 1) {
         // Sign-in success code here
+
+        const userData ={
+           id:results.rows.item(0).id,
+           fullName :results.rows.item(0).name,
+           profilePicture: results.rows.item(0).profile_picture  
+        }
         console.log("Sign-in successful");
-        setIsLoggedIn(true)
+        storeUserData(userData)
+       
+        //setIsLoggedIn(true)
       } else {
         // Sign-in failure code here
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -8,11 +8,55 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { StatusBar } from 'react-native';
-
 import { TouchableHighlight } from 'react-native';
 import BottomNavigator from '../navigation/custom/bottomNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface userData  {
+  id: string;
+  fullName: string;
+  profilePicture: string;
+
+}
 
 function Home({navigation}:any) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+    getUserData()
+    }, 0);
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+  }, []);
+
+const [userName,setUserName] = useState()
+const[userProfilePicture,setUserProfilePicture]= useState('')
+
+ 
+const getUserData = async()=>{
+
+
+    try {
+      const value: string | null = await AsyncStorage.getItem('user-data');
+
+      if (value) {
+        const parsedData: any = JSON.parse(value);
+        setUserName(parsedData.fullName)
+
+        if(parsedData.profilePicture==null){
+          setUserProfilePicture('')
+
+        }else{
+          setUserProfilePicture(parsedData.profilePicture)
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  
+
+ 
+
+
+}  
 
   return (
     <View style={styles.container}>
@@ -23,9 +67,9 @@ function Home({navigation}:any) {
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image
-            source={require('../../assets/images/modalBackGround.png')}
+            source= {userProfilePicture !=='' ? userProfilePicture: require('../../assets/images/user.jpg')}
             style={styles.profile_image}></Image>
-          <Text style={styles.profileText}>John doe</Text>
+          <Text style={styles.profileText}>{userName}</Text>
         </View>
 
         <View>

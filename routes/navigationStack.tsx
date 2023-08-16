@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../components/isLoggedIn/home';
-import Settings from '../components/isLoggedIn/settings';
+import Settings from '../components/isLoggedIn/settings/settings';
 import LandingPage from '../components/landingPage';
 import Splash from '../components/splashScreen';
 import SignIn from '../components/isLoggedOut/signIn';

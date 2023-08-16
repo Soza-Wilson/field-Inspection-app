@@ -33,7 +33,7 @@ const AddInspection = ({navigation}:any) => {
                     <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details' inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'}  navigation={navigation} 
             previousPage='viewInspection'/>
 
-                    <InspectionDetailsForm/>
+                    <InspectionDetailsForm navigation={navigation}/>
                  
        
 
@@ -41,7 +41,7 @@ const AddInspection = ({navigation}:any) => {
 
            
           
-           <TouchableHighlight activeOpacity={0.9}
+           {/* <TouchableHighlight activeOpacity={0.9}
               underlayColor="" onPress={()=>{navigation.navigate('addGeoLocation')}}>
 
            <View style={styles.saveButton}>
@@ -51,7 +51,7 @@ const AddInspection = ({navigation}:any) => {
 </View>
 
 
-           </TouchableHighlight>
+           </TouchableHighlight> */}
 
 
             

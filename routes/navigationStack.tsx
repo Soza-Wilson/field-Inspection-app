@@ -18,6 +18,9 @@ import AddInspection from '../components/isLoggedIn/inspection/addInspectionDeta
 import AddGeoLocation from '../components/isLoggedIn/inspection/addGeoLocation';
 import AddInspectionImages from '../components/isLoggedIn/inspection/addInspectionImages';
 import SelectedInspectionType from '../context/inspectionType';
+import SelectedInspectionFarmId from '../context/farmDetailsProvider';
+import UserProfile from '../components/isLoggedIn/settings/userProfileComponents/profile';
+import EditProfileDetails from '../components/isLoggedIn/settings/userProfileComponents/editProfileDetails';
 
 
 
@@ -60,68 +63,26 @@ const IsLoggedOutStack = () => {
 
 function MyTabs() {
     return (
-        // <Tab.Navigator screenOptions={{
-        //     tabBarActiveTintColor: '#2DA15F',
-        //     tabBarLabelStyle: { textAlign: 'center', fontFamily: 'Poppins-SemiBold' },
-        //     tabBarStyle: { height: 60, paddingTop: 10 }
 
 
-        // }}
+        <mainStack.Navigator>
 
-
-        // >
-        //     <Tab.Screen name="Home" component={Home} options={{
-        //         headerShown: false,
-        //         tabBarLabel: 'Home',
-        //         tabBarIcon: ({ color, size }) => (
-        //             <MaterialIcons name="home" color={color} size={size} />
-        //         ),
-        //     }} />
-
-        //     <Tab.Screen name="New" component={New} options={{
-        //         headerShown: false,
-        //         tabBarLabel: 'New',
-        //         tabBarIcon: ({ color, size }) => (
-        //             <MaterialIcons name="add-location-alt" color={color} size={size} />
-        //         ),
-        //     }} />
-
-        //     <Tab.Screen name="Library" component={FarmLibrary} options={{
-        //         headerShown: false,
-        //         tabBarLabel: 'Library',
-        //         tabBarIcon: ({ color, size }) => (
-        //             <MaterialIcons name="list" color={color} size={size} />
-        //         ),
-        //     }} />
-
-
-        //     <Tab.Screen name="settings" component={Settings} options={{
-        //         headerShown: false,
-        //         tabBarLabel: 'Settings',
-        //         tabBarIcon: ({ color, size }) => (
-        //             <MaterialIcons name="settings" color={color} size={size} />
-        //         ),
-        //     }} />
-
-        //     {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
-        // </Tab.Navigator>
-
-<mainStack.Navigator>
-
-<mainStack.Screen name="home" component={Home} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="settings" component={Settings} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="farmLibrary" component={FarmLibrary} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="map" component={Map} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="viewInspection" component={ViewInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="addInspection" component={AddInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="addGeoLocation" component={AddGeoLocation} options={{ headerShown: false, presentation: 'transparentModal' }} />
-<mainStack.Screen name="addInspectionImages" component={AddInspectionImages} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="home" component={Home} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="settings" component={Settings} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="farmLibrary" component={FarmLibrary} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="map" component={Map} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="viewInspection" component={ViewInspection} options={{ headerShown: false, presentation: 'card' }} />
+            <mainStack.Screen name="addInspection" component={AddInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="addGeoLocation" component={AddGeoLocation} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="addInspectionImages" component={AddInspectionImages} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            <mainStack.Screen name="userProfile" component={UserProfile} options={{ headerShown: false, presentation: 'card' }} />
+            <mainStack.Screen name="editDetails" component={EditProfileDetails} options={{ headerShown: false, presentation:'modal' }} />
 
 
 
 
 
-</mainStack.Navigator>
+        </mainStack.Navigator>
 
 
 
@@ -132,7 +93,7 @@ function MyTabs() {
 function MyStack() {
     const { isLoggedIn }: any = UseLogIn()
     return (<NavigationContainer>
-        {isLoggedIn ? <SelectedInspectionType><MyTabs /></SelectedInspectionType>  :  <IsLoggedOutStack />}
+        {isLoggedIn ? <SelectedInspectionType><SelectedInspectionFarmId><MyTabs /></SelectedInspectionFarmId></SelectedInspectionType> : <IsLoggedOutStack />}
     </NavigationContainer>)
 
 }

@@ -11,11 +11,14 @@ import { StatusBar } from 'react-native';
 import { TouchableHighlight } from 'react-native';
 import BottomNavigator from '../navigation/custom/bottomNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { date } from 'yup';
 
 interface userData  {
   id: string;
   fullName: string;
   profilePicture: string;
+
+  
 
 }
 
@@ -43,6 +46,7 @@ const getUserData = async()=>{
 
         if(parsedData.profilePicture==null){
           setUserProfilePicture('')
+          
 
         }else{
           setUserProfilePicture(parsedData.profilePicture)

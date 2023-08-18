@@ -14,6 +14,7 @@ import farmDetailsModal from './farm/farmDetailsModal';
 import { useEffect } from 'react';
 import FarmDetailsModal from './farm/farmDetailsModal';
 import BottomNavigator from '../navigation/custom/bottomNavigator';
+import { useInspectionfarmId } from '../../context/farmDetailsProvider';
 
 
 
@@ -37,7 +38,7 @@ interface FarmCardProps {
 
 
 
-const MyComponent = ({navigation}:any) => {
+const MyComponent = ({ navigation }: any) => {
 
   // hooks
 
@@ -73,13 +74,13 @@ const MyComponent = ({navigation}:any) => {
 
 
 
-  const handleLongPress = (farm_id:string,grower_name:string,crop:string,variety:string,hectors:string,district:string,area_name:string,physical_address:string) => {
+  const handleLongPress = (farm_id: string, grower_name: string, crop: string, variety: string, hectors: string, district: string, area_name: string, physical_address: string) => {
 
-   let farmDetails : any = [farm_id,grower_name,crop,variety,hectors,district,area_name,physical_address,]
+    let farmDetails: any = [farm_id, grower_name, crop, variety, hectors, district, area_name, physical_address,]
     setFarmDetails(farmDetails)
     handleOpenModal();
 
-   
+
 
 
 
@@ -88,6 +89,8 @@ const MyComponent = ({navigation}:any) => {
 
   const getFarmItems = async () => {
 
+
+   
 
     try {
 
@@ -152,79 +155,82 @@ const MyComponent = ({navigation}:any) => {
 
 
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
+  const { setFarmId } = useInspectionfarmId();
 
 
   return (
     <View style={styles.container} >
-       <DynamicHeader animHeaderValue={scrollOffsetY} />
+      <DynamicHeader animHeaderValue={scrollOffsetY} />
       <View style={styles.viewWrappper}>
-     
-      <ScrollView style={styles.scrollView}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
-          { useNativeDriver: false }
-        )}>
+
+        <ScrollView style={styles.scrollView}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+            { useNativeDriver: false }
+          )}>
 
 
-      
-        {farms.map((farm: any) => (
-          <View key={farm.farm_id}>
-            <TouchableHighlight  onPress={() => navigation.navigate("viewInspection") } onLongPress={() => { handleLongPress(farm.farm_id,farm.fullname,farm.crop,farm.variety,farm.hectors,farm.district,farm.area_name,farm.physical_address) }} activeOpacity={0.9}
-              underlayColor="">
-              <View  >
-                <FarmCard farmDetails={farm} />
-              </View>
-            </TouchableHighlight>
 
-            
+          {farms.map((farm: any) => (
+            <View key={farm.farm_id}>
 
-          </View>
+              {/* passing the selected farm to the grobal context and navigating to the viewInspection page  */}
+              <TouchableHighlight onPress={() =>{[setFarmId(farm.farm_id),navigation.navigate('viewInspection')]}} onLongPress={() => { handleLongPress(farm.farm_id, farm.fullname, farm.crop, farm.variety, farm.hectors, farm.district, farm.area_name, farm.physical_address) }} activeOpacity={0.9}
+                underlayColor="">
+                <View  >
+                  <FarmCard farmDetails={farm} />
+                </View>
+              </TouchableHighlight>
 
-        ))}
-      </ScrollView>
+
+
+            </View>
+
+          ))}
+        </ScrollView>
 
       </View>
 
-      
-              <FarmDetailsModal visible={isModalOpen} onClose={handleCloseModal} >
 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Grower name: </Text><Text style={styles.growerModalName}> {farmDetails[1]}</Text></View> 
+      <FarmDetailsModal visible={isModalOpen} onClose={handleCloseModal} >
 
-             <View style={styles.modalSeparator}></View>
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Crop: </Text><Text style={styles.cropDetailsText}> {farmDetails[2]}</Text></View> 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Variety: </Text><Text style={styles.cropDetailsText}> {farmDetails[3]}</Text></View> 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Class: </Text><Text style={styles.cropDetailsText}> -</Text></View> 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Hectors: </Text><Text style={styles.cropDetailsText}> {farmDetails[4]}</Text></View> 
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Grower name: </Text><Text style={styles.growerModalName}> {farmDetails[1]}</Text></View>
 
-             <View style={styles.modalSeparator}></View>
+        <View style={styles.modalSeparator}></View>
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Crop: </Text><Text style={styles.cropDetailsText}> {farmDetails[2]}</Text></View>
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Variety: </Text><Text style={styles.cropDetailsText}> {farmDetails[3]}</Text></View>
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Class: </Text><Text style={styles.cropDetailsText}> -</Text></View>
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Hectors: </Text><Text style={styles.cropDetailsText}> {farmDetails[4]}</Text></View>
 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>District: </Text><Text style={styles.cropDetailsText}> {farmDetails[5]}</Text></View> 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Area name : </Text><Text style={styles.cropDetailsText}> {farmDetails[6]}</Text></View> 
-            
-             <View style={styles.modalSeparator}></View>
+        <View style={styles.modalSeparator}></View>
 
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>District: </Text><Text style={styles.cropDetailsText}> {farmDetails[5]}</Text></View>
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Area name : </Text><Text style={styles.cropDetailsText}> {farmDetails[6]}</Text></View>
 
-             <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Physical Address: </Text></View> 
-             <Text style={styles.cropDetailsText}>{farmDetails[7]}</Text>
-          
-            
-             <View style={styles.modalSeparator}></View>
-
-             
-
-             
-            
+        <View style={styles.modalSeparator}></View>
 
 
-            </FarmDetailsModal>
+        <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Physical Address: </Text></View>
+        <Text style={styles.cropDetailsText}>{farmDetails[7]}</Text>
 
 
-      
-      <BottomNavigator navigation={navigation} page={"library"}/>
+        <View style={styles.modalSeparator}></View>
 
-     
+
+
+
+
+
+
+      </FarmDetailsModal>
+
+
+
+      <BottomNavigator navigation={navigation} page={"library"} />
+
+
     </View>
 
   );
@@ -235,8 +241,8 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-   
-    justifyContent:"space-between"
+
+    justifyContent: "space-between"
 
   },
   backItemsContainer: {
@@ -283,14 +289,14 @@ const styles = StyleSheet.create({
 
   },
   scrollView: {
-    
+
     backgroundColor: 'rgb(247,247,249)',
 
   },
 
-  viewWrappper:{
+  viewWrappper: {
 
-    flex:1,
+    flex: 1,
   },
   text: {
     fontSize: 42,
@@ -300,42 +306,42 @@ const styles = StyleSheet.create({
   // style for modal items 
 
   growerWrapper: {
-    flexDirection:"row"
+    flexDirection: "row"
 
 
   },
 
-  growerModalNameTitle:{
+  growerModalNameTitle: {
 
-    fontFamily:"Poppins-SemiBold",
-    fontSize:10,
-  color:"grey"
+    fontFamily: "Poppins-SemiBold",
+    fontSize: 10,
+    color: "grey"
   },
-  growerModalName:{
+  growerModalName: {
 
-    fontFamily:"Poppins-SemiBold",
-    fontSize:13,
-  color:"black"
+    fontFamily: "Poppins-SemiBold",
+    fontSize: 13,
+    color: "black"
 
   },
- cropDetailsText:{
+  cropDetailsText: {
 
 
-  
-  fontFamily:"Poppins-Medium",
-  fontSize:11,
-color:"black"
+
+    fontFamily: "Poppins-Medium",
+    fontSize: 11,
+    color: "black"
 
 
- },
- modalSeparator:{
+  },
+  modalSeparator: {
 
 
-  borderBottomColor: 'black',
-  borderBottomWidth: 2,
-  marginTop:5
+    borderBottomColor: 'black',
+    borderBottomWidth: 2,
+    marginTop: 5
 
- }
+  }
 
 });
 export default MyComponent;

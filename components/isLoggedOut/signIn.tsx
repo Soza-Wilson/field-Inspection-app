@@ -65,13 +65,14 @@ function SignIn({ navigation }: { navigation: any }) {
 
         const userData ={
            id:results.rows.item(0).id,
+           email :results.rows.item(0).email,
            fullName :results.rows.item(0).name,
            profilePicture: results.rows.item(0).profile_picture  
         }
         console.log("Sign-in successful");
         storeUserData(userData)
        
-        //setIsLoggedIn(true)
+        setIsLoggedIn(true)
       } else {
         // Sign-in failure code here
 

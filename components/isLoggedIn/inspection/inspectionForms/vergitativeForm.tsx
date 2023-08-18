@@ -1,6 +1,6 @@
-import { View, Text,ScrollView, TouchableHighlight } from 'react-native'
+import { View, Text, ScrollView, TouchableHighlight } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { object,string,number } from 'yup';
+import { object, string, number } from 'yup';
 import { Formik } from 'formik';
 import { styles } from './inspectionFromStyle/formStyle';
 import { TextInput } from 'react-native';
@@ -8,44 +8,52 @@ import Inspection from '../../../../models/inspection';
 import idGenerator from './idGenerator/idGenerator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GetUserData } from '../../../../util/ansyncDataTockens';
-
+import SelectedInspectionFarmId from '../../../../context/farmDetailsProvider';
+import { useInspectionfarmId } from '../../../../context/farmDetailsProvider';
+import Farm from '../../../../models/farm';
 
 interface vergitativeInspectionProps {
 
- isolationDistance :string,
- plantingPattern:string,
- offTypePercentage:number,
- pestDiseaseIncidence:number,
- defectivePlants:number,
- inspectionRemarks:number 
+    isolationDistance: string,
+    plantingPattern: string,
+    offTypePercentage: number,
+    pestDiseaseIncidence: number,
+    defectivePlants: number,
+    inspectionRemarks: number
 
 }
 
 
 const VergitativeForm = () => {
 
+    const { farmId } = useInspectionfarmId()
     useEffect(() => {
         const timer = setTimeout(() => {
-        getUserData()
+            getUserData()
+            getInspectionId()
         }, 0);
         return () => clearTimeout(timer); // Clear the timer if the component unmounts
-      }, []);
-    const [userId,setUserId] = useState()
-   
-    const getUserData = async()=>{
+    }, []);
+    const [userId, setUserId]: any = useState()
+    const [inspectionId, setInspectioId] = useState('')
+
+    const getUserData = async () => {
         try {
-          const value: string | null = await AsyncStorage.getItem('user-data');
-    
-          if (value) {
-            const parsedData: any = JSON.parse(value);
-            setUserId(parsedData.id)
-    
-          }
+            const value: string | null = await AsyncStorage.getItem('user-data');
+
+            if (value) {
+                const parsedData: any = JSON.parse(value);
+                setUserId(parsedData.id)
+
+
+            }
         } catch (error) {
-          console.error('Error fetching data:', error);
+            console.error('Error fetching data:', error);
         }
-
-
+    }
+    const getInspectionId = () => {
+        const inspectioId = idGenerator()
+        setInspectioId(inspectioId)
     }
 
 
@@ -54,22 +62,21 @@ const VergitativeForm = () => {
 
 
 
-
-const addvergitativeInspectionDetails = (inspectionData : any)=>{
-   const inspectioID = idGenerator()
-
-   const fullName = async()=>{
-           return await GetUserData('fullname')
-   }
-     console.log(fullName())
-  //r const inspection = new Inspection(inspectioID,userId,)
+    const addvergitativeInspectionDetails = async (inspectionData: any) => {
 
 
 
+        // adding data to the inspection modal
+        const inspection = new Inspection(inspectionId, userId, farmId, Date.now(), Date.now(), 'vergitative',
+            inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
+            inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
+        const insertOperation = inspection.addVergitativeInspection()
+
+        //  console.log(await insertOperation)
 
 
 
-}
+    }
     //  vergitative stage form schema 
 
     const validationSchema = object().shape({
@@ -82,6 +89,8 @@ const addvergitativeInspectionDetails = (inspectionData : any)=>{
         defectivePlants: number().required('Defective plants percentage is required').lessThan(100),
         inspectionRemarks: string().required('Enter inspection remarks'),
         // Add more fields and their validations as needed
+
+
     });
 
 
@@ -91,9 +100,10 @@ const addvergitativeInspectionDetails = (inspectionData : any)=>{
         <Formik
             initialValues={{ isolationDistance: '', plantingPattern: '', offTypePercentage: '', pestDiseaseIncidence: '', defectivePlants: '', inspectionRemarks: '' }}
             validationSchema={validationSchema}
-            onSubmit={(values) : any => {addvergitativeInspectionDetails(values) }}
+            onSubmit={(values): any => { addvergitativeInspectionDetails(values) }}
         >
             {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+
 
                 <View>
                     <ScrollView>

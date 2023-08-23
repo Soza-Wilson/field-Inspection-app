@@ -24,7 +24,12 @@ interface vergitativeInspectionProps {
 }
 
 
-const VergitativeForm = () => {
+type formProps = {
+    navigation: any;
+  };
+
+
+const VergitativeForm = (props:formProps) => {
 
     const { farmId } = useInspectionfarmId()
     useEffect(() => {
@@ -62,15 +67,28 @@ const VergitativeForm = () => {
 
 
 
-    const addvergitativeInspectionDetails = async (inspectionData: any) => {
+    const addvergitativeInspectionDetails = async(inspectionData: any) => {
 
+        
 
+        //  Inserting temp data into aysnc storage vergitative inpection tocken   
+        //  We are not directiry inserting data into the datadase incase the user goes back without completing the registration process 
+        
+            try {
+              const jsonValue = JSON.stringify(inspectionData);
+              await AsyncStorage.setItem('vergitative-data', jsonValue);
+              props.navigation.navigate('addGeoLocation');
+              
+              
+            } catch (e) {
+              console.log(e)
+            }
 
         // adding data to the inspection modal
-        const inspection = new Inspection(inspectionId, userId, farmId, Date.now(), Date.now(), 'vergitative',
-            inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
-            inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
-        const insertOperation = inspection.addVergitativeInspection()
+        // const inspection = new Inspection(inspectionId, userId, farmId, Date.now(), Date.now(), 'vergitative',
+        //     inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
+        //     inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
+        // const insertOperation = inspection.addVergitativeInspection()
 
         //  console.log(await insertOperation)
 

@@ -1,4 +1,4 @@
-import { View, Text, TouchableHighlight, StyleSheet, TextInput } from 'react-native'
+import { View, Text, TouchableHighlight, StyleSheet, TextInput, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid } from 'react-native';
@@ -6,6 +6,7 @@ import { useState } from 'react';
 import BackHeader from './backHeader';
 import StageTips from './stageTips';
 import { useInspectionType } from '../../../context/inspectionType';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddGeoLocation = ({navigation}:any) => {
     const [location, setLocation]: any[]  = useState(false);
@@ -25,6 +26,53 @@ const AddGeoLocation = ({navigation}:any) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+    // using async storage to store temp GEO location data 
+
+    const saveGeoLocation = async() => {
+
+
+        const geoData = {
+
+            latutude: location ? location.coords.latitude : null,
+            longitude:location ? location.coords.latitude : null,
+            accuracy :location ? location.coords.latitude : null,
+            speed:location? location.coords.latitude : null
+
+        }
+        
+
+        //  Inserting temp data into aysnc storage geo-location-data inpection tocken   
+        //  We are not directiry inserting data into the datadase incase the user goes back without completing the registration process 
+        
+            try {
+              const jsonValue = JSON.stringify(geoData);
+              await AsyncStorage.setItem('geo-location-data', jsonValue);
+              navigation.navigate('addInspectionImages');
+              
+              
+            } catch (e) {
+              console.log(e)
+            }
+
+            
+
+        // adding data to the inspection modal
+        // const inspection = new Inspection(inspectionId, userId, farmId, Date.now(), Date.now(), 'vergitative',
+        //     inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
+        //     inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
+        // const insertOperation = inspection.addVergitativeInspection()
+
+        //  console.log(await insertOperation)
+
+
+
+    }
+
+    //  conformation asking user to save all data 
+
+
+   
 
 
     // Function to get permission for location
@@ -154,7 +202,7 @@ const AddGeoLocation = ({navigation}:any) => {
 
 
             <TouchableHighlight activeOpacity={0.9}
-              underlayColor="" onPress={() =>navigation.navigate("addInspectionImages")}>
+              underlayColor="" onPress={() =>saveGeoLocation()}>
                 <View style={styles.getLocation}>
                     <Text style={styles.buttonText}>Next</Text>
                 </View>

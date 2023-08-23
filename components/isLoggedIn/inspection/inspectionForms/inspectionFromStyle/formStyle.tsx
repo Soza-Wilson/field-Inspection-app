@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 export const styles = StyleSheet.create({
 
     formContainer: {
         borderWidth: 0.3, borderColor: "grey", margin: 5, borderRadius: 5, height: 500
-
     },
 
     saveButton: {

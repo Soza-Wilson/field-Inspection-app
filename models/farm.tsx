@@ -56,9 +56,12 @@ class Farm {
   }
 
   createFarm() {
+
+    console.log(this.farm_id)
   
     db.transaction(tx => {
       tx.executeSql(
+        // 'INSERT INTO farms (farm_id,hectors,region_id,district,area_name,address,physical_address,address,epa,crop_id,variety_id,grower_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
         'INSERT INTO farms (farm_id,hectors,region_id,district,area_name,address,physical_address,address,epa,crop_id,variety_id,grower_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
         [
           this.farm_id,

@@ -13,6 +13,7 @@ import { Dimensions } from 'react-native';
 import GalleryView from './imagesComponants/galleryView';
 import { number } from 'yup';
 import { useInspectionType } from '../../../context/inspectionType';
+import { Alert } from 'react-native';
 
 
 const AddInspectionImages = ({ navigation }: any) => {
@@ -93,6 +94,51 @@ const AddInspectionImages = ({ navigation }: any) => {
         )
 
     }
+
+    //  checking if user has taken or selected any image files before saving data 
+
+    const checkAvailableImages = ()=> {
+
+        if (tempImageFiles.length <=0 ){
+
+            Alert.alert(
+                'Warning ',
+                'Please make sure you add images before saving data',
+               
+              )
+        }
+
+        else{
+                
+            // Moving selected images to a unique folder named after the imspection Id 
+            // Adding inspection data,Geo location data and selected images data to local sqlite database
+             
+        }
+
+
+    }
+
+
+    const saveDataConformation=()=> {
+
+        Alert.alert(
+          'Save inspection data ',
+          'are you sure ?',
+          [
+
+            {
+                text:"YES",
+                onPress:()=>{checkAvailableImages()}
+            },{
+                text:"NO",
+                onPress:()=>{console.log("no")}
+            }
+          ]
+
+        )
+
+    }
+
 
 
 
@@ -398,7 +444,7 @@ const AddInspectionImages = ({ navigation }: any) => {
                 </View>
     
                 <TouchableHighlight activeOpacity={0.9}
-                    underlayColor="" onPress={() => navigation.navigate("addGeoLocation")}>
+                    underlayColor="" onPress={() => saveDataConformation()}>
     
                     <View style={styles.saveButton}>
     

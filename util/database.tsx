@@ -131,6 +131,22 @@ db.transaction((tx) => {
   );
 });
 
+
+
+db.transaction((tx) => {
+  tx.executeSql(
+    'CREATE TABLE IF NOT EXISTS geo_location (inspection_id TEXT ,latitude TEXT, longitude TEXT,altitude TEXT,accuracy TEXT,speed TEXT,FOREIGN KEY(inspection_id) REFERENCES inspection(inspection_id))',
+    [],
+    () => {
+      console.log('geo_location table created successfully');
+    },
+    (error) => {
+      console.error('Failed to create table:', error);
+    }
+  );
+});
+
+
 db.transaction((tx) => {
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS inspection_image ( images_url TEXT PRIMARY KEY NOT NULL,inspection_id TEXT,FOREIGN KEY(inspection_id) REFERENCES inspection(inspection_id))',

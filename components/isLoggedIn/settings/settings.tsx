@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BottomNavigator from '../../navigation/custom/bottomNavigator'
 import { StyleSheet } from 'react-native'
@@ -52,6 +52,26 @@ const Settings = ({ navigation }: any) => {
 
 
   }
+
+  const confirmSignOut=()=> {
+
+    Alert.alert(
+      'Sign Out ',
+      'are you sure ?',
+      [
+
+        {
+            text:"YES",
+            onPress:()=>{handleSignOut()}
+        },{
+            text:"NO",
+            onPress:()=>{console.log("no")}
+        }
+      ]
+
+    )
+
+} 
 
 
   const handleSignOut= async () =>{
@@ -153,7 +173,7 @@ const Settings = ({ navigation }: any) => {
           </View>
            
            <TouchableHighlight activeOpacity={0.8}
-              underlayColor="" onPress={()=>handleSignOut()}>
+              underlayColor="" onPress={()=>confirmSignOut()}>
 
            <View style={styles.userProfile}>
             <View style={{ flexDirection: 'row' }}>

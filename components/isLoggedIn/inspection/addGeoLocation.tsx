@@ -33,8 +33,8 @@ const AddGeoLocation = ({navigation}:any) => {
 
 
         const geoData = {
-
-            latutude: location ? location.coords.latitude : null,
+            altitude:location ? location.coords.latitude : null,
+            latitude: location ? location.coords.latitude : null,
             longitude:location ? location.coords.latitude : null,
             accuracy :location ? location.coords.latitude : null,
             speed:location? location.coords.latitude : null

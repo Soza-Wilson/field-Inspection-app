@@ -1,5 +1,5 @@
 import { View, Text, TouchableHighlight, PermissionsAndroid, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import StageTips from './stageTips'
 import Enty from 'react-native-vector-icons//Entypo';
@@ -14,17 +14,44 @@ import GalleryView from './imagesComponants/galleryView';
 import { number } from 'yup';
 import { useInspectionType } from '../../../context/inspectionType';
 import { Alert } from 'react-native';
+import { saveInspectionData } from './handleInspectionData';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Inspection from '../../../models/inspection';
+import UploadedImages from '../../../models/images';
+
+
+import idGenerator from './inspectionForms/idGenerator/idGenerator';
+import SelectedInspectionFarmId from '../../../context/farmDetailsProvider';
+import { useInspectionfarmId } from '../../../context/farmDetailsProvider';
+
+import GeoLocation from '../../../models/geo';
 
 
 const AddInspectionImages = ({ navigation }: any) => {
 
-    const {inspectionType} = useInspectionType()
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            getInspectionData()
+            getUserData()
+            handleInspectionId()
+            getGeoLocationData()
+
+        }, 0);
+        return () => clearTimeout(timer); // Clear the timer if the component unmounts
+    }, []);
+    const [userData, setUserData]: any = useState()
+    const [inspectionId, setInspectionId]: any = useState()
+    const [inspectionData, setInspectionData]: any = useState()
+    const [geoLoaction, setGeoLocation]: any = useState()
+
+    const { inspectionType } = useInspectionType()
+    const { farmId } = useInspectionfarmId()
     const [tempImageFiles, setTempImageFiles]: any = useState([])
     // state for camera and image upload 
     const [showButton, setShowButton] = useState(false)
-    const [fullImageView,setFullImageView] = useState(false)
-    const [selectImageIndex,setSelectedImageIndex] : any = useState(0)
+    const [fullImageView, setFullImageView] = useState(false)
+    const [selectImageIndex, setSelectedImageIndex]: any = useState(0)
     // adding images to the groball tempImagesContext
 
 
@@ -97,50 +124,49 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     //  checking if user has taken or selected any image files before saving data 
 
-    const checkAvailableImages = ()=> {
+    const checkAvailableImages = () => {
 
-        if (tempImageFiles.length <=0 ){
+        if (tempImageFiles.length <= 0) {
 
             Alert.alert(
                 'Warning ',
                 'Please make sure you add images before saving data',
-               
-              )
+
+            )
         }
 
-        else{
-                
-            // Moving selected images to a unique folder named after the imspection Id 
-            // Adding inspection data,Geo location data and selected images data to local sqlite database
-             
+        else {
+
+            saveInspectionData()
+
         }
 
 
     }
 
 
-    const saveDataConformation=()=> {
+    const saveDataConformation = () => {
 
         Alert.alert(
-          'Save inspection data ',
-          'are you sure ?',
-          [
+            'Save inspection data ',
+            'are you sure ?',
+            [
 
-            {
-                text:"YES",
-                onPress:()=>{checkAvailableImages()}
-            },{
-                text:"NO",
-                onPress:()=>{console.log("no")}
-            }
-          ]
+                {
+                    text: "YES",
+                    onPress: () => { checkAvailableImages() }
+                }, {
+                    text: "NO",
+                    onPress: () => { console.log("no") }
+                }
+            ]
 
         )
 
     }
 
 
-
+    //  logic for opening image gallery
 
     const openLibrary = () => {
 
@@ -180,6 +206,182 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
     }
+
+
+    //  Saving all collected inspection data into the SQLite database 
+
+
+    const saveInspectionData = async () => {
+
+            // inserting data into inspection 
+        try {
+            const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'vergitative',
+                inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
+                inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
+            const insertOperation = await inspection.addVergitativeInspection()
+
+            console.log(inspectionData)
+
+
+        } catch (e) {
+
+            console.log(e)
+
+        }
+
+
+        try {
+
+            const geoLocation = new GeoLocation(inspectionId, geoLoaction.latitude, geoLoaction.longitude, geoLoaction.altitude, geoLoaction.accuracy, geoLoaction.speed)
+            const insertOperation = await geoLocation.registerGeoLocation()
+
+            console.log(geoLoaction)
+
+        } catch (e) {
+
+            console.log(e)
+
+        }
+
+
+        try {
+
+            handleImages()
+            
+        } catch (error) {
+
+            console.log(error)
+            
+        }
+        
+         try {
+            navigation.navigate('viewInspection')
+         } catch (error) {
+            
+         }
+        
+
+
+        //  passing inspection data to the data model
+
+
+        //  calling the insert data function from the data model 
+
+
+
+        // if data inserted successfully resert the async storage tocken 
+         
+
+
+    }
+
+
+    const handleImages  = ()=>{
+
+        tempImageFiles.forEach((item :any)=> {
+
+            const image = new UploadedImages(item,inspectionId)
+           image.addImage()
+            
+        });
+
+
+    }
+
+    const getInspectionData = async (): Promise<object> => {
+
+        let parsedData: any = {};
+        try {
+            const value: string | null = await AsyncStorage.getItem('vergitative-data');
+
+            if (value) {
+                parsedData = JSON.parse(value);
+                setUserData(parsedData)
+
+
+                // if (parsedData.profilePicture == null) {
+                //     setUserProfilePicture('')
+
+                // } else {
+                //     setUserProfilePicture(parsedData.profilePicture)
+                // }
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
+        return parsedData
+
+    }
+
+    // getting user data 
+
+    const getUserData = async (): Promise<object> => {
+
+        let parsedData: any = {};
+        try {
+            const value: string | null = await AsyncStorage.getItem('user-data');
+
+            if (value) {
+                parsedData = JSON.parse(value);
+                setInspectionData(parsedData)
+
+
+                // if (parsedData.profilePicture == null) {
+                //     setUserProfilePicture('')
+
+                // } else {
+                //     setUserProfilePicture(parsedData.profilePicture)
+                // }
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
+        return parsedData
+
+
+
+    }
+
+
+    // Get Geolocation from async data tocken 
+
+    const getGeoLocationData = async (): Promise<object> => {
+
+        let parsedData: any = {};
+        try {
+            const value: string | null = await AsyncStorage.getItem('geo-location-data');
+
+            if (value) {
+                parsedData = JSON.parse(value);
+                setGeoLocation(parsedData)
+
+
+                // if (parsedData.profilePicture == null) {
+                //     setUserProfilePicture('')
+
+                // } else {
+                //     setUserProfilePicture(parsedData.profilePicture)
+                // }
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
+        return parsedData
+
+    }
+
+    const handleInspectionId = () => {
+
+        setInspectionId(idGenerator)
+
+
+
+    }
+
+
 
     // using the showButton state hook to manipulate the take image and upload image buttons
     const CameraButtons = () => {
@@ -259,10 +461,10 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     }
 
-    const ViewImage = (images : string[], selectedIndex : number ) =>{
-        return(
-            
-          <GalleryView images={images} selectedIndex={selectedIndex}/>
+    const ViewImage = (images: string[], selectedIndex: number) => {
+        return (
+
+            <GalleryView images={images} selectedIndex={selectedIndex} />
         )
 
 
@@ -303,7 +505,7 @@ const AddInspectionImages = ({ navigation }: any) => {
             return (
                 <ScrollView showsVerticalScrollIndicator={false}>
 
-                    
+
 
 
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center', alignItems: 'center' }}>
@@ -311,7 +513,7 @@ const AddInspectionImages = ({ navigation }: any) => {
                         {tempImageFiles.map((data: any, index: number) => (
                             // Step 3: Render components based on the array elements
                             <TouchableHighlight activeOpacity={0.9}
-                            underlayColor="" key={index} onPress={()=>setFullImageView(true)}>
+                                underlayColor="" key={index} onPress={() => setFullImageView(true)}>
 
                                 <Image
                                     style={{ height: 150, width: 91 * 2, margin: 4, borderRadius: 5 }}
@@ -341,137 +543,141 @@ const AddInspectionImages = ({ navigation }: any) => {
     }
 
 
-  
-         if(fullImageView){
 
+    if (fullImageView) {
 
-            return(
-
-                <View style={{  flex:1,
-                    backgroundColor:'black'}}>
-
-                        <View style={{  position:'absolute',
-                       padding:6,
-                    backgroundColor:"translucent",top:50,right:40}} >
-
-
-                        <Enty
-    
-    name="plus"
-    size={20}
-    color="black"
-    style={{
-
-        color: "#FFFFFF",
-
-
-
-
-    }}
-/>
-
-
-                        </View>
-
-<GalleryView images={tempImageFiles} selectedIndex={selectImageIndex}/>
-
-                </View>
-               
-                
-            )
-            
-            
-         }
-       else{
 
         return (
-        
+
+            <View style={{
+                flex: 1,
+                backgroundColor: 'black'
+            }}>
+
+                <View style={{
+                    position: 'absolute',
+                    padding: 6,
+                    backgroundColor: "translucent", top: 50, right: 40
+                }} >
+
+
+                    <Enty
+
+                        name="plus"
+                        size={20}
+                        color="black"
+                        style={{
+
+                            color: "#FFFFFF",
+
+
+
+
+                        }}
+                    />
+
+
+                </View>
+
+                <GalleryView images={tempImageFiles} selectedIndex={selectImageIndex} />
+
+            </View>
+
+
+        )
+
+
+    }
+    else {
+
+        return (
+
 
 
             <View style={styles.mainContainer}>
-                <StageTips stage={3} heading='Field Images' description='Take or upload field images'  inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation} 
-            previousPage='addGeoLocation' />
-    
+                <StageTips stage={3} heading='Field Images' description='Take or upload field images' inspectionType={inspectionType === 0 ? 'Vergitative' : inspectionType === 1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation}
+                    previousPage='addGeoLocation' />
+
                 <View style={styles.galleryView}>
                     <TempImageGallary />
-                   
-    
+
+
                     <TouchableHighlight activeOpacity={0.9}
                         underlayColor="" style={styles.uploadCategory} onPress={() => {
                             if (showButton) {
                                 setShowButton(false)
                             }
                             else {
-    
+
                                 setShowButton(true)
-    
+
                             }
-    
+
                         }}>
-    
+
                         <View >
                             {/* <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}></View> */}
-    
+
                             <Enty
-    
+
                                 name="plus"
                                 size={20}
                                 color="black"
                                 style={{
-    
+
                                     color: "#FFFFFF",
-    
-    
-    
-    
+
+
+
+
                                 }}
                             />
-    
-    
-    
+
+
+
                             <CameraButtons />
-    
-    
+
+
                         </View>
-    
-    
+
+
                     </TouchableHighlight>
-    
-    
-    
-    
-    
+
+
+
+
+
                 </View>
-    
+
                 <TouchableHighlight activeOpacity={0.9}
                     underlayColor="" onPress={() => saveDataConformation()}>
-    
+
                     <View style={styles.saveButton}>
-    
+
                         <Text style={styles.saveText} > Save Data</Text>
-    
+
                     </View>
-    
-    
+
+
                 </TouchableHighlight>
-    
-    
-    
-    
+
+
+
+
             </View>
-    
-    
+
+
         )
-    
 
 
-       }  
 
-  
+    }
 
-    
 
-    
+
+
+
+
 }
 
 const styles = StyleSheet.create({

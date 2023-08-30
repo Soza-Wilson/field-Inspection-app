@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, TouchableHighlight, Image } from 'react-native'
+import { View, Text, ScrollView, TextInput, TouchableHighlight, Image, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Com from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -39,6 +39,8 @@ const UserProfile = ({ navigation }: any) => {
 
 
 
+
+       
 
     const getUserData = async () => {
 

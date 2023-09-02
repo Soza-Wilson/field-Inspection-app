@@ -1,7 +1,20 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 
-const VergitativeData = () => {
+type getDataProps ={
+
+  inspectionType : number 
+  farmId :string
+
+
+}
+
+
+
+const GetData = () => {
+       
+
+
   return (
     <View>
 
@@ -17,7 +30,7 @@ const VergitativeData = () => {
                   fontSize: 11,
                   color: "grey"
                 }}>
-                  No Data Found !!
+                 
                 </Text>
                 </View>
   )
@@ -38,4 +51,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default VergitativeData
+export default GetData

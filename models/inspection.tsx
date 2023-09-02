@@ -1,6 +1,7 @@
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
 import React from 'react'
 import db from '../util/database'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class Inspection {
     id: string
@@ -77,9 +78,9 @@ class Inspection {
                         'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,isolation_distance,planting_pattern,off_type_percentange,pest_disease_incidence,defective_plants,remarks) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
                         [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.isolationDistance, this.plantingPattern, this.offTypePercentage, this.pestDiseaseIncidence, this.remarks],
                         (tx, result) => {
-                            console.log('Data inserted. ID'+ this.id)
+                            console.log('Data inserted. ID' + this.id)
                             return 'successful'
-                            
+
                         },
                         error => {
                             console.log('Failed to insert inspection details :', error);
@@ -146,6 +147,7 @@ class Inspection {
 
 
     checkInspectionTable() {
+        console.log("working")
 
         db.transaction(tx => {
             tx.executeSql(
@@ -157,10 +159,10 @@ class Inspection {
 
                         for (let index = 0; index < result.rows.length; index++) {
                             console.log(result.rows.item(0))
-                            
+
                         }
                         // Sign-in success code here
-                        
+
                         // const userData = {
                         //     id: results.rows.item(0).id,
                         //     fullName: results.rows.item(0).name,
@@ -168,14 +170,89 @@ class Inspection {
                         // }
 
                     }
+                    else {
+
+                        console.log("inspection table is empty")
+                    }
                 },
 
-               
+
                 error => {
                     console.log('Failed to insert inspection details :', error);
                 },
             );
         });
+
+
+
+    }
+
+
+    // this method is getting the farm id and inspection type parsed to the modal 
+    // will return an object containing inspection data of the specific inspection type 
+
+    async getInspectionData() {
+    
+        try {
+
+            const tx: any = await new Promise((resolve, reject) => {
+                db.transaction((tx) => resolve(tx), reject);
+            });
+
+            const results: any = await new Promise((resolve, reject) => {
+                tx.executeSql(
+                    'SELECT * FROM inspection WHERE farm_id=? AND inspection_type=?',
+                    [this.farmId, this.inspectionType],
+                    (tx: any, results: any) => resolve(results),
+                    (_: any, error: any) => reject(error)
+                );
+            });
+
+            const len = results.rows.length;
+            if (len >= 1) {
+
+                //reserting data tocken before adding new tocken
+
+                try {
+                    await AsyncStorage.removeItem(''+this.inspectionType+'-inspection-data')
+                } catch (error) {
+                    console.log(error)
+                }
+                // parsing results data into aysnc await function 
+
+                try {
+
+                    // extracting data fetched from the database and parsing it to an object 
+
+                    const getSqlObjectdata = {
+                          inspectionTime :results.rows.item(0).inspection_time, 
+
+                    }
+
+                    const jsonValue = JSON.stringify(getSqlObjectdata);
+                    await AsyncStorage.setItem(''+this.inspectionType+'-inspection-data', jsonValue)
+
+                } catch (e) {
+                    console.log(e)
+                }
+                console.log("found " + len + " inspection entries");
+                //   storeUserData(userData)
+
+                //   setIsLoggedIn(true)
+            } else {
+                // Sign-in failure code here
+                console.log('no data found ')
+
+            }
+        } catch (error) {
+            // Error handling code here
+            console.error("Error during sign-in:", error);
+        }
+
+
+
+
+
 
 
 

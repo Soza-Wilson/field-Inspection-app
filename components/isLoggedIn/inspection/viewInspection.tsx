@@ -14,15 +14,19 @@ import {
 import { AnimationEventHandler } from 'react';
 import { TouchableHighlight } from 'react-native';
 import DataNotFound from '../../loaders/dataNotFound';
+import GetData from './viewInspectionComponents/getData';
+import Inspection from '../../../models/inspection';
+
 
 import SelectedInspectionType from '../../../context/inspectionType';
 import { useInspectionType } from '../../../context/inspectionType';
-
+import { useInspectionfarmId } from '../../../context/farmDetailsProvider';
 
 
 import Mate from 'react-native-vector-icons/Entypo'
 import { Image } from 'react-native-elements';
 import { number } from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DATA = [
   {
@@ -46,6 +50,9 @@ const DATA = [
 
 ];
 
+
+
+
 type ItemProps = { title: string };
 
 const { width } = Dimensions.get('screen')
@@ -66,8 +73,8 @@ const screenWidth = Dimensions.get('window').width;
 const InspectionType = ({ scrollx }: any) => {
 
 
- 
-   
+
+
   const inputRange = [-width, 0, width]
   const translateY = scrollx.interpolate({
     inputRange,
@@ -80,7 +87,7 @@ const InspectionType = ({ scrollx }: any) => {
 
       <Animated.View style={{ transform: [{ translateY }] }}>
         {DATA.map(({ title }, index) => {
-        
+
 
           return (
 
@@ -101,6 +108,9 @@ const InspectionType = ({ scrollx }: any) => {
 
 
 
+
+
+
 const Pagination = ({ scrollx }: any) => {
 
   const inputRange = [-width, 0, width]
@@ -109,7 +119,7 @@ const Pagination = ({ scrollx }: any) => {
     outputRange: [-DOT_SIZE, 0, DOT_SIZE]
   })
 
-  
+
 
 
   return (
@@ -155,30 +165,83 @@ const Pagination = ({ scrollx }: any) => {
 
 
   )
-}  
+}
 
 
 
 
 const ViewInspection = ({ navigation }: any) => {
+  const { farmId } = useInspectionfarmId()
+
+  //  storing inspection data 
+  const [verigitativeData, setVergitativeData]:any= useState()
+  const [floweringData, setFloweringData] = useState([])
+  const [preHarvestData, setPreHarvestData] = useState([])
+
 
 
   useEffect(() => {
 
     setInspectionType(0)
-   
+    getInspectionData()
+    getTempData()
+
   }, []);
 
-  //  getting the current index on the flatlist and updating the insctionType contex, 0 = land-verification 1= vergitative 2= pre-harvest
+    const getInspectionData = () => {
+    const inspectioData = new Inspection('', '', farmId, 0, 0, 'vergitative', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, '')
+    inspectioData.getInspectionData()
+  }
+
+
+   
+const getTempData = async()=>{
+
+
+  try {
+    const vergitativeValue: string | null = await AsyncStorage.getItem('vergitative-inspection-data');
+    const floweringValue: string | null = await AsyncStorage.getItem('flowering-inspection-data');
+    const preHarvestValue: string | null = await AsyncStorage.getItem('pre-harvest-inspection-data');
+
+    if (vergitativeValue) { 
+      const parsedData: any = JSON.parse(vergitativeValue);
+       console.log(parsedData.inspectionTime)
+
+       const vergitativeDataObject :any ={
+        time:parsedData.inspectionTime
+         
+       }
+
+       setVergitativeData(vergitativeDataObject)
+       
+      
+    }
+    else{
+      console.log('empty')
+    }
     
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+
+
+
+
+
+}
+
+
+
+  //  getting the current index on the flatlist and updating the insctionType contex, 0 = land-verification 1= vergitative 2= pre-harvest
+
   const scrollx = React.useRef(new Animated.Value(0)).current;
-  const {inspectionType,setInspectionType} = useInspectionType()
+  const { inspectionType, setInspectionType } = useInspectionType()
 
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { x: scrollx } } }],
     {
       useNativeDriver: true,
-      listener: (event :any) => {
+      listener: (event: any) => {
         const xOffset = event.nativeEvent.contentOffset.x;
         const index = Math.floor(xOffset / 300);
         setInspectionType(index);
@@ -226,42 +289,35 @@ const ViewInspection = ({ navigation }: any) => {
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-           
+
             onScroll={
-                      handleScroll
-              
-            //   Animated.event([{
-            //   nativeEvent: { contentOffset: {x: scrollx } }
+              handleScroll
 
-              
-              
+              //   Animated.event([{
+              //   nativeEvent: { contentOffset: {x: scrollx } }
 
-            // }], { useNativeDriver: true },
-            // )
-          }
+
+
+
+              // }], { useNativeDriver: true },
+              // )
+            }
 
             keyExtractor={(item) => item.id}
             scrollEventThrottle={16}
             renderItem={({ item, index }) => {
 
-             
-              
+
+
               return (<View style={styles.item}>
-               
 
-                <Image source={require("../../../assets/images/no_data.png")}
-                  style={styles.noDataImage}
+                <View>
+                  <Text>
+                      {verigitativeData ? "empty" : verigitativeData}
 
+                  </Text>
 
-                ></Image>
-
-                <Text style={{
-                  fontFamily: "Poppins-SemiBold",
-                  fontSize: 11,
-                  color: "grey"
-                }}>
-                  No Data Found !!
-                </Text>
+                </View>
 
 
 
@@ -289,7 +345,7 @@ const ViewInspection = ({ navigation }: any) => {
       </View>
 
       <TouchableHighlight activeOpacity={0.9}
-        underlayColor="" style={styles.saveButton} onPress={() => {navigation.navigate("addInspection")}}>
+        underlayColor="" style={styles.saveButton} onPress={() => { navigation.navigate("addInspection") }}>
         <View >
 
 

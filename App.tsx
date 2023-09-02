@@ -13,7 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import LogInProvider from './context/logInProvider';
 import StageTips from './components/isLoggedIn/inspection/stageTips';
 import SelectedInspectionType from './context/inspectionType';
-
+import ViewInspectionDetails from './components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
 
 
 
@@ -27,11 +27,11 @@ const App = () => {
 
   
      
-      <LogInProvider>
+      {/* <LogInProvider>
         <MyStack />
-      </LogInProvider>
+      </LogInProvider> */}
 
-    
+ <ViewInspectionDetails/>
    
 
  

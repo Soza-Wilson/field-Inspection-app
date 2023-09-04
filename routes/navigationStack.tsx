@@ -21,6 +21,7 @@ import SelectedInspectionType from '../context/inspectionType';
 import SelectedInspectionFarmId from '../context/farmDetailsProvider';
 import UserProfile from '../components/isLoggedIn/settings/userProfileComponents/profile';
 import EditProfileDetails from '../components/isLoggedIn/settings/userProfileComponents/editProfileDetails';
+import ViewInspectionDetails from '../components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
 
 
 
@@ -71,12 +72,13 @@ function MyTabs() {
             <mainStack.Screen name="settings" component={Settings} options={{ headerShown: false, presentation: 'transparentModal' }} />
             <mainStack.Screen name="farmLibrary" component={FarmLibrary} options={{ headerShown: false, presentation: 'transparentModal' }} />
             <mainStack.Screen name="map" component={Map} options={{ headerShown: false, presentation: 'transparentModal' }} />
-            <mainStack.Screen name="viewInspection" component={ViewInspection} options={{ headerShown: false, presentation: 'card' }} />
+           
             <mainStack.Screen name="addInspection" component={AddInspection} options={{ headerShown: false, presentation: 'transparentModal' }} />
             <mainStack.Screen name="addGeoLocation" component={AddGeoLocation} options={{ headerShown: false, presentation: 'transparentModal' }} />
             <mainStack.Screen name="addInspectionImages" component={AddInspectionImages} options={{ headerShown: false, presentation: 'transparentModal' }} />
             <mainStack.Screen name="userProfile" component={UserProfile} options={{ headerShown: false, presentation: 'card' }} />
             <mainStack.Screen name="editDetails" component={EditProfileDetails} options={{ headerShown: false, presentation:'modal' }} />
+            <mainStack.Screen name="viewInspection" component={ViewInspectionDetails} options={{ headerShown: false, presentation:'modal' }} />
 
 
 

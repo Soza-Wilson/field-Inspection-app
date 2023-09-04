@@ -27,11 +27,11 @@ const App = () => {
 
   
      
-      {/* <LogInProvider>
+      <LogInProvider>
         <MyStack />
-      </LogInProvider> */}
+      </LogInProvider>
 
- <ViewInspectionDetails/>
+
    
 
  

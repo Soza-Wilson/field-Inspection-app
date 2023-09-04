@@ -222,15 +222,13 @@ class Inspection {
 
                 try {
 
-                    // extracting data fetched from the database and parsing it to an object 
+                    // extracting data fetch    ed from the database and parsing it to an object 
+                    // const jsonValue = JSON.stringify(getSqlObjectdata);
+                    // await AsyncStorage.setItem(''+this.inspectionType+'-inspection-data', jsonValue)
 
-                    const getSqlObjectdata = {
-                          inspectionTime :results.rows.item(0).inspection_time, 
+                    const data = results.rows.item(0)
 
-                    }
-
-                    const jsonValue = JSON.stringify(getSqlObjectdata);
-                    await AsyncStorage.setItem(''+this.inspectionType+'-inspection-data', jsonValue)
+                    return data
 
                 } catch (e) {
                     console.log(e)

@@ -64,6 +64,7 @@ const getUserData = async()=>{
 
   return (
     <View style={styles.container}>
+       <StatusBar backgroundColor='#2DA15F' />
 
 
       <View>

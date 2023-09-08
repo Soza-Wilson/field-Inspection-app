@@ -7,65 +7,49 @@ import BackHeader from './backHeader'
 import StageTips from './stageTips'
 import { useInspectionType } from '../../../context/inspectionType'
 import InspectionDetailsForm from './inspectionDetailsForm'
-
+import VergitativeForm from './inspectionForms/vergitativeForm'
 import { Formik } from 'formik'
+import FloweringForm from './inspectionForms/floweringForm'
+import PreHarvest from './inspectionForms/preHarvestForm'
 
-type StageTippsProps={
+type StageTippsProps = {
 
 }
 
 
 
 
-const AddInspection = ({navigation}:any) => {
+const AddInspection = ({ navigation }: any) => {
 
-    const {inspectionType}= useInspectionType()
-
-
-    return (
-        <View style={styles.mainContainer}>
-            
-               
-
-               
-                <View >
-                   
-                    <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details' inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'}  navigation={navigation} 
-            previousPage='viewInspection'/>
-
-                    <InspectionDetailsForm navigation={navigation}/>
-                 
-       
-
-            </View>
-
-           
-          
-           {/* <TouchableHighlight activeOpacity={0.9}
-              underlayColor="" onPress={()=>{navigation.navigate('addGeoLocation')}}>
-
-           <View style={styles.saveButton}>
-
-<Text style={styles.saveText} > Next</Text>
-
-</View>
+    const { inspectionType } = useInspectionType()
 
 
-           </TouchableHighlight> */}
-
-
-            
-        </View>
+    if (inspectionType === 0) {
+        return (
+            <VergitativeForm navigation={navigation} inspectionType={0} />
+        )
+    }
+    else if (inspectionType === 1) {
+        return (
+            <FloweringForm navigation={navigation} inspectionType={0}/>
     )
+
+    }
+    else{
+
+        return (
+            <PreHarvest navigation={navigation} inspectionType={0}/>
+    )
+    }
+
+
+
 }
 
 const styles = StyleSheet.create({
 
     mainContainer: {
         flex: 1,
-        flexDirection: "column",
-        justifyContent:"space-between",
-      
         backgroundColor: "white"
 
     },
@@ -129,47 +113,47 @@ const styles = StyleSheet.create({
 
 
     },
-    
-    textWrapper:{
-     flexDirection:"column",
-     justifyContent:"center",
-     alignContent:"center",
-     padding:10,
-    
+
+    textWrapper: {
+        flexDirection: "column",
+        justifyContent: "center",
+        alignContent: "center",
+        padding: 10,
+
 
     },
 
-    
-    labelText:{
 
-        fontFamily:"Poppins-Medium",
-        fontSize:11,
-        textAlign:"left",
-        color:"black"
+    labelText: {
+
+        fontFamily: "Poppins-Medium",
+        fontSize: 11,
+        textAlign: "left",
+        color: "black"
     },
 
-    userInput:{
+    userInput: {
 
-        backgroundColor:'rgb(247,247,249)',
-        borderRadius:5,
-        borderColor:"grey",
-        
-        
+        backgroundColor: 'rgb(247,247,249)',
+        borderRadius: 5,
+        borderColor: "grey",
+
+
 
     },
-    remarks:{
+    remarks: {
 
-        height:100, textAlignVertical: 'top',
-        backgroundColor:'rgb(247,247,249)',
-        borderRadius:5,
-        borderColor:"grey",
-        
+        height: 100, textAlignVertical: 'top',
+        backgroundColor: 'rgb(247,247,249)',
+        borderRadius: 5,
+        borderColor: "grey",
+
 
 
 
     }
-    
-    
+
+
 
 
 

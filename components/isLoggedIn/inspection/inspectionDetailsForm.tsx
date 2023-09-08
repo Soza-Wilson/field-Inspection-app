@@ -27,9 +27,9 @@ const InspectionDetailsForm = (props: inspectionFormProps) => {
     const { inspectionType } = useInspectionType()
     return (
 
-        <View style={styles.formContainer}>
+        <View >
 
-            {inspectionType === 0 ? <VergitativeForm navigation={props.navigation}/> : inspectionType === 1 ? <FloweringForm /> : <PreHarvest />}
+            {inspectionType === 0 ? <VergitativeForm navigation={props.navigation} inspectionType={0}/> : inspectionType === 1 ? <FloweringForm /> : <PreHarvest />}
 
 
         </View>
@@ -40,10 +40,7 @@ const InspectionDetailsForm = (props: inspectionFormProps) => {
 }
 const styles = StyleSheet.create({
 
-    formContainer: {
-        borderWidth: 0.3, borderColor: "grey", margin: 5, borderRadius: 5, height:  Dimensions.get('window').width/4 * 5 - 10
-
-    },
+    
 
 })
 

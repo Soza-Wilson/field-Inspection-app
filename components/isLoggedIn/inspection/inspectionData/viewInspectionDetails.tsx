@@ -16,13 +16,17 @@ const ViewInspectionDetails = ({ navigation }: any) => {
 
   useEffect(() => {
   GetVergitativeData()
+  GetFloweringData()
+  getPreHarvestData()
 
 
   }, []);
   const { farmId } = useInspectionfarmId()
   const [vergitativeData,setVergitativeData] :any = useState([])
-  const [floweringTempData, setFloweringData] = useState([])
-  const [preHarvestData, setPreHarvestData] = useState([])
+
+  const [backSize,setBackSize] : any = useState(20)
+  const [floweringData, setFloweringData] :any = useState([])
+  const [preHarvestData, setPreHarvestData] :any = useState([])
 
 
   
@@ -42,7 +46,7 @@ const ViewInspectionDetails = ({ navigation }: any) => {
       const objectData = {
         inspectionType: inspectionType,
         inspectionTime: inspectionData.inspection_time,
-        inspectionDate: inspectionData.inspection_Date,
+        inspectionDate: inspectionData.inspection_date,
       }
       return objectData
     }
@@ -58,17 +62,31 @@ const ViewInspectionDetails = ({ navigation }: any) => {
     console.log(data.inspectionType)
     setVergitativeData(data)
 
-    return(
+    
 
-      <View>
-   
-      </View>
-      
-      
-    )
+  }
+
+
+  const GetFloweringData = async() =>{
+    const data :any= await getData('pre_flowering')
+    console.log(data.inspectionType)
+    setFloweringData(data)
+
+    
+
+  }
+
+
+  const getPreHarvestData = async()=>{
+
+    const data :any= await getData('pre_flowering')
+    console.log(data.inspectionType)
+    setPreHarvestData(data)
+    console.log(preHarvestData)
 
 
   }
+
 
 
   return (
@@ -83,12 +101,13 @@ const ViewInspectionDetails = ({ navigation }: any) => {
             activeOpacity={2}
             underlayColor="green"
             style={{ borderRadius: 10 }}
-            onPress={() => { navigation.navigate('farmLibrary') }}>
+            onPress={() => { [navigation.navigate('farmLibrary')] }}
+            >
 
             <View style={styles.backButton}>
               <Mate
                 name='chevron-left'
-                size={20}
+                size={backSize}
                 color={'white'}
 
               />
@@ -169,9 +188,10 @@ const ViewInspectionDetails = ({ navigation }: any) => {
         <ScrollView style={styles.inspectionCardContainer}
           showsVerticalScrollIndicator={false}>
 
-{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation}/>:   <InspectionCardComponent /> }
-{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation}/>:   <InspectionCardComponent /> }
-{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation}/>:   <InspectionCardComponent /> }
+{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='vergitative'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='vergitative' date={vergitativeData.inspectionDate} time={vergitativeData.inspectionTime} /> }
+{floweringData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='flowering'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='flowering' date={floweringData.inspectionDate} time={floweringData.inspectionTime} /> }
+{preHarvestData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='pre_harvest'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='pre_harvest' date={preHarvestData.inspectionDate} time={preHarvestData.inspectionTime} /> }
+
            
         </ScrollView>
 
@@ -212,8 +232,8 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
 
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
     backgroundColor: 'rgb(247,247,249)',
     paddingTop: 60
 

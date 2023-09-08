@@ -143,7 +143,8 @@ const AddGeoLocation = ({navigation}:any) => {
                     <Text style={styles.labelText}> Latitude  *</Text>
                     <TextInput style={styles.userInput}
                         placeholder='0000000'
-                        placeholderTextColor={"grey"}>
+                        placeholderTextColor={"black"}
+                        editable ={false}>
                         {location ? location.coords.latitude : null}
 
                     </TextInput>
@@ -157,7 +158,9 @@ const AddGeoLocation = ({navigation}:any) => {
                     <Text style={styles.labelText}> Longitude  *</Text>
                     <TextInput style={styles.userInput}
                         placeholder='000000'
-                        placeholderTextColor={"grey"}>
+                        placeholderTextColor={"black"}
+                        
+                        editable ={false}>
                         {location ? location.coords.longitude : null}
 
                     </TextInput>
@@ -172,7 +175,8 @@ const AddGeoLocation = ({navigation}:any) => {
                     <Text style={styles.labelText}> Accurancy  *</Text>
                     <TextInput style={styles.userInput}
                         placeholder='000000'
-                        placeholderTextColor={"grey"}>
+                        placeholderTextColor={"black"}
+                        editable ={false}>
                         {location ? location.coords.accuracy : null}    
 
                     </TextInput>
@@ -186,7 +190,9 @@ const AddGeoLocation = ({navigation}:any) => {
                     <Text style={styles.labelText}> Speed  *</Text>
                     <TextInput style={styles.userInput}
                         placeholder='0000000'
-                        placeholderTextColor={"grey"}>
+                        placeholderTextColor={"black"}
+                        editable ={false}>
+                        
                         {location ? location.coords.speed : null}
 
                     </TextInput>

@@ -14,6 +14,8 @@ import LogInProvider from './context/logInProvider';
 import StageTips from './components/isLoggedIn/inspection/stageTips';
 import SelectedInspectionType from './context/inspectionType';
 import ViewInspectionDetails from './components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
+import ViewDetailsData from './components/isLoggedIn/inspection/inspectionData/viewDetailsData';
+
 
 
 
@@ -29,9 +31,9 @@ const App = () => {
      
       <LogInProvider>
         <MyStack />
-      </LogInProvider>
+      </LogInProvider> 
 
-
+     
    
 
  

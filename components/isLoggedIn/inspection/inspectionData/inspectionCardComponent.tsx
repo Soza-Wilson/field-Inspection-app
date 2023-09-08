@@ -2,12 +2,26 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import Mate from 'react-native-vector-icons/Entypo'
 import Ios from 'react-native-vector-icons/Ionicons'
+import Evil from 'react-native-vector-icons/EvilIcons'
 import { TouchableHighlight } from 'react-native';
 import { useInspectionType } from '../../../../context/inspectionType';
 
 type noDataProps = {
 
     navigation :any
+    inspectionStage:string
+
+
+}
+
+type inspectionCardProps ={
+
+
+    navigation :any
+    inspectionStage:string
+    date:number 
+    time:number
+
 
 
 }
@@ -20,7 +34,7 @@ export const NoDataCardComponent = (Props:noDataProps) => {
 
         <View style={styles.noDataCard}>
             <Text style={[styles.noDataText, { paddingBottom: 5, fontSize: 12 }]}>
-                Vergitative Inspection
+                {Props.inspectionStage} Inspection
 
             </Text>
 
@@ -39,7 +53,10 @@ export const NoDataCardComponent = (Props:noDataProps) => {
             
                 
 
-                <TouchableHighlight style={styles.addNewInspection} onPress={()=>{[setInspectionType(2),Props.navigation.navigate('addInspection')]}}>
+                <TouchableHighlight 
+                 activeOpacity={2}
+                 underlayColor="green"
+                 style={styles.addNewInspection} onPress={()=>{[setInspectionType(Props.inspectionStage=== 'vergitative'? 0 :Props.inspectionStage=== 'flowering'? 1:2),Props.navigation.navigate('addInspection')]}}>
 
                     <Mate
                         name='plus'
@@ -63,9 +80,9 @@ export const NoDataCardComponent = (Props:noDataProps) => {
 
 }
 
-const InspectionCardComponent = () => {
+const InspectionCardComponent = (Props: inspectionCardProps) => {
 
-
+     const date = new Date(Props.date)
 
 
     return (
@@ -89,7 +106,7 @@ const InspectionCardComponent = () => {
                     />
 
 
-                    <Text style={styles.noDataText}>Inspection type</Text>
+                    <Text style={styles.noDataText}>: {Props.inspectionStage} inspection</Text>
 
                 </View>
 
@@ -101,7 +118,7 @@ const InspectionCardComponent = () => {
                         color={'black'}
                     />
 
-                    <Text style={styles.noDataText}>Date</Text>
+                    <Text style={styles.noDataText}>: {date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()}</Text>
                 </View>
 
                 <View style={styles.detailsContainer}>
@@ -111,15 +128,18 @@ const InspectionCardComponent = () => {
                         size={20}
                         color={'black'}
                     />
-                    <Text style={styles.noDataText}>Time</Text>
+                    <Text style={styles.noDataText}>: {date.getHours() + ':' + date.getMinutes()}</Text>
 
                 </View>
 
 
 
             </View>
-
-            <View style={styles.viewInspectionButton}>
+            <TouchableHighlight 
+             activeOpacity={2}
+             underlayColor="green"
+             style={styles.viewInspectionButton} onPress={()=>{Props.navigation.navigate('addInspection')}}>   
+            <View >
                 <Mate
                     name='chevron-right'
                     size={25}
@@ -127,6 +147,10 @@ const InspectionCardComponent = () => {
                 />
 
             </View>
+
+
+            </TouchableHighlight>
+
 
 
         </View>

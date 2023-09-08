@@ -16,9 +16,15 @@ import { useEffect } from 'react';
 const Header_Max_Height = 150;
 const Header_Min_Height = 94;
 
+type dynamicHeaderProps ={
+ 
+  animHeaderValue : any 
+
+}
 
 
-const DynamicHeader = ({ animHeaderValue }: any) => {
+
+const DynamicHeader = ({ animHeaderValue }: dynamicHeaderProps) => {
 
     
     

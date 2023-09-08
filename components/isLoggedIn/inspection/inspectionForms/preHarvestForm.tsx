@@ -3,12 +3,16 @@ import { Formik } from "formik";
 import { View, Text, TextInput, TouchableHighlight } from "react-native";
 import { styles } from "./inspectionFromStyle/formStyle";
 import { ScrollView } from "react-native-gesture-handler";
+import StageTips from "../stageTips";
 
 
+type floweringFormProps = {
+    navigation: any
+    inspectionType: number
+}
 
 
-
-const PreHarvest = () => {
+const PreHarvest = (Props: floweringFormProps) => {
 
 
     //  Flowering stage form schema 
@@ -24,98 +28,126 @@ const PreHarvest = () => {
 
     return (
 
-        <Formik
-            initialValues={{ offTypeCobs: '', defectiveCobs: '', inspectionRemarks: '' }}
-            validationSchema={validationSchema}
-            onSubmit={values => { }}>
 
-            {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+        <View style={{
+            flex: 1,
+            backgroundColor: "white", justifyContent: 'space-between'
+        }}>
+            <View>
 
-                <View>
-                    <ScrollView>
+                <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details' inspectionType={'Pre Harvest'} navigation={Props.navigation} previousPage='farmLibrary' />
+                <Formik
+                    initialValues={{ offTypeCobs: '', defectiveCobs: '', inspectionRemarks: 
+                    '' }}
+                    validationSchema={validationSchema}
+                    onSubmit={values => {console.log(values.defectiveCobs)}}>
 
-                        <View style={styles.formContainer} >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
 
-                            <View style={styles.textWrapper}>
+                        <View>
+                            <ScrollView>
 
-                                <Text style={styles.labelText}> Off-types cobs at shelling %*</Text>
-                                <TextInput style={styles.userInput}
-                                    placeholder='Enter off-types cobs at shelling % '
-                                    placeholderTextColor={"grey"}
-                                    keyboardType="numeric"
-                                    onChangeText={handleChange('offTypeCobs')}
-                                    value={values.offTypeCobs}
-                                />
-                                {errors.offTypeCobs && <Text style={styles.validationText}>{errors.offTypeCobs}</Text>}
+                                <View style={styles.formContainer} >
 
+                                    <View style={styles.textWrapper}>
 
-
-                            </View>
-
-
-                            <View style={styles.textWrapper}>
-
-                                <Text style={styles.labelText}> Defective cobs at shelling % *</Text>
-                                <TextInput style={styles.userInput}
-                                    placeholder='Enter defective cobs at shelling %'
-                                    placeholderTextColor={"grey"}
-                                    keyboardType="numeric"
-                                    onChangeText={handleChange('defectiveCobs')}
-                                    value={values.defectiveCobs}
-                                />
-                                {errors.defectiveCobs && <Text style={styles.validationText}>{errors.defectiveCobs}</Text>}
-
-
-                            </View>
-
-
-                            <View style={styles.textWrapper}>
-
-                                <Text style={styles.labelText}> Remarks *</Text>
-                                <TextInput style={styles.remarks}
-                                    multiline={true}
-                                    numberOfLines={4}
-                                    placeholder='Inspection Remarks'
-                                    placeholderTextColor={"grey"}
-                                    keyboardType="default"
-                                    onChangeText={handleChange('inspectionRemarks')}
-                                    value={values.inspectionRemarks}
-                                />
-                                {errors.inspectionRemarks && <Text style={styles.validationText}>{errors.inspectionRemarks}</Text>}
+                                        <Text style={styles.labelText}> Off-types cobs at shelling %*</Text>
+                                        <TextInput style={styles.userInput}
+                                            placeholder='Enter off-types cobs at shelling % '
+                                            placeholderTextColor={"grey"}
+                                            keyboardType="numeric"
+                                            onChangeText={handleChange('offTypeCobs')}
+                                            value={values.offTypeCobs}
+                                        />
+                                        {errors.offTypeCobs && <Text style={styles.validationText}>{errors.offTypeCobs}</Text>}
 
 
 
+                                    </View>
 
-                            </View>
 
+                                    <View style={styles.textWrapper}>
+
+                                        <Text style={styles.labelText}> Defective cobs at shelling % *</Text>
+                                        <TextInput style={styles.userInput}
+                                            placeholder='Enter defective cobs at shelling %'
+                                            placeholderTextColor={"grey"}
+                                            keyboardType="numeric"
+                                            onChangeText={handleChange('defectiveCobs')}
+                                            value={values.defectiveCobs}
+                                        />
+                                        {errors.defectiveCobs && <Text style={styles.validationText}>{errors.defectiveCobs}</Text>}
+
+
+                                    </View>
+
+
+                                    <View style={styles.textWrapper}>
+
+                                        <Text style={styles.labelText}> Remarks *</Text>
+                                        <TextInput style={styles.remarks}
+                                            multiline={true}
+                                            numberOfLines={4}
+                                            placeholder='Inspection Remarks'
+                                            placeholderTextColor={"grey"}
+                                            keyboardType="default"
+                                            onChangeText={handleChange('inspectionRemarks')}
+                                            value={values.inspectionRemarks}
+                                        />
+                                        {errors.inspectionRemarks && <Text style={styles.validationText}>{errors.inspectionRemarks}</Text>}
+
+
+
+
+                                    </View>
+
+                                    <View>
+                                        
+                                    </View>
+
+                                    <TouchableHighlight activeOpacity={0.9}
+                                        underlayColor="" onPress={handleSubmit}>
+
+                                        <View style={styles.saveButton}>
+
+                                            <Text style={styles.saveText} > Next</Text>
+
+                                        </View>
+
+
+                                    </TouchableHighlight>
+
+
+
+
+                                </View>
+
+
+
+
+
+
+                            </ScrollView>
 
 
 
                         </View>
 
 
-                    </ScrollView>
 
-                    <TouchableHighlight activeOpacity={0.9}
-                        underlayColor="" onPress={() => { handleSubmit }}>
+                    )}
 
-                        <View style={styles.saveButton}>
-
-                            <Text style={styles.saveText} > Next</Text>
-
-                        </View>
-
-
-                    </TouchableHighlight>
-
-
-                </View>
+                </Formik>
+            </View>
 
 
 
-            )}
 
-        </Formik>
+
+
+        </View>
+
+
 
 
     )

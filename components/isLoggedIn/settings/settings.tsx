@@ -1,4 +1,4 @@
-import { View, Text, Image, Alert } from 'react-native'
+import { View, Text, Image, Alert, StatusBar } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BottomNavigator from '../../navigation/custom/bottomNavigator'
 import { StyleSheet } from 'react-native'
@@ -95,6 +95,7 @@ const Settings = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
+        <StatusBar hidden/>
       <View>
         <View style={styles.clipBoard}>
 

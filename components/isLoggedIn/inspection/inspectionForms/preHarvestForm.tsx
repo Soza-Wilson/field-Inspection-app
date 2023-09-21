@@ -4,15 +4,37 @@ import { View, Text, TextInput, TouchableHighlight } from "react-native";
 import { styles } from "./inspectionFromStyle/formStyle";
 import { ScrollView } from "react-native-gesture-handler";
 import StageTips from "../stageTips";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useInspectionType } from "../../../../context/inspectionType";
 
 
 type floweringFormProps = {
     navigation: any
-    inspectionType: number
+    inspectionType: string
 }
 
 
 const PreHarvest = (Props: floweringFormProps) => {
+
+    const {setInspectionType} = useInspectionType()
+    const addPreHarvestInspectionDetails = async (inspectionData: any) => {
+        //  First we will set the context inspection type  
+        //  Inserting temp data into aysnc storage vergitative inpection tocken   
+        //  We are not directiry inserting data into the database incase the user goes back without completing the registration process 
+
+        try {
+            setInspectionType('pre_harvest')
+            const jsonValue = JSON.stringify(inspectionData);
+            await AsyncStorage.setItem('pre-harvest-data', jsonValue);
+            Props.navigation.navigate('addGeoLocation');
+
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+    }
 
 
     //  Flowering stage form schema 
@@ -40,7 +62,7 @@ const PreHarvest = (Props: floweringFormProps) => {
                     initialValues={{ offTypeCobs: '', defectiveCobs: '', inspectionRemarks: 
                     '' }}
                     validationSchema={validationSchema}
-                    onSubmit={values => {console.log(values.defectiveCobs)}}>
+                    onSubmit={values => {addPreHarvestInspectionDetails(values)}}>
 
                     {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
 

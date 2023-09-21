@@ -10,9 +10,14 @@ import { TouchableHighlight } from 'react-native';
 import ViewInspection from '../viewInspection';
 import Inspection from '../../../../models/inspection';
 import { useInspectionfarmId } from '../../../../context/farmDetailsProvider';
+import { NavigationScreenProp } from 'react-navigation';
+
+export interface ViewInspectionDetailsScreenProps {
+  navigation: NavigationScreenProp<any,any>
+};
 
 
-const ViewInspectionDetails = ({ navigation }: any) => {
+const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) => {
 
   useEffect(() => {
   GetVergitativeData()
@@ -30,7 +35,7 @@ const ViewInspectionDetails = ({ navigation }: any) => {
 
 
   
-
+  //   getting data from SQLite database for inspection 
 
   const getData = async (inspectionType: string): Promise<object> => {
 
@@ -42,13 +47,7 @@ const ViewInspectionDetails = ({ navigation }: any) => {
 
     }
     else {
-      console.log(inspectionData.inspection_time)
-      const objectData = {
-        inspectionType: inspectionType,
-        inspectionTime: inspectionData.inspection_time,
-        inspectionDate: inspectionData.inspection_date,
-      }
-      return objectData
+      return inspectionData
     }
 
   }
@@ -56,31 +55,28 @@ const ViewInspectionDetails = ({ navigation }: any) => {
 
  
 
-
+//  getting vergitative inspection data form inspectionData object
   const GetVergitativeData = async() =>{
     const data :any= await getData('vergitative')
-    console.log(data.inspectionType)
     setVergitativeData(data)
 
     
 
   }
 
-
+//  getting vergitative flowering  data form inspectionData object
   const GetFloweringData = async() =>{
-    const data :any= await getData('pre_flowering')
-    console.log(data.inspectionType)
+    const data :any= await getData('flowering')
     setFloweringData(data)
 
     
 
   }
 
-
+//  getting vergitative pre harvestn data form inspectionData object
   const getPreHarvestData = async()=>{
 
-    const data :any= await getData('pre_flowering')
-    console.log(data.inspectionType)
+    const data :any= await getData('pre_harvest')
     setPreHarvestData(data)
     console.log(preHarvestData)
 
@@ -188,9 +184,9 @@ const ViewInspectionDetails = ({ navigation }: any) => {
         <ScrollView style={styles.inspectionCardContainer}
           showsVerticalScrollIndicator={false}>
 
-{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='vergitative'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='vergitative' date={vergitativeData.inspectionDate} time={vergitativeData.inspectionTime} /> }
-{floweringData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='flowering'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='flowering' date={floweringData.inspectionDate} time={floweringData.inspectionTime} /> }
-{preHarvestData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='pre_harvest'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='pre_harvest' date={preHarvestData.inspectionDate} time={preHarvestData.inspectionTime} /> }
+{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation}  inspectionStage='vergitative'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='vergitative' inspectionDataObject={vergitativeData} /> }
+{floweringData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='flowering'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='flowering'inspectionDataObject={floweringData}/> }
+{preHarvestData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='pre_harvest'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='pre_harvest' inspectionDataObject={preHarvestData}/> }
 
            
         </ScrollView>

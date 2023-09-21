@@ -111,61 +111,7 @@ const InspectionType = ({ scrollx }: any) => {
 
 
 
-const Pagination = ({ scrollx }: any) => {
 
-  const inputRange = [-width, 0, width]
-  const translateX = scrollx.interpolate({
-    inputRange,
-    outputRange: [-DOT_SIZE, 0, DOT_SIZE]
-  })
-
-
-
-
-  return (
-
-    <View style={styles.pagination}>
-
-      <Animated.View style={[styles.paginationIndicator, {
-        position: 'absolute',
-
-        transform: [{ translateX }]
-      }]}
-
-      />
-
-
-
-
-      {DATA.map((item => {
-
-        return (
-
-          <View key={item.id} style={styles.paginationDotContainer}>
-
-            <View
-
-              style={[styles.paginationDot, { backgroundColor: item.color }]}>
-
-
-            </View>
-
-
-
-
-          </View>
-        )
-
-
-      }))}
-
-
-    </View>
-
-
-
-  )
-}
 
 
 
@@ -357,7 +303,7 @@ const getTempData = async()=>{
       </TouchableHighlight>
 
 
-      <Pagination scrollx={scrollx} />
+     
 
       <InspectionType scrollx={scrollx} />
     </View>

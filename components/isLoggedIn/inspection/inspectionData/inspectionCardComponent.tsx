@@ -5,6 +5,7 @@ import Ios from 'react-native-vector-icons/Ionicons'
 import Evil from 'react-native-vector-icons/EvilIcons'
 import { TouchableHighlight } from 'react-native';
 import { useInspectionType } from '../../../../context/inspectionType';
+import { NavigationScreenProp } from 'react-navigation';
 
 type noDataProps = {
 
@@ -15,26 +16,26 @@ type noDataProps = {
 }
 
 type inspectionCardProps ={
-
-
-    navigation :any
+    navigation: NavigationScreenProp<any,any>
     inspectionStage:string
-    date:number 
-    time:number
+    inspectionDataObject: object | any
 
 
 
 }
+
+  
 export const NoDataCardComponent = (Props:noDataProps) => {
 
     const {setInspectionType}= useInspectionType()
+    
     
     
     return (
 
         <View style={styles.noDataCard}>
             <Text style={[styles.noDataText, { paddingBottom: 5, fontSize: 12 }]}>
-                {Props.inspectionStage} Inspection
+                {Props.inspectionStage ==='pre_harvest'? 'Pre harvest' : Props.inspectionStage=== 'flowering' ? 'Flowering' : 'Vergitative' } Inspection
 
             </Text>
 
@@ -82,19 +83,46 @@ export const NoDataCardComponent = (Props:noDataProps) => {
 
 const InspectionCardComponent = (Props: inspectionCardProps) => {
 
-     const date = new Date(Props.date)
+    
+     const date = new Date(Props.inspectionDataObject.inspection_date)
+     const vergitativeDataObject = {
+        inspectionType: Props.inspectionStage,
+        plantingPattern: Props.inspectionDataObject.planting_pattern,
+        isolationDistance: Props.inspectionDataObject.isolation_distance,
+        offTypePercentage: Props.inspectionDataObject.off_type_percentage,
+        pestDeseaseIncidence:Props.inspectionDataObject.pest_disease_incidence,
+        defectivePlants:Props.inspectionDataObject.defective_plants,
+        remarks:Props.inspectionDataObject.inspection_remarks
+
+    
+        }
+
+      const floweringDataObject ={
+
+       pollinatingFemails:Props.inspectionDataObject.pollinating_females,
+       femalesReceptiveSkills: Props.inspectionDataObject.female_receptive_skills,
+       maleElemination:Props.inspectionDataObject.maleElemination,
+       pestDeseaseIncidence:Props.inspectionDataObject.pestDeseaseIncidence,
+       remarks:Props.inspectionDataObject.inspection_remarks
+
+
+
+      }  
+
+      const preHarvestDataObject={
+
+        offTypeCobs: Props.inspectionDataObject.off_typecobs_at_shelling,
+        defectiveCobs: Props.inspectionDataObject.defectiveCobsAtShelling,
+        remarks: Props.inspectionDataObject.inspectionRemarks
+
+       
+      }  
 
 
     return (
         <View style={styles.inspectionCard}>
-
-
             <View style={styles.inspectionImage}>
-
             </View>
-
-
-
             <View >
 
                 <View style={styles.detailsContainer}>
@@ -106,7 +134,7 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
                     />
 
 
-                    <Text style={styles.noDataText}>: {Props.inspectionStage} inspection</Text>
+                    <Text style={styles.noDataText}>: {Props.inspectionStage ==='pre_harvest' ? 'Pre harvest' : Props.inspectionStage=== 'vergitative' ? 'Vergitative' : 'Flowering'} inspection</Text>
 
                 </View>
 
@@ -138,7 +166,11 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
             <TouchableHighlight 
              activeOpacity={2}
              underlayColor="green"
-             style={styles.viewInspectionButton} onPress={()=>{Props.navigation.navigate('addInspection')}}>   
+             style={styles.viewInspectionButton} onPress={()=>{Props.navigation.navigate('inspectionData',{
+                  inspectionData : Props.inspectionStage=== 'pre_harvest' ? preHarvestDataObject : Props.inspectionStage=== 'flowering' ? floweringDataObject : vergitativeDataObject
+                  
+
+             })}}>   
             <View >
                 <Mate
                     name='chevron-right'

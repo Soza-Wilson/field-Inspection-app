@@ -5,27 +5,31 @@ import { View, ScrollView, Text, TextInput, Alert } from "react-native";
 import { styles } from "./inspectionFromStyle/formStyle";
 import { TouchableHighlight } from "react-native";
 import StageTips from "../stageTips";
+import { useInspectionType } from "../../../../context/inspectionType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Flowering data collection form
 type floweringFormProps = {
 
     navigation: any
-    inspectionType: number
+    inspectionType: string
 
 }
 
 
 
 const FloweringForm = (Props: floweringFormProps) => {
+    const { setInspectionType } = useInspectionType()
 
     const addFloweringInspectionDetails = async (inspectionData: any) => {
         //  Inserting temp data into aysnc storage flowering inspection tocken   
         //  We are not directiry inserting data into the datadase incase the user goes back without completing the registration process 
     
         try {
+
+            setInspectionType('flowering')
             const jsonValue = JSON.stringify(inspectionData);
-            await AsyncStorage.setItem('floweringe-data', jsonValue);
+            await AsyncStorage.setItem('flowering-data', jsonValue);
             Props.navigation.navigate('addGeoLocation');
     
     
@@ -151,7 +155,7 @@ const FloweringForm = (Props: floweringFormProps) => {
 
 
                                 <TouchableHighlight activeOpacity={0.9}
-                                    underlayColor="" onPress={ handleSubmit}>
+                                    underlayColor="" onPress={handleSubmit}>
 
                                     <View style={styles.saveButton}>
 

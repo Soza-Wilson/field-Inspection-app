@@ -70,13 +70,17 @@ class Inspection {
 
     addVergitativeInspection = async () => {
 
+                     
+
+    
+
         try {
 
             db.transaction(async tx => {
                 const results: any = await new Promise((resolve, reject) => {
                     tx.executeSql(
-                        'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,isolation_distance,planting_pattern,off_type_percentange,pest_disease_incidence,defective_plants,remarks) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
-                        [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.isolationDistance, this.plantingPattern, this.offTypePercentage, this.pestDiseaseIncidence, this.remarks],
+                        'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,isolation_distance,planting_pattern,off_type_percentage,pest_disease_incidence,defective_plants,inspection_remarks) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
+                        [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.isolationDistance, this.plantingPattern, this.offTypePercentage, this.pestDiseaseIncidence,this.defectPlants, this.remarks],
                         (tx, result) => {
                             console.log('Data inserted. ID' + this.id)
                             return 'successful'
@@ -101,46 +105,106 @@ class Inspection {
 
     }
 
-    addFloweringInspection() {
+    addFloweringInspection = async () => {
 
         // at this stage data being inserted into the database will depend on the type crop and variety ( some of the information being collected is based on Maize hybrid , so it will depend if its hybrid maize or not )
 
-        db.transaction(tx => {
-            tx.executeSql(
-                'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,pollinating_females_percentage,female_receptive_skills,male_elemination,pest_disease_incidence,remarks) VALUES(???????????)',
-                [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.pollinatingFemales, this.femaleReceptiveSkills, this.maleElemination, this.pestDiseaseIncidence, this.remarks],
-                (tx, result) => {
-                    console.log('Flowering inspection details inserted with ID:', this.id);
-                },
-                error => {
-                    console.log('Failed to insert inspection details :', error);
-                },
-            );
+        db.transaction(async tx => {
+
+
+
+            const results: any = await new Promise((resolve, reject) => {
+                tx.executeSql(
+                    'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,pollinating_females_percentage,female_receptive_skills,male_elemination,pest_disease_incidence,inspection_remarks) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+                    [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.pollinatingFemales, this.femaleReceptiveSkills, this.maleElemination, this.pestDiseaseIncidence, this.remarks],
+
+
+                    (tx, result) => {
+                        console.log('Flowering inspection details inserted with ID:', this.id);
+                        console.log(result)
+
+                        // const len = result.rows.length;
+                        // if (len > 0) {
+
+                        //     for (let index = 0; index < result.rows.length; index++) {
+                        //         console.log(index)
+
+                        //     }
+                        // }
+
+                    },
+                    error => {
+                        console.log('Failed to insert inspection details :', error);
+                    },
+                );
+            })
+
         });
 
 
     }
 
-    addPreHarvestInspection() {
+    // addPreHarvestInspection() {
 
-        // Pre harvest inspection is only done for maize seed, for now since the app is based on Multi seeds operations , but this will be changed after finding how other companies do their operations 
+    //     // Pre harvest inspection is only done for maize seed, for now since the app is based on Multi seeds operations , but this will be changed after finding how other companies do their operations 
 
-        db.transaction(tx => {
-            tx.executeSql(
-                'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,off_typecobs_at_shelling,defective_cobs_at_shelling,remarks) VALUES(?????????)',
-                [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.offTypeCobsAtShelling, this.defectiveCobsAtShelling, this.remarks],
-                (tx, result) => {
-                    console.log('Pre-Harvest inspection details inserted with ID:', this.id);
-                },
-                error => {
-                    console.log('Failed to insert inspection details :', error);
-                },
-            );
+    //     db.transaction(tx => {
+    //         tx.executeSql(
+    //             'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,off_typecobs_at_shelling,defective_cobs_at_shelling,remarks) VALUES(?,?,?,?,?,?,?,?,?)',
+    //             [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.offTypeCobsAtShelling, this.defectiveCobsAtShelling, this.remarks],
+    //             (tx, result) => {
+    //                 console.log('Pre-Harvest inspection details inserted with ID:', this.id);
+    //             },
+    //             error => {
+    //                 console.log('Failed to insert inspection details :', error);
+    //             },
+    //         );
+    //     });
+
+
+
+
+
+
+    // }
+
+
+
+    addPreHarvestInspection = async () => {
+
+        // at this stage data being inserted into the database will depend on the type crop and variety ( some of the information being collected is based on Maize hybrid , so it will depend if its hybrid maize or not )
+
+        db.transaction(async tx => {
+
+
+
+            const results: any = await new Promise((resolve, reject) => {
+                tx.executeSql(
+                    'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,off_typecobs_at_shelling,defective_cobs_at_shelling,inspection_remarks) VALUES(?,?,?,?,?,?,?,?,?)',
+                    [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.offTypeCobsAtShelling, this.defectiveCobsAtShelling, this.remarks],
+
+
+                    (tx, result) => {
+                        console.log('Pre harvest inspection details inserted with ID:', this.id);
+                        console.log(result)
+
+                        // const len = result.rows.length;
+                        // if (len > 0) {
+
+                        //     for (let index = 0; index < result.rows.length; index++) {
+                        //         console.log(index)
+
+                        //     }
+                        // }
+
+                    },
+                    error => {
+                        console.log('Failed to insert inspection details :', error);
+                    },
+                );
+            })
+
         });
-
-
-
-
 
 
     }
@@ -192,7 +256,7 @@ class Inspection {
     // will return an object containing inspection data of the specific inspection type 
 
     async getInspectionData() {
-    
+
         try {
 
             const tx: any = await new Promise((resolve, reject) => {
@@ -214,7 +278,7 @@ class Inspection {
                 //reserting data tocken before adding new tocken
 
                 try {
-                    await AsyncStorage.removeItem(''+this.inspectionType+'-inspection-data')
+                    await AsyncStorage.removeItem('' + this.inspectionType + '-inspection-data')
                 } catch (error) {
                     console.log(error)
                 }
@@ -249,6 +313,33 @@ class Inspection {
 
 
 
+
+
+
+    }
+
+    deleteInspection = async () => {
+
+
+        try {
+
+            const tx: any = await new Promise((resolve, reject) => {
+                db.transaction((tx) => resolve(tx), reject);
+            });
+
+            const results: any = await new Promise((resolve, reject) => {
+                tx.executeSql(
+                    'DELETE * FROM inspection',
+                    [],
+                    (tx: any, results: any) => resolve(results),
+                    (_: any, error: any) => reject(error)
+                );
+            });
+
+        } catch (error) {
+            console.log(error)
+
+        }
 
 
 

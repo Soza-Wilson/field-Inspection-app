@@ -26,19 +26,19 @@ const AddInspection = ({ navigation }: any) => {
 
     if (inspectionType === 0) {
         return (
-            <VergitativeForm navigation={navigation} inspectionType={0} />
+            <VergitativeForm navigation={navigation} inspectionType={'vergitative'} />
         )
     }
     else if (inspectionType === 1) {
         return (
-            <FloweringForm navigation={navigation} inspectionType={0}/>
+            <FloweringForm navigation={navigation} inspectionType={'flowering'}/>
     )
 
     }
     else{
 
         return (
-            <PreHarvest navigation={navigation} inspectionType={0}/>
+            <PreHarvest navigation={navigation} inspectionType={'pre_harvest'}/>
     )
     }
 

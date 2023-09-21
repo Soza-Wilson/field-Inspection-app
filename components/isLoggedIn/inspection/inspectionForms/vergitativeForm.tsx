@@ -13,6 +13,7 @@ import { useInspectionfarmId } from '../../../../context/farmDetailsProvider';
 import Farm from '../../../../models/farm';
 import StageTips from '../stageTips';
 import { Dimensions } from 'react-native';
+import { useInspectionType } from '../../../../context/inspectionType';
 
 
 interface vergitativeInspectionProps {
@@ -29,7 +30,7 @@ interface vergitativeInspectionProps {
 
 type formProps = {
     navigation: any;
-    inspectionType: number;
+    inspectionType: string;
 
 };
 
@@ -47,6 +48,7 @@ const VergitativeForm = (props: formProps) => {
     }, []);
     const [userId, setUserId]: any = useState()
     const [inspectionId, setInspectioId] = useState('')
+    const{setInspectionType} = useInspectionType()
 
     const getUserData = async () => {
         try {
@@ -76,11 +78,12 @@ const VergitativeForm = (props: formProps) => {
     const addVergitativeInspectionDetails = async (inspectionData: any) => {
 
 
-
+        //  First we will set the context inspection type  
         //  Inserting temp data into aysnc storage vergitative inpection tocken   
-        //  We are not directiry inserting data into the datadase incase the user goes back without completing the registration process 
+        //  We are not directry inserting data into the database incase the user goes back without completing the registration process 
 
         try {
+            setInspectionType('vergitative')
             const jsonValue = JSON.stringify(inspectionData);
             await AsyncStorage.setItem('vergitative-data', jsonValue);
             props.navigation.navigate('addGeoLocation');
@@ -89,14 +92,6 @@ const VergitativeForm = (props: formProps) => {
         } catch (e) {
             console.log(e)
         }
-
-        // adding data to the inspection modal
-        // const inspection = new Inspection(inspectionId, userId, farmId, Date.now(), Date.now(), 'vergitative',
-        //     inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
-        //     inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
-        // const insertOperation = inspection.addVergitativeInspection()
-
-        //  console.log(await insertOperation)
 
 
     }
@@ -122,7 +117,7 @@ const VergitativeForm = (props: formProps) => {
             flex: 1,
             backgroundColor: "white", justifyContent: 'space-between'
         }}>
-            <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details' inspectionType={props.inspectionType === 0 ? 'Vergitative' : props.inspectionType === 1 ? 'Flowering' : 'Pre Harvest'} navigation={props.navigation} previousPage='farmLibrary' />
+            <StageTips stage={1} heading='Inspection Details' description='Verify inspection requirements and add details' inspectionType={props.inspectionType === 'vergitative'? 'Vergitative' : props.inspectionType === 'flowering' ? 'Flowering' : 'Pre Harvest'} navigation={props.navigation} previousPage='farmLibrary' />
 
             <Formik
                 initialValues={{ isolationDistance: '', plantingPattern: '', offTypePercentage: '', pestDiseaseIncidence: '', defectivePlants: '', inspectionRemarks: '' }}
@@ -134,7 +129,7 @@ const VergitativeForm = (props: formProps) => {
 
                  
 
-                        <ScrollView >
+                        <ScrollView showsVerticalScrollIndicator={false}>
 
                             <View >
 
@@ -209,7 +204,7 @@ const VergitativeForm = (props: formProps) => {
 
                                         value={values.defectivePlants}
                                     />
-                                    {errors.defectivePlants && <Text style={styles.validationText}>{errors.inspectionRemarks}</Text>}
+                                    {errors.defectivePlants && <Text style={styles.validationText}>{errors.defectivePlants}</Text>}
                                 </View>
 
 

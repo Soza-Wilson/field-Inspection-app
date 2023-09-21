@@ -33,9 +33,9 @@ const App = () => {
         <MyStack />
       </LogInProvider> 
 
-     
-   
+      
 
+    
  
     </View>
  

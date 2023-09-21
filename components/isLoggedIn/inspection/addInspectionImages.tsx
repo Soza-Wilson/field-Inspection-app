@@ -36,6 +36,7 @@ const AddInspectionImages = ({ navigation }: any) => {
             getUserData()
             handleInspectionId()
             getGeoLocationData()
+           
 
         }, 0);
         return () => clearTimeout(timer); // Clear the timer if the component unmounts
@@ -76,10 +77,10 @@ const AddInspectionImages = ({ navigation }: any) => {
                 }
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("Camera permission given");
+               
                 return true
             } else {
-                console.log("Camera permission denied");
+            
                 return false
             }
         } catch (err) {
@@ -106,7 +107,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             const result = await launchCamera(options, (response: any) => {
                 if (response.didCancel) {
-                    console.log(response)
+                    
                 }
 
                 else {
@@ -186,7 +187,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             const result = await launchImageLibrary(options, (response: any) => {
                 if (response.didCancel) {
-                    console.log(response)
+                   
                 }
                 else {
                     response.assets.forEach((element: any) => {
@@ -212,16 +213,40 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
     const saveInspectionData = async () => {
-
-            // inserting data into inspection 
         try {
-            const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'vergitative',
-                inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
-                inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.remarks)
-            const insertOperation = await inspection.addVergitativeInspection()
 
-            console.log(inspectionData)
+           
 
+            if (inspectionType === 'vergitative') {
+
+
+               
+
+                const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'vergitative',
+                    inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
+                    inspectionData.pestDiseaseIncidence, inspectionData.defectivePlants, 0, 0, 0, 0, 0, inspectionData.inspectionRemarks)
+                const insertOperation = await inspection.addVergitativeInspection()
+
+            }
+
+            else if (inspectionType === 'flowering') {
+
+                const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'flowering', 0, '', 0,
+                    inspectionData.pestDiseaseIncidence, 0, inspectionData.pollinatingFemales, inspectionData.femaleReceptiveSkills,
+                    inspectionData.maleElemination, 0, 0, inspectionData.inspectionRemarks)
+                const insertOperation = await inspection.addFloweringInspection()
+
+
+
+            }
+
+            else {
+
+                const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'pre_harvest',0,'',0,0,0,0,0,0,
+                inspectionData.offTypeCobsAtShelling,inspectionData.defectiveCobsAtShelling,inspectionData.inspectionRemarks)
+                const insertOperation = await inspection.addPreHarvestInspection()
+
+            }
 
         } catch (e) {
 
@@ -229,13 +254,18 @@ const AddInspectionImages = ({ navigation }: any) => {
 
         }
 
+
+
+
+
+        //inserting data into inspection 
 
         try {
 
             const geoLocation = new GeoLocation(inspectionId, geoLoaction.latitude, geoLoaction.longitude, geoLoaction.altitude, geoLoaction.accuracy, geoLoaction.speed)
             const insertOperation = await geoLocation.registerGeoLocation()
 
-            console.log(geoLoaction)
+            
 
         } catch (e) {
 
@@ -243,23 +273,22 @@ const AddInspectionImages = ({ navigation }: any) => {
 
         }
 
-
         try {
 
             handleImages()
-            
+
         } catch (error) {
 
             console.log(error)
-            
+
         }
-        
-         try {
+
+        try {
             navigation.navigate('viewInspection')
-         } catch (error) {
-            
-         }
-        
+        } catch (error) {
+
+        }
+
 
 
         //  passing inspection data to the data model
@@ -270,19 +299,19 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
         // if data inserted successfully resert the async storage tocken 
-         
+
 
 
     }
 
 
-    const handleImages  = ()=>{
+    const handleImages = () => {
 
-        tempImageFiles.forEach((item :any)=> {
+        tempImageFiles.forEach((item: any) => {
 
-            const image = new UploadedImages(item,inspectionId)
-           image.addImage()
-            
+            const image = new UploadedImages(item, inspectionId)
+            image.addImage()
+
         });
 
 
@@ -291,26 +320,23 @@ const AddInspectionImages = ({ navigation }: any) => {
     const getInspectionData = async (): Promise<object> => {
 
         let parsedData: any = {};
+        const dataType = inspectionType === 'vergitative' ? 'vergitative-data' : inspectionType === 'flowering' ? 'flowering-data' : 'pre-harvest-data'
         try {
-            const value: string | null = await AsyncStorage.getItem('vergitative-data');
+            const value: string | null = await AsyncStorage.getItem(dataType);
 
             if (value) {
+
                 parsedData = JSON.parse(value);
-                setUserData(parsedData)
+                setInspectionData(parsedData)
 
 
-                // if (parsedData.profilePicture == null) {
-                //     setUserProfilePicture('')
-
-                // } else {
-                //     setUserProfilePicture(parsedData.profilePicture)
-                // }
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.log('Error fetching data: error');
         }
-
+        console.log(parsedData)
         return parsedData
+
 
     }
 
@@ -323,8 +349,10 @@ const AddInspectionImages = ({ navigation }: any) => {
             const value: string | null = await AsyncStorage.getItem('user-data');
 
             if (value) {
+
                 parsedData = JSON.parse(value);
-                setInspectionData(parsedData)
+                setUserData(parsedData)
+
 
 
                 // if (parsedData.profilePicture == null) {

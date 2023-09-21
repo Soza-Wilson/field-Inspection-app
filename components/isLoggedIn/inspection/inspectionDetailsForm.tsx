@@ -29,7 +29,7 @@ const InspectionDetailsForm = (props: inspectionFormProps) => {
 
         <View >
 
-            {inspectionType === 0 ? <VergitativeForm navigation={props.navigation} inspectionType={0}/> : inspectionType === 1 ? <FloweringForm /> : <PreHarvest />}
+            {inspectionType === 0 ? <VergitativeForm navigation={props.navigation} inspectionType={'vergitative'}/> : inspectionType === 1 ? <FloweringForm navigation={props.navigation} inspectionType={'flowering'}/> : <PreHarvest navigation={props.navigation} inspectionType={'pre_harvest'}/>}
 
 
         </View>

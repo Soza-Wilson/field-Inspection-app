@@ -1,7 +1,7 @@
 import { Children, createContext, useContext, useState } from "react";
 import { View, Text } from 'react-native'
 import React from 'react'
-import { boolean, number, string } from "yup";
+
 
 
 interface inpspectionTypeContext {
@@ -9,7 +9,7 @@ interface inpspectionTypeContext {
 
 }
 const inspectionTypeContext = React.createContext<inpspectionTypeContext | any>(
-    string
+   null
 );
 
 

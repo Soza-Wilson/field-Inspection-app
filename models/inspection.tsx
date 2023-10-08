@@ -62,7 +62,7 @@ class Inspection {
 
 
     }
-    //   '(inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,isolation_distance,planting_pattern,off_type_percentange,pest_disease_incidence,defective_plants,pollinating_females_percentage,female_receptive_skills,male_elemination,off_typecobs_at_shelling,remarks)',
+ 
 
 
 
@@ -123,14 +123,6 @@ class Inspection {
                         console.log('Flowering inspection details inserted with ID:', this.id);
                         console.log(result)
 
-                        // const len = result.rows.length;
-                        // if (len > 0) {
-
-                        //     for (let index = 0; index < result.rows.length; index++) {
-                        //         console.log(index)
-
-                        //     }
-                        // }
 
                     },
                     error => {
@@ -144,29 +136,7 @@ class Inspection {
 
     }
 
-    // addPreHarvestInspection() {
-
-    //     // Pre harvest inspection is only done for maize seed, for now since the app is based on Multi seeds operations , but this will be changed after finding how other companies do their operations 
-
-    //     db.transaction(tx => {
-    //         tx.executeSql(
-    //             'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,off_typecobs_at_shelling,defective_cobs_at_shelling,remarks) VALUES(?,?,?,?,?,?,?,?,?)',
-    //             [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.offTypeCobsAtShelling, this.defectiveCobsAtShelling, this.remarks],
-    //             (tx, result) => {
-    //                 console.log('Pre-Harvest inspection details inserted with ID:', this.id);
-    //             },
-    //             error => {
-    //                 console.log('Failed to insert inspection details :', error);
-    //             },
-    //         );
-    //     });
-
-
-
-
-
-
-    // }
+  
 
 
 
@@ -183,20 +153,9 @@ class Inspection {
                     'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,off_typecobs_at_shelling,defective_cobs_at_shelling,inspection_remarks) VALUES(?,?,?,?,?,?,?,?,?)',
                     [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.offTypeCobsAtShelling, this.defectiveCobsAtShelling, this.remarks],
 
-
                     (tx, result) => {
                         console.log('Pre harvest inspection details inserted with ID:', this.id);
                         console.log(result)
-
-                        // const len = result.rows.length;
-                        // if (len > 0) {
-
-                        //     for (let index = 0; index < result.rows.length; index++) {
-                        //         console.log(index)
-
-                        //     }
-                        // }
-
                     },
                     error => {
                         console.log('Failed to insert inspection details :', error);
@@ -225,13 +184,7 @@ class Inspection {
                             console.log(result.rows.item(0))
 
                         }
-                        // Sign-in success code here
-
-                        // const userData = {
-                        //     id: results.rows.item(0).id,
-                        //     fullName: results.rows.item(0).name,
-                        //     profilePicture: results.rows.item(0).profile_picture
-                        // }
+                       
 
                     }
                     else {

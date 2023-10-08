@@ -31,7 +31,7 @@ type DeviceSetupProps = {
 }
 
 const DeviceSetup = ({ navigation }: { navigation: any }) => {
-  const host = 'https://afbe-137-115-0-15.ngrok-free.app/requests';
+  const host = 'https://022f-137-115-0-27.ngrok-free.app/requests';
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [loaderData, setLoaderData] = useState("");

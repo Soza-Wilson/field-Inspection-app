@@ -27,7 +27,7 @@ const DonartChartComponent = (Props:dornatChartProps) => {
 <AnimatedCircularProgress
   size={50}
   width={8}
-  fill={Props.numberValue}
+  fill={Props.numberValue==null? 0 :Props.numberValue}
   delay={700}
   rotation={0}
   tintColor={Props.good?"#2DA15F":'tomato'}

@@ -6,7 +6,7 @@ import Splash from './components/landingPage';
 import SignIn from './components/isLoggedOut/signIn';
 import Loading from './components/splashScreen';
 import Home from './components/isLoggedIn/home';
-
+import "react-native-gesture-handler";
 import MyStack from './routes/navigationStack';
 import Loader from './components/loaders/loader';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,6 +15,7 @@ import StageTips from './components/isLoggedIn/inspection/stageTips';
 import SelectedInspectionType from './context/inspectionType';
 import ViewInspectionDetails from './components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
 import ViewDetailsData from './components/isLoggedIn/inspection/inspectionData/viewDetailsData';
+import BottomSheetData from './components/isLoggedIn/inspection/inspectionData/bottomSheet/bottomSheet';
 
 
 

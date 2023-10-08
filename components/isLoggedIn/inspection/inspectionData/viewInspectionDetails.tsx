@@ -47,6 +47,8 @@ const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) 
 
     }
     else {
+
+      console.log(inspectionData)
       return inspectionData
     }
 

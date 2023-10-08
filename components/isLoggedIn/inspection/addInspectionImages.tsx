@@ -19,7 +19,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Inspection from '../../../models/inspection';
 import UploadedImages from '../../../models/images';
 
-
+import RNFetchBlob from 'rn-fetch-blob';
+import { Platform } from 'react-native';
 import idGenerator from './inspectionForms/idGenerator/idGenerator';
 import SelectedInspectionFarmId from '../../../context/farmDetailsProvider';
 import { useInspectionfarmId } from '../../../context/farmDetailsProvider';
@@ -36,7 +37,8 @@ const AddInspectionImages = ({ navigation }: any) => {
             getUserData()
             handleInspectionId()
             getGeoLocationData()
-           
+            createImagesFolder()
+
 
         }, 0);
         return () => clearTimeout(timer); // Clear the timer if the component unmounts
@@ -63,6 +65,11 @@ const AddInspectionImages = ({ navigation }: any) => {
     const width = Dimensions.get('window').width;
 
 
+    //  images fs 
+
+    const dirs = RNFetchBlob.fs.dirs; //Use the dir API 
+    const imagesFolderPath = dirs.DocumentDir+ '/inspectionImages';
+
     // requesting user camera permissions 
     const requestCameraPermission = async () => {
         try {
@@ -77,10 +84,10 @@ const AddInspectionImages = ({ navigation }: any) => {
                 }
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-               
+
                 return true
             } else {
-            
+
                 return false
             }
         } catch (err) {
@@ -107,7 +114,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             const result = await launchCamera(options, (response: any) => {
                 if (response.didCancel) {
-                    
+
                 }
 
                 else {
@@ -187,7 +194,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             const result = await launchImageLibrary(options, (response: any) => {
                 if (response.didCancel) {
-                   
+
                 }
                 else {
                     response.assets.forEach((element: any) => {
@@ -215,12 +222,12 @@ const AddInspectionImages = ({ navigation }: any) => {
     const saveInspectionData = async () => {
         try {
 
-           
+
 
             if (inspectionType === 'vergitative') {
 
 
-               
+
 
                 const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'vergitative',
                     inspectionData.isolationDistance, inspectionData.plantingPattern, inspectionData.offTypePercentage,
@@ -242,8 +249,8 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             else {
 
-                const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'pre_harvest',0,'',0,0,0,0,0,0,
-                inspectionData.offTypeCobsAtShelling,inspectionData.defectiveCobsAtShelling,inspectionData.inspectionRemarks)
+                const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'pre_harvest', 0, '', 0, 0, 0, 0, 0, 0,
+                    inspectionData.offTypeCobs, inspectionData.defectiveCobs, inspectionData.inspectionRemarks)
                 const insertOperation = await inspection.addPreHarvestInspection()
 
             }
@@ -258,14 +265,14 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
 
-        //inserting data into inspection 
+        // inserting data into inspection 
 
         try {
 
             const geoLocation = new GeoLocation(inspectionId, geoLoaction.latitude, geoLoaction.longitude, geoLoaction.altitude, geoLoaction.accuracy, geoLoaction.speed)
             const insertOperation = await geoLocation.registerGeoLocation()
 
-            
+
 
         } catch (e) {
 
@@ -279,7 +286,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
         } catch (error) {
 
-            console.log(error)
+           
 
         }
 
@@ -304,18 +311,69 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     }
 
+    const createImagesFolder= async () => {
+       
 
-    const handleImages = () => {
+        try {
 
-        tempImageFiles.forEach((item: any) => {
+            const result : boolean = await RNFetchBlob.fs.exists(imagesFolderPath)
+            result ? result: RNFetchBlob.fs.mkdir(imagesFolderPath)
+            console.log('created images path'+result+'')
+            
+        } catch (error) {
 
-            const image = new UploadedImages(item, inspectionId)
-            image.addImage()
+            console.log(error)
 
-        });
+        }
+
 
 
     }
+
+
+    const handleImages = async() => {
+
+    
+
+            tempImageFiles.forEach( async (item: any) => {
+
+                const imageId = idGenerator()
+                  
+                const imageStatus =await RNFetchBlob.fs.exists(item)
+
+                if(imageStatus){
+                        const destinationPath = `${imagesFolderPath}/${imageId}.jpg`; 
+                        RNFetchBlob.fs.mv(item, destinationPath)
+                         
+                        const image = new UploadedImages(imageId, inspectionId)
+                        image.addImage()
+        
+                       
+        
+                        .then(()=>{
+                            console.log('Image moved successfully.');
+                        }) 
+                        
+
+                }
+                
+                
+               // Replace 'image.jpg' with your desired image name 
+               
+                   
+                    
+
+                // const image = new UploadedImages(item, inspectionId)
+                // image.addImage()
+
+            });
+
+        }
+      
+           
+
+
+    
 
     const getInspectionData = async (): Promise<object> => {
 

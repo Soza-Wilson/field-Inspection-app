@@ -98,22 +98,20 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
         }
 
       const floweringDataObject ={
-
-       pollinatingFemails:Props.inspectionDataObject.pollinating_females,
+      inspectionType: Props.inspectionStage,
+       pollinatingFemales:Props.inspectionDataObject.pollinating_females_percentage,
        femalesReceptiveSkills: Props.inspectionDataObject.female_receptive_skills,
-       maleElemination:Props.inspectionDataObject.maleElemination,
-       pestDeseaseIncidence:Props.inspectionDataObject.pestDeseaseIncidence,
+       maleElemination:Props.inspectionDataObject.male_elemination,
+       pestDeseaseIncidence:Props.inspectionDataObject.pest_disease_incidence,
        remarks:Props.inspectionDataObject.inspection_remarks
-
-
 
       }  
 
       const preHarvestDataObject={
-
+        inspectionType: Props.inspectionStage,
         offTypeCobs: Props.inspectionDataObject.off_typecobs_at_shelling,
-        defectiveCobs: Props.inspectionDataObject.defectiveCobsAtShelling,
-        remarks: Props.inspectionDataObject.inspectionRemarks
+        defectiveCobs: Props.inspectionDataObject.defective_cobs_at_shelling,
+        remarks: Props.inspectionDataObject.inspection_remarks
 
        
       }  
@@ -168,7 +166,6 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
              underlayColor="green"
              style={styles.viewInspectionButton} onPress={()=>{Props.navigation.navigate('inspectionData',{
                   inspectionData : Props.inspectionStage=== 'pre_harvest' ? preHarvestDataObject : Props.inspectionStage=== 'flowering' ? floweringDataObject : vergitativeDataObject
-                  
 
              })}}>   
             <View >

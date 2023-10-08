@@ -22,11 +22,7 @@ const TextDataComponent = (Props: textCompmonentProps) => {
                     name="eye"
                     size={11}
                     color="black"
-                    style={{
-                      
-                        
-                      
-                       
+                    style={{     
                     }}
 
                 />

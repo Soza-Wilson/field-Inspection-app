@@ -19,7 +19,6 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
   const [inspectionData, setInspectionData]: any = useState({})
   useEffect(() => {
     setInspectionData(Props.route.params.inspectionData)
-    console.log(Props.route.params.inspectionData)
   })
 
 
@@ -65,7 +64,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
           </View>
 
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black'  }}>
 
             <Font
 
@@ -135,16 +134,16 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
   const FloweringDataComponant = () =>{
 
     return(
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30,paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
-
-
-        
+      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30,paddingBottom: 30, }} showsVerticalScrollIndicator={false}>      
         <DonartChartComponent numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} good/>
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.femaleReceptiveSkills} title={'Female receptive skills '} good />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.maleEleminations} title={'Male elemination '} good/>
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.femalesReceptiveSkills} title={'Female receptive skills '} good />
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} good/>
         <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} good ={false}/>
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
         <View style={{height:50}}></View>
+
+
+      
 
       </ScrollView>
     )
@@ -158,12 +157,9 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
     return(
       <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30,paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
-
-
         
-        
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} good/>
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} good ={false}/>
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypeCobs} title={'Off type cobs at shelling '} good={false}/>
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectiveCobs} title={'Defective cobs at shelling '} good ={false}/>
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
         <View style={{height:50}}></View>
 
@@ -177,9 +173,6 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
   return (
     <View style={styles.body}>
-
-
-
       <View style={styles.headerContainer}>
 
         <TouchableHighlight
@@ -204,7 +197,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
         <Text style={styles.headingText}>
 
-          {inspectionData.inspectionType} details
+          {inspectionData.inspectionType=== 'vergitative'? 'Vergitative' : inspectionData.inspectionType=== 'flowering'? 'Flowering': 'Pre harvest' } details
 
         </Text>
 

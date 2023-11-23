@@ -12,7 +12,7 @@ const Settings = ({ navigation }: any) => {
 
   const [userName, setUserName] = useState()
   const [userProfilePicture, setUserProfilePicture] = useState('')
-  const {setIsLoggedIn} :any= UseLogIn()
+  const { setIsLoggedIn }: any = UseLogIn()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,7 +21,7 @@ const Settings = ({ navigation }: any) => {
     return () => clearTimeout(timer); // Clear the timer if the component unmounts
   }, []);
 
-  
+
 
 
   const getUserData = async () => {
@@ -34,7 +34,7 @@ const Settings = ({ navigation }: any) => {
         const parsedData: any = JSON.parse(value);
         setUserName(parsedData.fullName)
         const date = Date
-       
+
 
         if (parsedData.profilePicture == null) {
           setUserProfilePicture('')
@@ -48,12 +48,12 @@ const Settings = ({ navigation }: any) => {
     }
 
 
- 
+
 
 
   }
 
-  const confirmSignOut=()=> {
+  const confirmSignOut = () => {
 
     Alert.alert(
       'Sign Out ',
@@ -61,20 +61,20 @@ const Settings = ({ navigation }: any) => {
       [
 
         {
-            text:"YES",
-            onPress:()=>{handleSignOut()}
-        },{
-            text:"NO",
-            onPress:()=>{console.log("no")}
+          text: "YES",
+          onPress: () => { handleSignOut() }
+        }, {
+          text: "NO",
+          onPress: () => { console.log("no") }
         }
       ]
 
     )
 
-} 
+  }
 
 
-  const handleSignOut= async () =>{
+  const handleSignOut = async () => {
 
 
     //  Delete all user tockens from asyncStorage 
@@ -89,119 +89,124 @@ const Settings = ({ navigation }: any) => {
 
     //  Change isLoggedIn in context to false 
     setIsLoggedIn(false)
-      
+
 
   }
 
   return (
     <View style={styles.container}>
-        <StatusBar hidden/>
+      <StatusBar hidden />
       <View>
         <View style={styles.clipBoard}>
 
 
         </View>
-        
-          <Image
-            source={userProfilePicture !== '' ? userProfilePicture : require('../../../assets/images/user.jpg')}
-            style={styles.profile_image}></Image>
+
+        <Image
+          source={userProfilePicture !== '' ? userProfilePicture : require('../../../assets/images/user.jpg')}
+          style={styles.profile_image}></Image>
 
 
-        
+
         <View style={styles.userNameContainer}><Text style={styles.userName}>{userName}</Text></View>
 
         <View style={styles.optionsContainer}>
           <TouchableHighlight activeOpacity={0.8}
-              underlayColor="" onPress={()=>navigation.navigate('userProfile')}>
-          <View style={styles.userProfile}>
-            <View style={{ flexDirection: 'row' }}>
+            underlayColor="" onPress={() => navigation.navigate('userProfile')}>
+            <View style={styles.userProfile}>
+              <View style={{ flexDirection: 'row' }}>
+
+                <Mate
+                  name='user'
+                  size={20}
+                  color={'grey'}
+                  style={{ margin: 7 }}
+                />
+
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Profile</Text>
+
+
+              </View>
+
+
 
               <Mate
-                name='user'
-                size={20}
+                name='chevron-right'
+                size={25}
                 color={'grey'}
                 style={{ margin: 7 }}
               />
 
-              <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Profile</Text>
-
-
             </View>
-
-
-
-            <Mate
-              name='chevron-right'
-              size={25}
-              color={'grey'}
-              style={{ margin: 7 }}
-            />
-
-          </View>
 
 
           </TouchableHighlight>
-          
-
-           
-          <View style={styles.userProfile}>
-            <View style={{ flexDirection: 'row' }}>
-
-              <MaterialIcons
-
-                name="database-sync"
-                size={20}
-                color="grey"
-                style={{ margin: 7 }}
-              />
 
 
+          <TouchableHighlight activeOpacity={0.8}
+            underlayColor="" onPress={() => navigation.navigate('syncData')}>
 
-              <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Sync Data</Text>
+            <View style={styles.userProfile}>
+              <View style={{ flexDirection: 'row' }}>
 
+                <MaterialIcons
 
-            </View>
+                  name="database-sync"
+                  size={20}
+                  color="grey"
+                  style={{ margin: 7 }}
+                />
 
 
 
-            <Mate
-              name='chevron-right'
-              size={25}
-              color={'grey'}
-              style={{ margin: 7 }}
-            />
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Sync Data</Text>
 
-          </View>
-           
-           <TouchableHighlight activeOpacity={0.8}
-              underlayColor="" onPress={()=>confirmSignOut()}>
 
-           <View style={styles.userProfile}>
-            <View style={{ flexDirection: 'row' }}>
+              </View>
+
+
 
               <Mate
-
-                name="log-out"
-                size={20}
-                color="grey"
+                name='chevron-right'
+                size={25}
+                color={'grey'}
                 style={{ margin: 7 }}
               />
 
+            </View>
 
 
-              <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Sign Out</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight activeOpacity={0.8}
+            underlayColor="" onPress={() => confirmSignOut()}>
+
+            <View style={styles.userProfile}>
+              <View style={{ flexDirection: 'row' }}>
+
+                <Mate
+
+                  name="log-out"
+                  size={20}
+                  color="grey"
+                  style={{ margin: 7 }}
+                />
+
+
+
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Sign Out</Text>
+
+
+              </View>
+
+
 
 
             </View>
 
 
+          </TouchableHighlight>
 
-
-          </View>
-
-
-           </TouchableHighlight>
-         
 
         </View>
 
@@ -236,7 +241,7 @@ const styles = StyleSheet.create({
 
 
   },
-  
+
 
   userNameContainer: {
     marginTop: 10,
@@ -248,7 +253,7 @@ const styles = StyleSheet.create({
 
     fontFamily: 'Poppins-SemiBold',
     textAlign: 'center',
-    fontSize:12,
+    fontSize: 12,
     marginRight: 45
 
 
@@ -260,7 +265,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 5,
     width: 100,
-    height:100,
+    height: 100,
     backgroundColor: "#fff",
     padding: 50,
     borderRadius: 50,
@@ -274,11 +279,11 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     marginTop: 50,
-    padding:5,
+    padding: 5,
     borderTopColor: 'grey',
     borderWidth: 0.2,
-    margin:2,
-    borderRadius:5
+    margin: 2,
+    borderRadius: 5
   },
 
   userProfile: {

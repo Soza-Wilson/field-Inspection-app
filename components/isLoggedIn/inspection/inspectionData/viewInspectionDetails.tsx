@@ -9,78 +9,92 @@ import { NoDataCardComponent } from './inspectionCardComponent';
 import { TouchableHighlight } from 'react-native';
 import ViewInspection from '../viewInspection';
 import Inspection from '../../../../models/inspection';
+import Farm from '../../../../models/farm'
+
+
 import { useInspectionfarmId } from '../../../../context/farmDetailsProvider';
 import { NavigationScreenProp } from 'react-navigation';
 
 export interface ViewInspectionDetailsScreenProps {
-  navigation: NavigationScreenProp<any,any>
+  navigation: NavigationScreenProp<any, any>
 };
 
 
-const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) => {
+const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps) => {
 
   useEffect(() => {
-  GetVergitativeData()
-  GetFloweringData()
-  getPreHarvestData()
+    GetVergitativeData()
+    GetFloweringData()
+    getPreHarvestData()
+    setFarmsdata();
 
 
   }, []);
   const { farmId } = useInspectionfarmId()
-  const [vergitativeData,setVergitativeData] :any = useState([])
+  let [farmDetails, setFarmDetails]: any = useState([])
+  const [vergitativeData, setVergitativeData]: any = useState([])
 
-  const [backSize,setBackSize] : any = useState(20)
-  const [floweringData, setFloweringData] :any = useState([])
-  const [preHarvestData, setPreHarvestData] :any = useState([])
+  const [backSize, setBackSize]: any = useState(20)
+  const [floweringData, setFloweringData]: any = useState([])
+  const [preHarvestData, setPreHarvestData]: any = useState([])
 
 
-  
+  //  parsing the farm ID to the Farm class and calling the getFarmDetails method 
+
+  const getFarmDetails = async (): Promise<object> => {
+    const farm = new Farm(farmId, '', '', '', '', '', '', '', '', '', '')
+    const details = await farm.getFarmDetails()
+    return details
+
+  }
+
   //   getting data from SQLite database for inspection 
+  //  calling the Inspection class and using its get inspectionDtata function 
 
-  const getData = async (inspectionType: string): Promise<object> => {
+  const getInspectionData = async (inspectionType: string): Promise<object> => {
 
     const inspection = new Inspection('', '', farmId, 0, 0, inspectionType, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, '')
     const inspectionData = await inspection.getInspectionData()
     if (inspectionData == null) {
-
-      return {inspectionType:'no_data'}
-
+      return { inspectionType: 'no_data' }
     }
     else {
-
-      console.log(inspectionData)
       return inspectionData
     }
 
   }
 
 
- 
+  //  setting farm details 
 
-//  getting vergitative inspection data form inspectionData object
-  const GetVergitativeData = async() =>{
-    const data :any= await getData('vergitative')
+  const setFarmsdata = async () => {
+    const data: object = await getFarmDetails()
+    setFarmDetails(data)
+
+  }
+
+
+  //  getting vergitative inspection data form inspectionData object
+  const GetVergitativeData = async () => {
+    const data: any = await getInspectionData('vergitative')
     setVergitativeData(data)
 
-    
+
 
   }
 
-//  getting vergitative flowering  data form inspectionData object
-  const GetFloweringData = async() =>{
-    const data :any= await getData('flowering')
+  //  getting vergitative flowering  data form inspectionData object
+  const GetFloweringData = async () => {
+    const data: any = await getInspectionData('flowering')
     setFloweringData(data)
 
-    
-
   }
 
-//  getting vergitative pre harvestn data form inspectionData object
-  const getPreHarvestData = async()=>{
-
-    const data :any= await getData('pre_harvest')
+  //  getting vergitative pre harvestn data form inspectionData object
+  const getPreHarvestData = async () => {
+    const data: any = await getInspectionData('pre_harvest')
     setPreHarvestData(data)
-    console.log(preHarvestData)
+
 
 
   }
@@ -100,7 +114,7 @@ const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) 
             underlayColor="green"
             style={{ borderRadius: 10 }}
             onPress={() => { [navigation.navigate('farmLibrary')] }}
-            >
+          >
 
             <View style={styles.backButton}>
               <Mate
@@ -126,28 +140,51 @@ const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) 
 
             <Font
               name="user"
-              size={11}
+              size={15}
               color="black"
               style={{
-
+               
                 color: "grey",
                 borderColor: 'grey',
-                borderWidth: 0.2,
-                padding: 10,
+                margin: 4,
+                borderRadius: 10
+
+              }}
+            />
+            <View style={[styles.farmDetails, { margin:2,paddingLeft: 0 }]}>
+              <Text style={styles.growerDetailsText}>
+
+                {farmDetails.fullname}
+              </Text>
+            </View>
+
+
+
+          </View>
+          <View style={styles.farmDetails}>
+
+            <Ion
+              name="ios-location"
+              size={15}
+              color="black"
+              style={{
+                margin: 4,
+                color: "grey",
+                borderColor: 'grey',
+
                 borderRadius: 100
-
-
-
 
 
               }}
             />
+            <View style={[styles.farmDetails, {  margin:2,paddingLeft: 0 }]}>
 
-            <Text style={styles.growerDetailsText}>
+              <Text style={[styles.cropDetailsText, {color:'black'}]}>{farmDetails.district} , </Text>
+              <Text style={[styles.cropDetailsText, {color:'black'}]}>
+                {farmDetails.area_name}
+              </Text>
 
-              Wilson soza
-            </Text>
-
+            </View>
 
           </View>
 
@@ -155,26 +192,23 @@ const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) 
 
             <Font5
               name="seedling"
-              size={11}
+              size={15}
               color="black"
               style={{
-                margin: 3,
-
+                margin: 4,
                 color: "grey",
-
                 borderColor: 'grey',
-                borderWidth: 0.2,
-                padding: 6,
-                borderRadius: 100
 
+
+                borderRadius: 100
 
               }}
             />
-            <View style={[styles.farmDetails, { padding: 5, paddingLeft: 0 }]}>
+            <View style={[styles.farmDetails, { margin:2,paddingLeft: 0 }]}>
 
-              <Text style={styles.cropDetailsText}>Maize ,</Text>
-              <Text style={styles.cropDetailsText}>
-                Tiwf
+              <Text style={[styles.cropDetailsText, {fontFamily:'Poppins-small'}]}>{farmDetails.crop} , </Text>
+              <Text style={[styles.cropDetailsText, {fontFamily:'Poppins-small'}]}>
+                {farmDetails.variety}
               </Text>
 
             </View>
@@ -186,11 +220,11 @@ const ViewInspectionDetails = ({ navigation }:ViewInspectionDetailsScreenProps) 
         <ScrollView style={styles.inspectionCardContainer}
           showsVerticalScrollIndicator={false}>
 
-{vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation}  inspectionStage='vergitative'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='vergitative' inspectionDataObject={vergitativeData} /> }
-{floweringData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='flowering'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='flowering'inspectionDataObject={floweringData}/> }
-{preHarvestData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='pre_harvest'/>:   <InspectionCardComponent navigation={navigation} inspectionStage='pre_harvest' inspectionDataObject={preHarvestData}/> }
+          {vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='vergitative' /> : <InspectionCardComponent navigation={navigation} inspectionStage='vergitative' inspectionDataObject={vergitativeData} />}
+          {floweringData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='flowering' /> : <InspectionCardComponent navigation={navigation} inspectionStage='flowering' inspectionDataObject={floweringData} />}
+          {preHarvestData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='pre_harvest' /> : <InspectionCardComponent navigation={navigation} inspectionStage='pre_harvest' inspectionDataObject={preHarvestData} />}
 
-           
+
         </ScrollView>
 
       </View>
@@ -249,6 +283,7 @@ const styles = StyleSheet.create({
 
     margin: 10,
     borderBottomWidth: 0.3,
+    justifyContent: 'space-around'
   },
   farmDetails: {
 
@@ -258,7 +293,7 @@ const styles = StyleSheet.create({
 
   growerDetailsText: {
 
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Bold',
     fontSize: 12,
     color: 'black',
     padding: 3

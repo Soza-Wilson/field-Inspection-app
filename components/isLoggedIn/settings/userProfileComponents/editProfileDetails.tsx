@@ -22,6 +22,7 @@ const EditProfileDetails = ({ type,navigation }: any) => {
         useEffect(() => {
             const timer = setTimeout(() => {
                 getUserData()
+                console.log(type)
             }, 0);
             return () => clearTimeout(timer); // Clear the timer if the component unmounts
         }, []);
@@ -311,7 +312,7 @@ const EditProfileDetails = ({ type,navigation }: any) => {
                     </View>
                 </TouchableHighlight></View>
 
-           {type ==="name" ?  <EditName /> :type ==="email" ? <EditEmail />:<EditPassword />}
+           {type =="name" ?  <EditName /> :type =="email" ? <EditEmail />:<EditPassword />}
         </View>
     )
 }

@@ -136,6 +136,8 @@ function SignIn({ navigation }: { navigation: any }) {
             />
             {errors.password && <Text style={styles.validationText}>{errors.password}</Text>}
 
+            
+
             <TouchableHighlight activeOpacity={0.9}
               underlayColor=""
               onPress={handleSubmit}>

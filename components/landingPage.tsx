@@ -63,7 +63,7 @@ const LandingPage = ({navigation}: {navigation: any}) => {
 
         <Text style={styles.text}>
 
-          assess all registered farms,
+          assess all registered fields,
           streamlining the process and ensuring
           thorough evaluation.
         </Text>

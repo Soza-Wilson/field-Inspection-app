@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {View, Text, StyleSheet, Image} from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Font5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -13,28 +13,28 @@ import BottomNavigator from '../navigation/custom/bottomNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { date } from 'yup';
 
-interface userData  {
+interface userData {
   id: string;
   fullName: string;
   profilePicture: string;
 
-  
+
 
 }
 
-function Home({navigation}:any) {
+function Home({ navigation }: any) {
   useEffect(() => {
     const timer = setTimeout(() => {
-    getUserData()
+      getUserData()
     }, 0);
     return () => clearTimeout(timer); // Clear the timer if the component unmounts
   }, []);
 
-const [userName,setUserName] = useState()
-const[userProfilePicture,setUserProfilePicture]= useState('')
+  const [userName, setUserName] = useState()
+  const [userProfilePicture, setUserProfilePicture] = useState('')
 
- 
-const getUserData = async()=>{
+
+  const getUserData = async () => {
 
 
     try {
@@ -44,122 +44,144 @@ const getUserData = async()=>{
         const parsedData: any = JSON.parse(value);
         setUserName(parsedData.fullName)
 
-        if(parsedData.profilePicture==null){
+        if (parsedData.profilePicture == null) {
           setUserProfilePicture('')
-          
 
-        }else{
+
+        } else {
           setUserProfilePicture(parsedData.profilePicture)
         }
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  
-
- 
 
 
-}  
+
+
+
+  }
 
   return (
     <View style={styles.container}>
-        <StatusBar hidden/>
+      <StatusBar hidden />
 
 
       <View>
 
-      <View style={styles.headerWrapper}>
-        <View style={styles.profileWrapper}>
-          <Image
-            source= {userProfilePicture !=='' ? userProfilePicture: require('../../assets/images/user.jpg')}
-            style={styles.profile_image}></Image>
-          <Text style={styles.profileText}>{userName}</Text>
-        </View>
+        <View style={styles.headerWrapper}>
+          <View style={styles.profileWrapper}>
+            <Image
+              source={userProfilePicture !== '' ? userProfilePicture : require('../../assets/images/user.jpg')}
+              style={styles.profile_image}></Image>
+            <Text style={styles.profileText}>{userName}</Text>
+          </View>
 
-        <View>
-          <Entypo
-           
-            name="list"
-            size={20}
-            color="black"
-          />
-        </View>
-      </View>
-      <View style={styles.headerSeparator}></View>
+          <View>
+            <Entypo
 
-      <View style={styles.align_card}>
-        <View style={styles.home_items}>
-          <View style={styles.category_icon}>
-            <Font5
-              style={styles.category_icon}
-              name="route"
-              size={25}
+              name="list"
+              size={20}
               color="black"
             />
           </View>
+        </View>
+        <View style={styles.headerSeparator}></View>
 
-          <Text style={styles.category_text}>Routing </Text>
+        <View style={styles.align_card}>
+          <TouchableHighlight
+            activeOpacity={0.9}
+            underlayColor=""
+            onPress={() => navigation.navigate("map")} >
+
+            <View style={styles.home_items}>
+              <View style={styles.category_icon}>
+                <Font5
+                  style={styles.category_icon}
+                  name="route"
+                  size={25}
+                  color="black"
+                />
+              </View>
+
+              <Text style={styles.category_text}>Routing </Text>
+            </View>
+
+          </TouchableHighlight>
+
+
+
+          <TouchableHighlight activeOpacity={0.9}
+            underlayColor=""
+            onPress={() => navigation.navigate("farmLibrary")}>
+
+            <View style={styles.home_items}>
+              <View style={styles.category_icon}>
+                <Entypo
+                  style={styles.category_icon}
+                  name="add-to-list"
+                  size={25}
+                  color="black"
+                />
+              </View>
+
+              <Text style={styles.category_text}>Farm Library </Text>
+            </View>
+
+          </TouchableHighlight>
+
         </View>
 
-        
+        <View style={styles.align_card}>
+          <TouchableHighlight 
+          activeOpacity={0.9}
+          underlayColor=""
+          onPress={() => navigation.navigate("farmLibrary")}>
+
+            <View style={styles.home_items}>
+              <View style={styles.category_icon}>
+                <CommunityIcons
+                  style={styles.category_icon}
+                  name="camera-marker-outline"
+                  size={25}
+                  color="black"
+                />
+              </View>
+
+              <Text style={styles.category_text}>Inspected</Text>
+            </View>
+
+          </TouchableHighlight>
+
           <TouchableHighlight activeOpacity={0.9}
-        underlayColor=""
-           onPress={() => navigation.navigate("farmLibrary")}>
+          underlayColor=""
+          onPress={() => navigation.navigate("syncData")}>
 
           <View style={styles.home_items}>
-          <View style={styles.category_icon}>
-            <Entypo
-              style={styles.category_icon}
-              name="add-to-list"
-              size={25}
-              color="black"
-            />
+            <View style={styles.category_icon}>
+              <CommunityIcons
+                style={styles.category_icon}
+                name="database-sync-outline"
+                size={25}
+                color="black"
+              />
+            </View>
+            <Text style={styles.category_text}>Sync Data</Text>
           </View>
 
-          <Text style={styles.category_text}>Farm Library </Text>
-        </View>
-            
           </TouchableHighlight>
-       
-      </View>
-
-      <View style={styles.align_card}>
-        <View style={styles.home_items}>
-          <View style={styles.category_icon}>
-            <CommunityIcons
-              style={styles.category_icon}
-              name="camera-marker-outline"
-              size={25}
-              color="black"
-            />
-          </View>
-
-          <Text style={styles.category_text}>Inspected</Text>
+          
         </View>
 
-        <View style={styles.home_items}>
-          <View style={styles.category_icon}>
-            <CommunityIcons
-              style={styles.category_icon}
-              name="database-sync-outline"
-              size={25}
-              color="black"
-            />
-          </View>
-          <Text style={styles.category_text}>Sync Data</Text>
-        </View>
-      </View>
-
 
 
       </View>
-       
-      
-     
-     
 
-      <BottomNavigator navigation={navigation} page={"home"}/>
+
+
+
+
+      <BottomNavigator navigation={navigation} page={"home"} />
 
     </View>
   );
@@ -169,8 +191,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgb(247,247,249)',
-    flexDirection:"column",
-    justifyContent:"space-between"
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   profile_image: {
     width: 55,
@@ -204,7 +226,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 2,
     marginLeft: 20,
-    
+
   },
 
   home_items: {
@@ -213,7 +235,7 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 10,
     alignSelf: 'center',
-    elevation:10
+    elevation: 10
   },
   align_card: {
     marginTop: 40,

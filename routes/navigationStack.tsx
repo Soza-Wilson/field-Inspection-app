@@ -23,6 +23,7 @@ import UserProfile from '../components/isLoggedIn/settings/userProfileComponents
 import EditProfileDetails from '../components/isLoggedIn/settings/userProfileComponents/editProfileDetails';
 import ViewInspectionDetails from '../components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
 import ViewDetailsData from '../components/isLoggedIn/inspection/inspectionData/viewDetailsData';
+import SyncData from '../components/isLoggedIn/settings/syncDataComponets/syncData';
 
 
 
@@ -80,6 +81,7 @@ function MyTabs() {
             <mainStack.Screen name="editDetails" component={EditProfileDetails} options={{ headerShown: false, presentation:'modal' }} />
             <mainStack.Screen name="viewInspection" component={ViewInspectionDetails} options={{ headerShown: false, presentation:'modal' }} />
             <mainStack.Screen name="inspectionData"  component={ViewDetailsData}  options={{ headerShown: false, presentation:'modal' }} />
+            <mainStack.Screen name="syncData"  component={SyncData}  options={{ headerShown: false, presentation:'modal' }} />
 
 
 

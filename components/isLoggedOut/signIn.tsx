@@ -140,7 +140,7 @@ function SignIn({ navigation }: { navigation: any }) {
 
             <TouchableHighlight activeOpacity={0.9}
               underlayColor=""
-              onPress={handleSubmit}>
+              onPress={()=>handleSubmit()}>
 
               <View style={styles.signInButton}>
                 <Text style={styles.signInButtonText}>Continue </Text>

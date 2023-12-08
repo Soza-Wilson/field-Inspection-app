@@ -74,7 +74,7 @@ const Settings = ({ navigation }: any) => {
   }
 
 
-  const handleSignOut = async () => {
+ const handleSignOut = async () => {
 
 
     //  Delete all user tockens from asyncStorage 

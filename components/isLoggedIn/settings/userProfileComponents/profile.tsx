@@ -152,7 +152,7 @@ const UserProfile = ({ navigation }: any) => {
 
                                  <TouchableHighlight
                                     activeOpacity={0.8}
-                                    underlayColor="" onPress={() => navigation.navigate('editDetails')}>
+                                    underlayColor="" onPress={() => navigation.navigate('editDetails',{type : 'fullname'})}>
 
                                     <MaterialIcons
                                         name='pen'
@@ -194,7 +194,7 @@ const UserProfile = ({ navigation }: any) => {
 
                                 <TouchableHighlight
                                     activeOpacity={0.8}
-                                    underlayColor="" onPress={() => navigation.navigate('editDetails')}>
+                                    underlayColor="" onPress={() => navigation.navigate('editDetails',{type:'email'})}>
 
                                     <MaterialIcons
                                         name='pen'
@@ -245,7 +245,7 @@ const UserProfile = ({ navigation }: any) => {
 
                                 <TouchableHighlight
                                     activeOpacity={0.8}
-                                    underlayColor="" onPress={() => navigation.navigate('editDetails')}>
+                                    underlayColor="" onPress={() => navigation.navigate('editDetails',{type: 'password'})}>
 
                                     <MaterialIcons
                                         name='pen'

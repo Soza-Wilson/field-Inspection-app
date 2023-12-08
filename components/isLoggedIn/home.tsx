@@ -23,6 +23,8 @@ interface userData {
 }
 
 function Home({ navigation }: any) {
+  const [userName, setUserName] = useState()
+  const [userProfilePicture, setUserProfilePicture] = useState('')
   useEffect(() => {
     const timer = setTimeout(() => {
       getUserData()
@@ -30,8 +32,7 @@ function Home({ navigation }: any) {
     return () => clearTimeout(timer); // Clear the timer if the component unmounts
   }, []);
 
-  const [userName, setUserName] = useState()
-  const [userProfilePicture, setUserProfilePicture] = useState('')
+
 
 
   const getUserData = async () => {

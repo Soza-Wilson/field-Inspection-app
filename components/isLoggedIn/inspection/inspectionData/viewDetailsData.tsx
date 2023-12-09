@@ -6,6 +6,8 @@ import Font from 'react-native-vector-icons/FontAwesome5'
 import TextDataComponent from './textDataComponent'
 
 import { NavigationScreenProp } from 'react-navigation';
+import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
+import { color } from 'react-native-elements/dist/helpers'
 
 export interface ViewDetailsScreenProps {
   navigation: NavigationScreenProp<any, any>
@@ -21,13 +23,54 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
     setInspectionData(Props.route.params.inspectionData)
   })
 
+  const width = useSharedValue(0);
+  const height = useSharedValue(0);
+  const borderRadious = useSharedValue(0);
+  const isOpen = useSharedValue(false);
+  const padding = useSharedValue(0);
+  const progress = useDerivedValue(() => isOpen.value ? withTiming(1) : withTiming(0),);
+  const handleOpen = () => {
+
+    if (!isOpen.value) {
+      width.value = withSpring(150);
+      height.value = withSpring(200);
+      borderRadious.value = withSpring(10);
+      padding.value = (20);
+      isOpen.value = true;
+    }
+  }
+
+  const handleClose = () => {
+    if (isOpen.value) {
+      width.value = withTiming(0);
+      height.value = withTiming(0);
+      borderRadious.value = withTiming(0);
+      padding.value = (0);
+      isOpen.value = false;
+    }
+
+  }
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: width.value,
+      height: height.value,
+      borderRadius: borderRadious.value,
+      padding: padding.value,
+
+
+
+    }
+  })
+
 
   const OptionsComponant = () => {
 
-    if (viewOptions) {
+
+
+    
       return (
 
-        <View style={styles.optionsPopUp}>
+        <Animated.View style={[styles.optionsPopUp,animatedStyle]}>
 
           <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
 
@@ -41,7 +84,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
               style={{ margin: 7 }}
 
             />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12,  }]}>
+            <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
               View images
             </Text>
 
@@ -58,13 +101,13 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
               style={{ margin: 7 }}
 
             />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12,  }]}>
+            <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
               Location
             </Text>
 
           </View>
 
-          <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black'  }}>
+          <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
 
             <Font
 
@@ -89,12 +132,12 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
               style={{ margin: 7 }}
 
             />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12,  }]}>
+            <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
               Delete data
             </Text>
 
           </View>
-        </View>
+        </Animated.View>
 
 
 
@@ -102,7 +145,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
 
       )
-    }
+    
 
 
   }
@@ -113,7 +156,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
     return (
 
 
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30,paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30, paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
 
 
         <TextDataComponent title='Isolation Distance' content={Props.route.params.inspectionData.isolationDistance} />
@@ -122,7 +165,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
         <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence '} good={false} />
         <DonartChartComponent numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} good={false} />
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
-        <View style={{height:50}}></View>
+        <View style={{ height: 50 }}></View>
 
       </ScrollView>
 
@@ -131,42 +174,42 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
   }
 
-  const FloweringDataComponant = () =>{
+  const FloweringDataComponant = () => {
 
-    return(
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30,paddingBottom: 30, }} showsVerticalScrollIndicator={false}>      
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} good/>
+    return (
+      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30, paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} good />
         <DonartChartComponent numberValue={Props.route.params.inspectionData.femalesReceptiveSkills} title={'Female receptive skills '} good />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} good/>
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} good ={false}/>
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} good />
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} good={false} />
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
-        <View style={{height:50}}></View>
+        <View style={{ height: 50 }}></View>
 
 
-      
+
 
       </ScrollView>
     )
 
-    
+
 
 
   }
 
-  const PreHarvestDataComponent = () =>{
+  const PreHarvestDataComponent = () => {
 
-    return(
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30,paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
-        
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypeCobs} title={'Off type cobs at shelling '} good={false}/>
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectiveCobs} title={'Defective cobs at shelling '} good ={false}/>
+    return (
+      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30, paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
+
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypeCobs} title={'Off type cobs at shelling '} good={false} />
+        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectiveCobs} title={'Defective cobs at shelling '} good={false} />
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
-        <View style={{height:50}}></View>
+        <View style={{ height: 50 }}></View>
 
       </ScrollView>
     )
 
-    
+
 
 
   }
@@ -197,12 +240,15 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
         <Text style={styles.headingText}>
 
-          {inspectionData.inspectionType=== 'vergitative'? 'Vergitative' : inspectionData.inspectionType=== 'flowering'? 'Flowering': 'Pre harvest' } details
+          {inspectionData.inspectionType === 'vergitative' ? 'Vergitative' : inspectionData.inspectionType === 'flowering' ? 'Flowering' : 'Pre harvest'} details
 
         </Text>
 
         <TouchableHighlight activeOpacity={2}
-          underlayColor="green" style={{ padding: 5, borderRadius: 10 }} onPress={() => { viewOptions ? setViewOptions(false) : setViewOptions(true) }}>
+          underlayColor="green" style={{ padding: 5, borderRadius: 10 }} onPress={() => {
+            handleOpen(),
+              handleClose()
+          }}>
 
           <Font
             name='list'
@@ -216,10 +262,10 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
 
       </View>
-  
-      {inspectionData.inspectionType==='vergitative' ? <VergitativeDataComponant /> : inspectionData.inspectionType==='flowering' ? <FloweringDataComponant/>: <PreHarvestDataComponent/> }
-          
-      
+
+      {inspectionData.inspectionType === 'vergitative' ? <VergitativeDataComponant /> : inspectionData.inspectionType === 'flowering' ? <FloweringDataComponant /> : <PreHarvestDataComponent />}
+
+
 
       <OptionsComponant />
 
@@ -275,14 +321,14 @@ const styles = StyleSheet.create({
 
     fontFamily: 'Poppins-SemiBold',
     fontSize: 13,
-    padding:5,
+    padding: 5,
     textAlign: 'center',
     color: 'white'
 
   },
   backButton: {
     padding: 5,
-    borderRadius:5
+    borderRadius: 5
 
 
   },
@@ -291,8 +337,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: 50,
-    padding: 20
-    , backgroundColor: 'white',
+    backgroundColor: 'white',
     elevation: 30,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,

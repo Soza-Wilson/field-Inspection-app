@@ -4,6 +4,7 @@ import BottomNavigator from '../../navigation/custom/bottomNavigator'
 import { StyleSheet } from 'react-native'
 import Mate from 'react-native-vector-icons/Entypo'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Material from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TouchableHighlight } from 'react-native'
 import { UseLogIn } from '../../../context/logInProvider'
@@ -149,6 +150,44 @@ const Settings = ({ navigation }: any) => {
             <View style={styles.userProfile}>
               <View style={{ flexDirection: 'row' }}>
 
+                <Material
+
+                  name="phonelink-setup"
+                  size={20}
+                  color="grey"
+                  style={{ margin: 7 }}
+                />
+
+
+
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Device</Text>
+
+
+              </View>
+
+
+
+              <Mate
+                name='chevron-right'
+                size={25}
+                color={'grey'}
+                style={{ margin: 7 }}
+              />
+
+            </View>
+
+
+            
+
+
+          </TouchableHighlight>
+
+          <TouchableHighlight activeOpacity={0.8}
+            underlayColor="" onPress={() => navigation.navigate('syncData')}>
+
+            <View style={styles.userProfile}>
+              <View style={{ flexDirection: 'row' }}>
+
                 <MaterialIcons
 
                   name="database-sync"
@@ -174,6 +213,9 @@ const Settings = ({ navigation }: any) => {
               />
 
             </View>
+
+
+            
 
 
           </TouchableHighlight>

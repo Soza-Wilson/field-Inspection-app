@@ -19,7 +19,6 @@ class UploadedImages {
             const tx: any = await new Promise((resolve, reject) => {
                 db.transaction((tx) => resolve(tx), reject);
             });
-
             const results: any = await new Promise((resolve, reject) => {
                 tx.executeSql(
                     'INSERT INTO inspection_image (images_url,inspection_id) VALUES (?,?)',

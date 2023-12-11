@@ -11,6 +11,7 @@ import user from '../../models/user';
 import db from '../../util/database';
 import { UseLogIn } from '../../context/logInProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAvoidingView } from 'react-native';
 
 
 
@@ -100,7 +101,8 @@ function SignIn({ navigation }: { navigation: any }) {
 
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior='padding' style={styles.container}>
+    
       <View style={styles.info_container}>
         <Text style={styles.header}>Sign In</Text>
       </View>
@@ -178,7 +180,7 @@ function SignIn({ navigation }: { navigation: any }) {
       </TouchableHighlight>
 
 
-    </View>
+      </KeyboardAvoidingView>
   );
 }
 

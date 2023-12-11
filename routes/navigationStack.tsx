@@ -24,6 +24,7 @@ import EditProfileDetails from '../components/isLoggedIn/settings/userProfileCom
 import ViewInspectionDetails from '../components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
 import ViewDetailsData from '../components/isLoggedIn/inspection/inspectionData/viewDetailsData';
 import SyncData from '../components/isLoggedIn/settings/syncDataComponets/syncData';
+import GalleryView from '../components/isLoggedIn/inspection/imagesComponants/galleryView';
 
 
 
@@ -81,7 +82,9 @@ function MyTabs() {
             <mainStack.Screen name="editDetails" component={EditProfileDetails} options={{ headerShown: false, presentation:'modal' }} />
             <mainStack.Screen name="viewInspection" component={ViewInspectionDetails} options={{ headerShown: false, presentation:'modal' }} />
             <mainStack.Screen name="inspectionData"  component={ViewDetailsData}  options={{ headerShown: false, presentation:'modal' }} />
-            <mainStack.Screen name="syncData"  component={SyncData}  options={{ headerShown: false, presentation:'modal' }} />
+            <mainStack.Screen name="syncData"  component={SyncData}  options={{ headerShown: false, presentation:'modal' }} /> 
+            <mainStack.Screen name="imageGalleryView"  component={GalleryView}  options={{ headerShown: false, presentation:'modal' }} />               
+
 
 
 

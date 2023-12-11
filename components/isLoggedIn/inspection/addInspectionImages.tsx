@@ -25,6 +25,7 @@ import idGenerator from './inspectionForms/idGenerator/idGenerator';
 import SelectedInspectionFarmId from '../../../context/farmDetailsProvider';
 import { useInspectionfarmId } from '../../../context/farmDetailsProvider';
 
+
 import GeoLocation from '../../../models/geo';
 
 
@@ -224,7 +225,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
 
-            if (inspectionType === 'vergitative') {
+            if (inspectionType == 'vergitative') {
 
 
 
@@ -236,7 +237,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             }
 
-            else if (inspectionType === 'flowering') {
+            else if (inspectionType == 'flowering') {
 
                 const inspection = new Inspection(inspectionId, userData.id, farmId, Date.now(), Date.now(), 'flowering', 0, '', 0,
                     inspectionData.pestDiseaseIncidence, 0, inspectionData.pollinatingFemales, inspectionData.femaleReceptiveSkills,
@@ -312,13 +313,15 @@ const AddInspectionImages = ({ navigation }: any) => {
     }
 
     const createImagesFolder= async () => {
+        // creating images folder for each inspection entry
+
        
 
         try {
 
             const result : boolean = await RNFetchBlob.fs.exists(imagesFolderPath)
             result ? result: RNFetchBlob.fs.mkdir(imagesFolderPath)
-            console.log('created images path'+result+'')
+            console.log('created images path '+result+'')
             
         } catch (error) {
 
@@ -347,8 +350,6 @@ const AddInspectionImages = ({ navigation }: any) => {
                          
                         const image = new UploadedImages(imageId, inspectionId)
                         image.addImage()
-        
-                       
         
                         .then(()=>{
                             console.log('Image moved successfully.');
@@ -547,14 +548,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     }
 
-    const ViewImage = (images: string[], selectedIndex: number) => {
-        return (
 
-            <GalleryView images={images} selectedIndex={selectedIndex} />
-        )
-
-
-    }
 
     const TempImageGallary = () => {
 
@@ -599,7 +593,7 @@ const AddInspectionImages = ({ navigation }: any) => {
                         {tempImageFiles.map((data: any, index: number) => (
                             // Step 3: Render components based on the array elements
                             <TouchableHighlight activeOpacity={0.9}
-                                underlayColor="" key={index} onPress={() => setFullImageView(true)}>
+                                underlayColor="" key={index} onPress={() => navigation.navigate('imageGalleryView',{images: tempImageFiles, selectImageIndex: selectImageIndex})}>
 
                                 <Image
                                     style={{ height: 150, width: 91 * 2, margin: 4, borderRadius: 5 }}
@@ -630,51 +624,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
 
-    if (fullImageView) {
-
-
-        return (
-
-            <View style={{
-                flex: 1,
-                backgroundColor: 'black'
-            }}>
-
-                <View style={{
-                    position: 'absolute',
-                    padding: 6,
-                    backgroundColor: "translucent", top: 50, right: 40
-                }} >
-
-
-                    <Enty
-
-                        name="plus"
-                        size={20}
-                        color="black"
-                        style={{
-
-                            color: "#FFFFFF",
-
-
-
-
-                        }}
-                    />
-
-
-                </View>
-
-                <GalleryView images={tempImageFiles} selectedIndex={selectImageIndex} />
-
-            </View>
-
-
-        )
-
-
-    }
-    else {
+    
 
         return (
 
@@ -764,7 +714,7 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
 
-}
+
 
 const styles = StyleSheet.create({
 

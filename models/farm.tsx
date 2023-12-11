@@ -111,7 +111,7 @@ class Farm {
       if (len > 0) {
         return results.rows.item(0)
       }
-      else{
+      else {
         return 'error'
       }
     } catch (error) {
@@ -123,6 +123,65 @@ class Farm {
 
 
 
+
+  }
+
+  getFarmItems = async () => {
+    try {
+      //  using async and await to wait for the data to be retrived first before displaying the data 
+      const tx: any = await new Promise((resolve, reject) => {
+        db.transaction((tx) => resolve(tx), reject);
+      });
+
+      const results: any = await new Promise((resolve, reject) => {
+        tx.executeSql(
+          // query for getting all registered farms 
+          'SELECT farm_id,variety,crop,Hectors,fullname,physical_address,district,area_name FROM farms INNER JOIN crop ON crop.crop_id = farms.crop_id LEFT JOIN variety ON variety.variety_id = farms.variety_id INNER JOIN growers ON growers.grower_id = farms.grower_id',
+          [],
+          (tx: any, results: any) => resolve(results),
+          (_: any, error: any) => reject(error)
+        );
+      });
+      const len = results.rows.length;
+      if (len > 0) {
+        return results;
+      } else {
+        console.log("Error getting data ")
+      }
+    } catch (error) {
+      // Error handling code here
+      console.error("Error during getting grower data:", error);
+    }
+  }
+
+
+
+  searchFarmByGrower = async (growerName: string) => {
+
+    try {
+      const tx: any = await new Promise((resolve, reject) => {
+        db.transaction((tx) => (resolve(tx), reject))
+      })
+
+      const results: any = await new Promise((resolve, reject) => {
+        tx.executeSql(
+          'SELECT farm_id,variety,crop,Hectors,fullname,physical_address,district,area_name FROM farms INNER JOIN crop ON crop.crop_id = farms.crop_id LEFT JOIN variety ON variety.variety_id = farms.variety_id INNER JOIN growers ON growers.grower_id = farms.grower_id WHERE fullname LIKE ?',
+          ['%'+growerName+'%'],
+          (tx: any, results: any) => resolve(results),
+          (_: any, error: any) => reject(error)
+        );
+      });
+
+      const len = results.rows.length;
+      if (len > 0) {
+        return results;
+      } else {
+        return 'None';
+      }
+    } catch (error) {
+      // Error handling code here
+      console.error("Error during getting grower data:");
+    }
 
   }
 }

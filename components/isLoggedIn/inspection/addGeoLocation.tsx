@@ -122,7 +122,7 @@ const AddGeoLocation = ({navigation}:any) => {
                 );
             }
         });
-        console.log(location);
+       
     };
 
 
@@ -130,7 +130,7 @@ const AddGeoLocation = ({navigation}:any) => {
         <View style={styles.container}>
 
             <View>
-            <StageTips stage={2} heading='Geo Location' description='Getting GPS Locations' inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation} 
+            <StageTips stage={2} heading='Geo Location' description='Get GPS Location' inspectionType={inspectionType===0 ? 'Vergitative' : inspectionType===1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation} 
             previousPage='addInspection'/>
 
             <View style={{ borderWidth: 0.3, borderColor: "grey", margin: 5, borderRadius: 5, }}>

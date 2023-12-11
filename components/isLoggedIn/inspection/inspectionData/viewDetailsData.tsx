@@ -1,13 +1,18 @@
-import { View, Text, StyleSheet, ScrollView, TouchableHighlight } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, ScrollView, TouchableHighlight, Pressable } from 'react-native'
+import React, { useEffect } from 'react'
 import DonartChartComponent from './donartChartComponent'
 import Mate from 'react-native-vector-icons/Entypo'
 import Font from 'react-native-vector-icons/FontAwesome5'
 import TextDataComponent from './textDataComponent'
+import { useRef, useState } from 'react';
 
 import { NavigationScreenProp } from 'react-navigation';
 import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
+
 import { color } from 'react-native-elements/dist/helpers'
+import MapBottomSheet from './bottomSheet/mapBottomSheet'
+import ImagesBottomSheet from './bottomSheet/imagesBotttomSheet'
+import DeleteDataBottomSheet from './bottomSheet/deleteDataBottomSheet'
 
 export interface ViewDetailsScreenProps {
   navigation: NavigationScreenProp<any, any>
@@ -17,11 +22,14 @@ export interface ViewDetailsScreenProps {
 
 const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
+  const [bottomSheetType, setBottomSheetType]: any = useState(null);
   const [viewOptions, setViewOptions] = useState(false)
   const [inspectionData, setInspectionData]: any = useState({})
   useEffect(() => {
     setInspectionData(Props.route.params.inspectionData)
   })
+
+  const scrollOffsetX = useSharedValue(0);
 
   const width = useSharedValue(0);
   const height = useSharedValue(0);
@@ -33,7 +41,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
     if (!isOpen.value) {
       width.value = withSpring(150);
-      height.value = withSpring(200);
+      height.value = withSpring(150);
       borderRadious.value = withSpring(10);
       padding.value = (20);
       isOpen.value = true;
@@ -63,89 +71,77 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
   })
 
 
+
+
   const OptionsComponant = () => {
 
 
 
-    
-      return (
 
-        <Animated.View style={[styles.optionsPopUp,animatedStyle]}>
+    return (
 
-          <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
+      <Animated.View style={[styles.optionsPopUp, animatedStyle]}>
 
-
-            <Font
+        <Pressable onPress={() => ([handleClose(), setBottomSheetType('images')])} style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
 
 
-              name='image'
-              size={12}
-              color={'black'}
-              style={{ margin: 7 }}
-
-            />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
-              View images
-            </Text>
-
-          </View>
-          <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
+          <Font
 
 
-            <Font
+            name='image'
+            size={12}
+            color={'black'}
+            style={{ margin: 7 }}
+
+          />
+          <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
+            View images
+          </Text>
+
+        </Pressable>
+        <Pressable onPress={() => ([handleClose(), setBottomSheetType('map')])} style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
 
 
-              name='map'
-              size={12}
-              color={'black'}
-              style={{ margin: 7 }}
+          <Font
 
-            />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
-              Location
-            </Text>
 
-          </View>
+            name='map'
+            size={12}
+            color={'black'}
+            style={{ margin: 7 }}
 
-          <View style={{ flexDirection: 'row', borderBottomWidth: 0.2, borderBottomColor: 'black' }}>
+          />
+          <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
+            Location
+          </Text>
 
-            <Font
+        </Pressable>
 
-              name='pen'
-              size={12}
-              color={'black'}
-              style={{ margin: 7 }}
 
-            />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12 }]}>
-              Edit data
-            </Text>
+        <View style={{ flexDirection: 'row' }}>
 
-          </View>
-          <View style={{ flexDirection: 'row' }}>
+          <Font
 
-            <Font
+            name='trash'
+            size={12}
+            color={'black'}
+            style={{ margin: 7 }}
 
-              name='trash'
-              size={12}
-              color={'black'}
-              style={{ margin: 7 }}
+          />
+          <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
+            Delete data
+          </Text>
 
-            />
-            <Text style={[styles.headingText, { color: 'grey', fontSize: 12, }]}>
-              Delete data
-            </Text>
-
-          </View>
-        </Animated.View>
+        </View>
+      </Animated.View>
 
 
 
 
 
 
-      )
-    
+    )
+
 
 
   }
@@ -155,19 +151,24 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
     return (
 
+      <View style={{ marginTop: 20, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10,  }}>
 
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30, paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
+        <ScrollView  showsVerticalScrollIndicator={false}>
 
 
-        <TextDataComponent title='Isolation Distance' content={Props.route.params.inspectionData.isolationDistance} />
-        <TextDataComponent title='Planting Pattern' content={Props.route.params.inspectionData.plantingPattern} />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypePercentage} title={'Off type percentage '} good={false} />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence '} good={false} />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} good={false} />
-        <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
-        <View style={{ height: 50 }}></View>
+          <TextDataComponent title='Isolation Distance' content={Props.route.params.inspectionData.isolationDistance} />
+          <TextDataComponent title='Planting Pattern' content={Props.route.params.inspectionData.plantingPattern} />
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypePercentage} title={'Off type percentage '} good={false} />
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence '} good={false} />
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} good={false} />
+          <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
+          <View style={{ height: 50 }}></View>
 
-      </ScrollView>
+        </ScrollView>
+        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+
+      </View>
+
 
 
     )
@@ -177,18 +178,20 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
   const FloweringDataComponant = () => {
 
     return (
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30, paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} good />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.femalesReceptiveSkills} title={'Female receptive skills '} good />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} good />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} good={false} />
-        <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
-        <View style={{ height: 50 }}></View>
+      <View style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10,  }}>
+        <ScrollView
 
+          showsVerticalScrollIndicator={false}>
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} good />
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.femalesReceptiveSkills} title={'Female receptive skills '} good />
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} good />
+          <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} good={false} />
+          <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
+          <View style={{ height: 50 }}></View>
+        </ScrollView>
+        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+      </View>
 
-
-
-      </ScrollView>
     )
 
 
@@ -199,14 +202,19 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
   const PreHarvestDataComponent = () => {
 
     return (
-      <ScrollView style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 30, paddingBottom: 30, }} showsVerticalScrollIndicator={false}>
+
+
+      <View style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10,  }} >
 
         <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypeCobs} title={'Off type cobs at shelling '} good={false} />
         <DonartChartComponent numberValue={Props.route.params.inspectionData.defectiveCobs} title={'Defective cobs at shelling '} good={false} />
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
         <View style={{ height: 50 }}></View>
+        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+      </View>
 
-      </ScrollView>
+
+
     )
 
 
@@ -248,6 +256,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
           underlayColor="green" style={{ padding: 5, borderRadius: 10 }} onPress={() => {
             handleOpen(),
               handleClose()
+            setBottomSheetType(null)
           }}>
 
           <Font

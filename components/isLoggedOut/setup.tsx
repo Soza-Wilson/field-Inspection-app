@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableHighlight,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -251,7 +252,7 @@ const DeviceSetup = ({ navigation }: { navigation: any }) => {
 
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior='padding' style={styles.container}>
       <View style={styles.info_container}>
         <Text style={styles.text}>Connect to server</Text>
       </View>
@@ -311,7 +312,7 @@ const DeviceSetup = ({ navigation }: { navigation: any }) => {
           <Text style={styles.connectButtonText}>Back</Text>
         </View>
       </TouchableHighlight>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -128,7 +128,7 @@ const PreHarvest = (Props: floweringFormProps) => {
                                     </View>
 
                                     <TouchableHighlight activeOpacity={0.9}
-                                        underlayColor="" onPress={handleSubmit}>
+                                        underlayColor="" onPress={()=>handleSubmit()}>
 
                                         <View style={styles.saveButton}>
 

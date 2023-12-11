@@ -13,15 +13,7 @@ import { UseLogIn } from '../../../../context/logInProvider'
 
 const UserProfile = ({ navigation }: any) => {
 
-    const validationSchema = object().shape({
-        // Define your form fields and their validation rules here
-        // For example:
-        offTypeCobs: number().required('Off-type cobs at shelling percentage is required').lessThan(100),
-        defectiveCobs: number().required('Defective Cobs percentage is required').lessThan(100),
-        inspectionRemarks: string().required('Enter inspection remarks'),
-        // Add more fields and their validations as needed
-    });
-
+  
 
 
     const [userName, setUserName] = useState()
@@ -38,9 +30,6 @@ const UserProfile = ({ navigation }: any) => {
     }, []);
 
 
-
-
-       
 
     const getUserData = async () => {
 

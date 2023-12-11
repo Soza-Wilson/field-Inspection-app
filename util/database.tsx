@@ -32,21 +32,21 @@ const db = SQLite.openDatabase(
 
 db.transaction((tx) => {
   tx.executeSql(
-    
-        'CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY NOT NULL, name TEXT, email TEXT, [password] TEXT,profile_picture TEXT)',
-        [],
-        () => {
-          console.log('Users table created successfully');
-        },
-        (error) => {
-          console.error('Failed to create table:', error);
-        }
-      );
+
+    'CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY NOT NULL, name TEXT, email TEXT, [password] TEXT,profile_picture TEXT)',
+    [],
+    () => {
+      console.log('Users table created successfully');
     },
     (error) => {
-      console.error('Failed to drop table:', error);
+      console.error('Failed to create table:', error);
     }
   );
+},
+  (error) => {
+    console.error('Failed to drop table:', error);
+  }
+);
 
 
 db.transaction((tx) => {
@@ -91,6 +91,20 @@ db.transaction((tx) => {
   );
 });
 
+db.transaction((tx) => {
+
+  tx.executeSql(
+    'CREATE TABLE IF NOT EXISTS variety_type (variet_type_id INT PRIMARY KEY NOT NULL, variety_type TEXT, description TEXT)',
+    [],
+    () => {
+      console.log('variety type table created ')
+
+    }, (error) => {
+      console.error('failed to create table: ', error)
+
+    }
+  )
+})
 
 db.transaction((tx) => {
   tx.executeSql(

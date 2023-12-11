@@ -15,7 +15,8 @@ import StageTips from './components/isLoggedIn/inspection/stageTips';
 import SelectedInspectionType from './context/inspectionType';
 import ViewInspectionDetails from './components/isLoggedIn/inspection/inspectionData/viewInspectionDetails';
 import ViewDetailsData from './components/isLoggedIn/inspection/inspectionData/viewDetailsData';
-import BottomSheetData from './components/isLoggedIn/inspection/inspectionData/bottomSheet/bottomSheet';
+import BottomSheetData from './components/isLoggedIn/inspection/inspectionData/bottomSheet/mapBottomSheet';
+import SelectedGrowerName from './context/growerSearch';
 
 
 
@@ -28,18 +29,20 @@ const App = () => {
 
     <View style={{ flex: 1 }}>
 
-  
-     
-      <LogInProvider>
-        <MyStack />
-      </LogInProvider> 
 
-      
+      <SelectedGrowerName>
+        <LogInProvider>
+          <MyStack />
+        </LogInProvider>
+      </SelectedGrowerName>
 
-    
- 
+
+
+
+
+
     </View>
- 
+
 
 
   )

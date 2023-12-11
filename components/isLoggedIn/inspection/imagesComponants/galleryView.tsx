@@ -16,22 +16,23 @@ interface galleryViewProps {
 
 }
 
-const GalleryView = ({ images, selectedIndex }: galleryViewProps) => {
+const GalleryView = ({ route, navigation }: any) => {
 
-
-  const {width,height}:any = Dimensions.get('window');
+  const { width, height }: any = Dimensions.get('screen');
   const topRef: any = React.useRef()
+  const images = route.params.images;
+  const selectedIndex = route.params.images;
   const bottomRef: any = React.useRef()
   const [scrollToActiveIndex, setScrollToActiveIndex]: any = useState(0)
 
 
   const setActiveIndex = (index: number) => {
 
-  
+
 
     setScrollToActiveIndex(index)
     topRef?.current?.scrollToOffset({
-      offset: index * width,   
+      offset: index * width,
       animated: true
     })
 
@@ -49,27 +50,30 @@ const GalleryView = ({ images, selectedIndex }: galleryViewProps) => {
         data={images}
         keyExtractor={(item) => item}
         horizontal
+        scrollEnabled ={false}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={event => {
-          setActiveIndex(Math.floor(event.nativeEvent.contentOffset.x / width ))
-
+          setActiveIndex(Math.floor(event.nativeEvent.contentOffset.x / width))
+          console.log(Math.floor(event.nativeEvent.contentOffset.x))
         }}
-        scrollEventThrottle={16}
-        renderItem={({ item }) => <View>
+        scrollEventThrottle={30}
+        renderItem={({ item }) => {
+          return <View style={{ width, height }}>
 
-          <Image
+            <Image
 
-            source={{ uri: item }}
-            style={{
+              source={{ uri: item }}
+              style={{
 
-              width,
-              height
-            }}
+                width,
+                height
+              }}
 
-          />
+            />
 
-        </View>}
+          </View>
+        }}
       />
 
       <FlatList
@@ -85,7 +89,7 @@ const GalleryView = ({ images, selectedIndex }: galleryViewProps) => {
         scrollEventThrottle={16}
         renderItem={({ item, index }) => <View>
 
-          <TouchableHighlight onPress={() => { setActiveIndex(index) }
+          <TouchableHighlight activeOpacity={0.9} underlayColor="" onPress={() => { setActiveIndex(index) }
 
           }>
 
@@ -94,8 +98,8 @@ const GalleryView = ({ images, selectedIndex }: galleryViewProps) => {
               source={{ uri: item }}
               style={{
 
-                width:width / 5,
-                height: height/ 10,
+                width: width / 5,
+                height: height / 10,
                 marginRight: 10, borderRadius: 10,
                 borderWidth: 2,
                 borderColor: scrollToActiveIndex === index ? '#fff' : 'transparent'

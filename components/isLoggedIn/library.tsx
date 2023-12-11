@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, TouchableHighlight, Text, StyleSheet, SafeAreaView, Alert } from 'react-native';
+import { View, ScrollView, TouchableOpacity, TouchableHighlight, Text, StyleSheet, SafeAreaView, Alert, TextInput } from 'react-native';
 
 
 
@@ -15,6 +15,9 @@ import { useEffect } from 'react';
 import FarmDetailsModal from './farm/farmDetailsModal';
 import BottomNavigator from '../navigation/custom/bottomNavigator';
 import { useInspectionfarmId } from '../../context/farmDetailsProvider';
+import Farm from '../../models/farm';
+import Ion from 'react-native-vector-icons/Ionicons';
+import SelectedGrowerName, { useInspectionType } from '../../context/growerSearch';
 
 
 
@@ -45,7 +48,9 @@ const MyComponent = ({ navigation }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [farms, setFarms] = useState([])
   const [farmDetails, setFarmDetails] = useState([])
-  const [modalVisible, setModalVisible] = useState(false);
+
+  const { growerName } = useInspectionType()
+  const farm = new Farm("", "", "", "", "", "", "", "", "", "", "")
   let tempFarmData: any = []
 
   const handleOpenModal = () => {
@@ -56,22 +61,17 @@ const MyComponent = ({ navigation }: any) => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    // This function will run whenever contextData changes
+    if (growerName != null) {
+      searchByGrowerName(growerName);
+    }else{
+      getFarmItems()
+    }
+  }, [growerName]);
 
   //  Calling the getFarmsItems in the main library component was causing an infinity loop , instead i have used the use effect hook
-  useEffect(() => {
-    const timer = setTimeout(() => {
-
-      getFarmItems();
-
-    }, 0);
-    //  <createDatabase/>
-    return () => clearTimeout(timer); // Clear the timer if the component unmounts
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
-
+ 
 
 
   const handleLongPress = (farm_id: string, grower_name: string, crop: string, variety: string, hectors: string, district: string, area_name: string, physical_address: string) => {
@@ -81,76 +81,65 @@ const MyComponent = ({ navigation }: any) => {
     handleOpenModal();
 
 
-
-
-
   };
 
-
   const getFarmItems = async () => {
+    const data = await farm.getFarmItems();
+    const len = data.rows.length;
 
-
-   
-
-    try {
-
-
-      //  using async and await to wait for the data to be retrived first before displaying the data 
-      const tx: any = await new Promise((resolve, reject) => {
-        db.transaction((tx) => resolve(tx), reject);
-      });
-
-      const results: any = await new Promise((resolve, reject) => {
-        tx.executeSql(
-
-          // query for getting all registered farms 
-
-          'SELECT farm_id,variety,crop,Hectors,fullname,physical_address,district,area_name FROM farms INNER JOIN crop ON crop.crop_id = farms.crop_id LEFT JOIN variety ON variety.variety_id = farms.variety_id INNER JOIN growers ON growers.grower_id = farms.grower_id',
-          [],
-          (tx: any, results: any) => resolve(results),
-          (_: any, error: any) => reject(error)
-        );
-      });
-
-      const len = results.rows.length;
-
-      if (len > 0) {
-        // getting each row and pushing it to the tempFamData array 
-        for (let i = 0; i < len; i++) {
-
-          tempFarmData.push(results.rows.item(i))
-        }
-        setFarms(tempFarmData)
-
-      } else {
-        // Sign-in failure code here
-        console.log("Error getting data ")
+    if (len > 0)
+      for (let i = 0; i < len; i++) {
+        tempFarmData.push(data.rows.item(i))
       }
-      // setFarms(tempFarmData)
 
-    } catch (error) {
-      // Error handling code here
-      console.error("Error during sign-in:", error);
+    setFarms(tempFarmData)
+
+  }
+
+  const searchByGrowerName = async (growerName: string) => {
+    const data = await farm.searchFarmByGrower(growerName)
+    if (data != 'None'){
+      const len = data.rows.length;
+      if (len > 0)
+        for (let i = 0; i < len; i++) {
+          tempFarmData.push(data.rows.item(i))
+        }
+      setFarms(tempFarmData)
+
     }
-
-
 
   }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
   //  adding default value for animating the header 
+
+  const searchText = () => {
+    return (
+      <View style={styles.searchContainer}>
+
+        <Ion
+          name="ios-search"
+          size={15}
+          color="grey"
+          style={{
+
+            padding: 10
+          }}
+        />
+        <TextInput
+          style={styles.searchText}
+          placeholderTextColor="grey"
+          underlineColorAndroid="transparent"
+
+          placeholder="Enter grower name...">
+
+        </TextInput>
+
+      </View>
+    )
+  }
 
 
 
@@ -177,7 +166,7 @@ const MyComponent = ({ navigation }: any) => {
             <View key={farm.farm_id}>
 
               {/* passing the selected farm to the grobal context and navigating to the viewInspection page  */}
-              <TouchableHighlight onPress={() =>{[setFarmId(farm.farm_id),navigation.navigate('viewInspection')]}} onLongPress={() => { handleLongPress(farm.farm_id, farm.fullname, farm.crop, farm.variety, farm.hectors, farm.district, farm.area_name, farm.physical_address) }} activeOpacity={0.9}
+              <TouchableHighlight onPress={() => { [setFarmId(farm.farm_id), navigation.navigate('viewInspection')] }} onLongPress={() => { handleLongPress(farm.farm_id, farm.fullname, farm.crop, farm.variety, farm.hectors, farm.district, farm.area_name, farm.physical_address) }} activeOpacity={0.9}
                 underlayColor="">
                 <View  >
                   <FarmCard farmDetails={farm} />

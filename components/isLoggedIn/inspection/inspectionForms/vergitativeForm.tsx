@@ -225,7 +225,7 @@ const VergitativeForm = (props: formProps) => {
                                 </View>
 
                                 <TouchableHighlight activeOpacity={0.9}
-                                    underlayColor="" onPress={handleSubmit}
+                                    underlayColor="" onPress={()=>handleSubmit()}
 
                                 >
 

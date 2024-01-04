@@ -145,14 +145,9 @@ function SignIn({ navigation }: { navigation: any }) {
               onPress={()=>handleSubmit()}>
 
               <View style={styles.signInButton}>
-                <Text style={styles.signInButtonText}>Continue </Text>
+                <Text style={styles.signInButtonText}>Sign in  </Text>
 
-                <AntDesign
-
-                  name="login"
-                  size={20}
-                  color="#FFFFFF"
-                />
+              
               </View>
 
 
@@ -170,12 +165,7 @@ function SignIn({ navigation }: { navigation: any }) {
         onPress={() => navigation.navigate("setup")}>
         <View style={styles.configureButton}>
           <Text style={styles.signInButtonText}>Setup</Text>
-          <MaterialIcons
-
-            name="phonelink-setup"
-            size={20}
-            color="#FFFFFF"
-          />
+        
         </View>
       </TouchableHighlight>
 
@@ -236,9 +226,9 @@ const styles = StyleSheet.create({
   signInButton: {
     marginTop: 50,
     backgroundColor: '#2DA15F',
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: 'center',
-    padding: 15,
+    padding: 9,
     marginLeft: 20,
     marginRight: 20,
     flexDirection: 'row',
@@ -246,11 +236,11 @@ const styles = StyleSheet.create({
   },
 
   configureButton: {
-    marginTop: 50,
+    marginTop: 35,
     backgroundColor: '#2DA15F',
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: 'center',
-    padding: 15,
+    padding: 9,
     marginLeft: 20,
     marginRight: 20,
     flexDirection: 'row',
@@ -258,8 +248,8 @@ const styles = StyleSheet.create({
   },
 
   signInButtonText: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 14,
+    fontFamily: 'Poppins-Bold',
+    fontSize: 11,
     color: '#FFFFFF',
   },
 

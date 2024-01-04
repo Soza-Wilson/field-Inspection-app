@@ -71,6 +71,8 @@ class user {
 
   }
 
+
+
   async updatePassword(password: string, id: string) {
     try {
       db.transaction(tx => {
@@ -82,6 +84,24 @@ class user {
 
     } catch (error) {
       console.error(error)
+
+    }
+
+
+  }
+
+  async updateProfilePicture(uri: string) {
+
+    try {
+
+      db.transaction(tx => {
+        tx.executeSql('UPDATE users set profile_picture =? WHERE id =?', [uri, this.id], (tx, result) => {
+          return true
+        })
+
+      })
+    } catch (error) {
+      console.log(error)
 
     }
 

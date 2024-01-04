@@ -4,15 +4,15 @@ import { Dimensions } from "react-native";
 export const styles = StyleSheet.create({
 
     formContainer: {
-        borderWidth: 0.3, borderColor: "grey", margin: 5, borderRadius: 5, 
+        margin: 5, borderRadius: 5, 
     },
 
     saveButton: {
 
-        padding: 25,
+        padding: 10,
         margin: 5,
         marginTop: 40,
-        borderRadius: 5,
+        borderRadius: 20,
         backgroundColor: "#2DA15F",
 
     },
@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
     labelText: {
 
         fontFamily: "Poppins-Medium",
-        fontSize: 11,
+        fontSize: 10,
         textAlign: "left",
         color: "black"
     },
@@ -97,8 +97,11 @@ export const styles = StyleSheet.create({
     userInput: {
 
         backgroundColor: 'rgb(247,247,249)',
-        borderRadius: 5,
+        borderRadius: 20,
         borderColor: "grey",
+        fontFamily:'Poopins-Bold',
+        fontSize:10,
+        
 
 
 
@@ -107,8 +110,12 @@ export const styles = StyleSheet.create({
 
         height: 100, textAlignVertical: 'top',
         backgroundColor: 'rgb(247,247,249)',
-        borderRadius: 5,
+        borderRadius: 20,
         borderColor: "grey",
+        fontFamily:'Poopins-Bold',
+        fontSize:10,
+        
+       
 
 
 

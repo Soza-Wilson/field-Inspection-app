@@ -44,10 +44,17 @@ const BottomNavigator = ({ navigation,page}: bottomnavProps) => {
 
                 <View style={styles.home}>
                     <IOS name={(activePage==="home")? "home" : "home-outline"} color={(activePage==="home")? "#2DA15F" : "grey"} size={30} />
-                    <Text style={styles.homeText}>
+                    <Text style={(activePage==="home")? { fontFamily: "Poppins-SemiBold",fontSize: 9, textAlign: "center",  marginTop: 5 ,color: "black"
+                } :{ fontFamily: "Poppins-SemiBold",
+                                fontSize: 8,
+                            textAlign: "center",
+                                marginTop: 5
+                                    ,
+                                color: "grey"
+                                            }}>
 
-                        Home
-                    </Text>
+                    home
+                </Text>
                 </View>
             </TouchableHighlight>
 
@@ -56,7 +63,14 @@ const BottomNavigator = ({ navigation,page}: bottomnavProps) => {
             <View style={styles.map}>
 
             <IOS name={(activePage==="map")? "map" : "map-outline"} color={(activePage==="map")? "#2DA15F" : "grey"} size={30} />
-                <Text style={styles.mapText}>
+                <Text style={(activePage==="map")? { fontFamily: "Poppins-SemiBold",fontSize: 9, textAlign: "center",  marginTop: 5 ,color: "black"
+                } :{ fontFamily: "Poppins-SemiBold",
+                                fontSize: 8,
+                            textAlign: "center",
+                                marginTop: 5
+                                    ,
+                                color: "grey"
+                                            }}>
 
                     Map
                 </Text>
@@ -75,10 +89,17 @@ const BottomNavigator = ({ navigation,page}: bottomnavProps) => {
                 <View style={styles.library}>
 
                 <IOS name={(activePage==="library")? "list" : "list-outline"} color={(activePage==="library")? "#2DA15F" : "grey"} size={30} />
-                    <Text style={styles.libraryText}>
+                <Text style={(activePage==="library")? { fontFamily: "Poppins-SemiBold",fontSize: 9, textAlign: "center",  marginTop: 5 ,color: "black"
+                } :{ fontFamily: "Poppins-SemiBold",
+                                fontSize: 8,
+                            textAlign: "center",
+                                marginTop: 5
+                                    ,
+                                color: "grey"
+                                            }}>
 
-                        Library
-                    </Text>
+                    library
+                </Text>
 
 
                 </View>
@@ -96,10 +117,17 @@ const BottomNavigator = ({ navigation,page}: bottomnavProps) => {
                 <IOS name={(activePage==="settings")? "settings" : "settings-outline"} color={(activePage==="settings")? "#2DA15F" : "grey"} size={30} />
                  
 
-                    <Text style={styles.settingsText}>
+                <Text style={(activePage==="settings")? { fontFamily: "Poppins-SemiBold",fontSize: 9, textAlign: "center",  marginTop: 5 ,color: "black"
+                } :{ fontFamily: "Poppins-SemiBold",
+                                fontSize: 8,
+                            textAlign: "center",
+                                marginTop: 5
+                                    ,
+                                color: "grey"
+                                            }}>
 
-                        Settings
-                    </Text>
+                    settings
+                </Text>
 
                 </View>
 
@@ -208,6 +236,21 @@ const styles = StyleSheet.create({
         marginTop: 5
         ,
         color: "grey"
+
+    }
+
+    ,
+
+    activeText:{
+
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 10,
+        textAlign: "center",
+        marginTop: 5
+        ,
+        color: "black"
+
+
 
     }
 

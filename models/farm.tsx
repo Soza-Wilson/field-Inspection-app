@@ -166,7 +166,7 @@ class Farm {
       const results: any = await new Promise((resolve, reject) => {
         tx.executeSql(
           'SELECT farm_id,variety,crop,Hectors,fullname,physical_address,district,area_name FROM farms INNER JOIN crop ON crop.crop_id = farms.crop_id LEFT JOIN variety ON variety.variety_id = farms.variety_id INNER JOIN growers ON growers.grower_id = farms.grower_id WHERE fullname LIKE ?',
-          ['%'+growerName+'%'],
+          ['%' + growerName + '%'],
           (tx: any, results: any) => resolve(results),
           (_: any, error: any) => reject(error)
         );
@@ -182,6 +182,39 @@ class Farm {
       // Error handling code here
       console.error("Error during getting grower data:");
     }
+
+  }
+
+  getInspected = async (Id: string) => {
+    try {
+
+      const tx: any = await new Promise((resolve, reject) => {
+        db.transaction((tx) => resolve(tx), reject);
+      });
+
+      const results: any = await new Promise((resolve, reject) => {
+        tx.executeSql(
+          'SELECT inspection_type FROM inspection JOIN farms ON inspection.farm_id = farms.farm_id WHERE farms.farm_id = ? ORDER BY inspection.farm_id',
+          [Id],
+          (tx: any, results: any) => resolve(results),
+          (_: any, error: any) => reject(error)
+        );
+      });
+      const len = results.rows.length;
+
+      if (len > 0) {
+        return results.rows.item(0)
+      }
+      else {
+        return 'error'
+      }
+    } catch (error) {
+
+      console.log(error);
+
+
+    }
+
 
   }
 }

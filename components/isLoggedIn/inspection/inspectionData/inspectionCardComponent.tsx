@@ -6,6 +6,7 @@ import Evil from 'react-native-vector-icons/EvilIcons'
 import { TouchableHighlight } from 'react-native';
 import { useInspectionType } from '../../../../context/inspectionType';
 import { NavigationScreenProp } from 'react-navigation';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type noDataProps = {
 
@@ -39,9 +40,9 @@ export const NoDataCardComponent = (Props:noDataProps) => {
 
             </Text>
 
-            <Mate
-                name='archive'
-                size={30}
+            <MaterialIcons
+                name='folder-alert-outline'
+                size={25}
                 color={'black'}
             />
 
@@ -86,6 +87,7 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
     
      const date = new Date(Props.inspectionDataObject.inspection_date)
      const vergitativeDataObject = {
+        inspectionId : Props.inspectionDataObject.inspection_id,
         inspectionType: Props.inspectionStage,
         plantingPattern: Props.inspectionDataObject.planting_pattern,
         isolationDistance: Props.inspectionDataObject.isolation_distance,
@@ -93,11 +95,13 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
         pestDeseaseIncidence:Props.inspectionDataObject.pest_disease_incidence,
         defectivePlants:Props.inspectionDataObject.defective_plants,
         remarks:Props.inspectionDataObject.inspection_remarks
+      
 
     
         }
 
       const floweringDataObject ={
+        inspectionId : Props.inspectionDataObject.inspection_id,
       inspectionType: Props.inspectionStage,
        pollinatingFemales:Props.inspectionDataObject.pollinating_females_percentage,
        femalesReceptiveSkills: Props.inspectionDataObject.female_receptive_skills,
@@ -108,6 +112,7 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
       }  
 
       const preHarvestDataObject={
+        inspectionId : Props.inspectionDataObject.inspection_id,
         inspectionType: Props.inspectionStage,
         offTypeCobs: Props.inspectionDataObject.off_typecobs_at_shelling,
         defectiveCobs: Props.inspectionDataObject.defective_cobs_at_shelling,
@@ -115,7 +120,7 @@ const InspectionCardComponent = (Props: inspectionCardProps) => {
 
        
       }  
-
+    
 
     return (
         <View style={styles.inspectionCard}>
@@ -194,10 +199,11 @@ const styles = StyleSheet.create({
 
 
         padding: 35,
-        borderRadius: 20,
+        borderRadius: 30,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        elevation: 3,
+        borderWidth:0.5,
+        borderColor:'grey',
         margin: 10,
         backgroundColor: '#fff'
 
@@ -210,8 +216,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 30,
-        borderRadius: 20,
-        elevation: 3,
+        borderRadius: 30,
+        borderWidth:0.5,
+        borderColor:'grey',
         margin: 10,
         marginTop: 15,
         backgroundColor: '#fff'

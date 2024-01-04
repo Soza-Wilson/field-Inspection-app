@@ -17,6 +17,9 @@ import ViewInspectionDetails from './components/isLoggedIn/inspection/inspection
 import ViewDetailsData from './components/isLoggedIn/inspection/inspectionData/viewDetailsData';
 import BottomSheetData from './components/isLoggedIn/inspection/inspectionData/bottomSheet/mapBottomSheet';
 import SelectedGrowerName from './context/growerSearch';
+import BottomSheetContextStatusProvider from './context/bottomSheetEditor';
+import EditDataProvider from './context/editInspectionDetails';
+import ListSkeloton from './components/skelotons/listSkeloton';
 
 
 
@@ -28,18 +31,16 @@ const App = () => {
 
 
     <View style={{ flex: 1 }}>
-
-
-      <SelectedGrowerName>
-        <LogInProvider>
-          <MyStack />
-        </LogInProvider>
-      </SelectedGrowerName>
-
-
-
-
-
+      <EditDataProvider>
+        <BottomSheetContextStatusProvider>
+          <SelectedGrowerName>
+            <LogInProvider>
+              <MyStack />
+            </LogInProvider>
+          </SelectedGrowerName>
+        </BottomSheetContextStatusProvider>
+      </EditDataProvider>
+    
 
     </View>
 

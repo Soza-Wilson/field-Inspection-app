@@ -77,7 +77,7 @@ const LandingPage = ({navigation}: {navigation: any}) => {
 
         <Text style={styles.swipe_text}>
 
-          swipe to sign in
+          Get Started
 
         </Text>
 
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent:"space-between",
     marginLeft: 20,
     marginRight: 20,
 
@@ -142,10 +143,12 @@ const styles = StyleSheet.create({
 
   swipe_text: {
 
+    fontFamily:'Poppins-Medium',
+    
     color: Colors.black,
-    textAlign: 'center',
-    marginLeft: 70,
-    marginRight:100
+    textAlign: 'left',
+    marginLeft: 20,
+    
 
 
 

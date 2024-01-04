@@ -11,12 +11,14 @@ import { Formik } from 'formik'
 import { nameSchema } from './dataSchema'
 import { emailSchema } from './dataSchema'
 import { passwordSchema } from './dataSchema'
+import Util from '../../../../models/Util'
+import IOS from 'react-native-vector-icons/Ionicons';
 
 
 
 const EditProfileDetails = ({ route, navigation }: any) => {
 
-    const [userName, setUserName] = useState()
+    const [userName, setUserName]: any = useState()
     const [userId, setUserId] = useState()
     const [email, setEmail] = useState()
     const [userProfilePicture, setUserProfilePicture] = useState('')
@@ -25,6 +27,7 @@ const EditProfileDetails = ({ route, navigation }: any) => {
     const screenHeight = Dimensions.get('window').height
     const type = route.params.type;
     const userClass = new user("", "", "", "")
+    const util = new Util()
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -47,18 +50,16 @@ const EditProfileDetails = ({ route, navigation }: any) => {
 
             if (value) {
                 const parsedData: any = JSON.parse(value);
-                setUserName(parsedData.fullName)
                 setUserId(parsedData.id)
                 setEmail(parsedData.email)
-                const date = Date
-
+                setUserName(parsedData.fullName)
 
 
                 if (parsedData.profilePicture == null) {
                     setUserProfilePicture('')
 
                 } else {
-                    setUserProfilePicture(parsedData.profilePicture)
+                    setUserProfilePicture(parsedData.fullName)
                 }
 
                 return parsedData

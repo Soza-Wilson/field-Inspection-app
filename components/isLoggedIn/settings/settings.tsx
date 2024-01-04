@@ -3,17 +3,24 @@ import React, { useEffect, useState } from 'react'
 import BottomNavigator from '../../navigation/custom/bottomNavigator'
 import { StyleSheet } from 'react-native'
 import Mate from 'react-native-vector-icons/Entypo'
+import Evil from 'react-native-vector-icons/EvilIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Material from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TouchableHighlight } from 'react-native'
 import { UseLogIn } from '../../../context/logInProvider'
+import RNFetchBlob from 'rn-fetch-blob'
+import Util from '../../../models/Util'
+import { string } from 'yup'
+import IOS from 'react-native-vector-icons/Ionicons';
 
 const Settings = ({ navigation }: any) => {
 
-  const [userName, setUserName] = useState()
+  const [userName, setUserName] :any = useState()
   const [userProfilePicture, setUserProfilePicture] = useState('')
   const { setIsLoggedIn }: any = UseLogIn()
+  const cacheDir = RNFetchBlob.fs.dirs.CacheDir
+  const util = new Util()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,32 +34,32 @@ const Settings = ({ navigation }: any) => {
 
   const getUserData = async () => {
 
-
     try {
-      const value: string | null = await AsyncStorage.getItem('user-data');
+        const value: string | null = await AsyncStorage.getItem('user-data');
 
-      if (value) {
-        const parsedData: any = JSON.parse(value);
-        setUserName(parsedData.fullName)
-        const date = Date
+        if (value) {
+            const parsedData: any = JSON.parse(value);
+            const name :string = util.setCapitalLatter(parsedData.fullName)
+            setUserName(name)
+           
+            const date = Date
+
+           
 
 
-        if (parsedData.profilePicture == null) {
-          setUserProfilePicture('')
+            if (parsedData.profilePicture == null) {
+                setUserProfilePicture('')
 
-        } else {
-          setUserProfilePicture(parsedData.profilePicture)
+            } else {
+                setUserProfilePicture('file://' + cacheDir + '/' + parsedData.profilePicture) 
+            }
         }
-      }
     } catch (error) {
-      console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
     }
+}
 
 
-
-
-
-  }
 
   const confirmSignOut = () => {
 
@@ -104,7 +111,7 @@ const Settings = ({ navigation }: any) => {
         </View>
 
         <Image
-          source={userProfilePicture !== '' ? userProfilePicture : require('../../../assets/images/user.jpg')}
+          source={userProfilePicture !== '' ?{uri : userProfilePicture }: require('../../../assets/images/user.jpg')}
           style={styles.profile_image}></Image>
 
 
@@ -117,14 +124,14 @@ const Settings = ({ navigation }: any) => {
             <View style={styles.userProfile}>
               <View style={{ flexDirection: 'row' }}>
 
-                <Mate
+                <Evil
                   name='user'
-                  size={20}
-                  color={'grey'}
-                  style={{ margin: 7 }}
+                  size={30}
+                  color={'black'}
+                  style={{ margin: 2 }}
                 />
 
-                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Profile</Text>
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-Medium', fontSize: 10,color:'black'}}>Profile</Text>
 
 
               </View>
@@ -144,43 +151,7 @@ const Settings = ({ navigation }: any) => {
           </TouchableHighlight>
 
 
-          <TouchableHighlight activeOpacity={0.8}
-            underlayColor="" onPress={() => navigation.navigate('syncData')}>
-
-            <View style={styles.userProfile}>
-              <View style={{ flexDirection: 'row' }}>
-
-                <Material
-
-                  name="phonelink-setup"
-                  size={20}
-                  color="grey"
-                  style={{ margin: 7 }}
-                />
-
-
-
-                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Device</Text>
-
-
-              </View>
-
-
-
-              <Mate
-                name='chevron-right'
-                size={25}
-                color={'grey'}
-                style={{ margin: 7 }}
-              />
-
-            </View>
-
-
-            
-
-
-          </TouchableHighlight>
+          
 
           <TouchableHighlight activeOpacity={0.8}
             underlayColor="" onPress={() => navigation.navigate('syncData')}>
@@ -188,17 +159,17 @@ const Settings = ({ navigation }: any) => {
             <View style={styles.userProfile}>
               <View style={{ flexDirection: 'row' }}>
 
-                <MaterialIcons
+                <IOS
 
-                  name="database-sync"
+                  name="cloud-upload-outline"
                   size={20}
-                  color="grey"
+                  color="black"
                   style={{ margin: 7 }}
                 />
 
 
 
-                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Sync Data</Text>
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-Medium', fontSize: 10,color:'black'}}>Sync Data</Text>
 
 
               </View>
@@ -226,17 +197,18 @@ const Settings = ({ navigation }: any) => {
             <View style={styles.userProfile}>
               <View style={{ flexDirection: 'row' }}>
 
-                <Mate
+                <IOS
 
-                  name="log-out"
+                  name="exit-outline"
                   size={20}
-                  color="grey"
+                  color="black"
+                  
                   style={{ margin: 7 }}
                 />
 
 
 
-                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>Sign Out</Text>
+                <Text style={{ paddingTop: 12, fontFamily: 'Poppins-Medium', fontSize: 10,color:'black' }}>Sign Out</Text>
 
 
               </View>
@@ -266,7 +238,7 @@ const Settings = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(247,247,249)',
+    backgroundColor: '#ffffff',
     flexDirection: "column", justifyContent: 'space-between'
 
   },
@@ -322,21 +294,24 @@ const styles = StyleSheet.create({
   optionsContainer: {
     marginTop: 50,
     padding: 5,
-    borderTopColor: 'grey',
-    borderWidth: 0.2,
+   
     margin: 2,
-    borderRadius: 5
+    
   },
 
   userProfile: {
 
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+   
     margin: 5,
     padding: 15,
-    borderRadius: 5,
+    
     justifyContent: 'space-between',
-    elevation: 5
+    borderBottomColor:"black",
+    borderBottomWidth: 1.5,
+    
+    
+    
 
 
 

@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, TouchableHighlight } from 'react-native'
 import React, { useEffect, useState } from 'react'
+
 import { object, string, number } from 'yup';
 import { Formik } from 'formik';
 import { styles } from './inspectionFromStyle/formStyle';

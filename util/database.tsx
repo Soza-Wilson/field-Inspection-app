@@ -121,7 +121,7 @@ db.transaction((tx) => {
 
 // db.transaction((tx) => {
 //   tx.executeSql(
-//     'DROP TABLE inspection',
+//     'DROP TABLE inspection_images',
 //     [],
 //     () => {
 //       console.log('drop');
@@ -163,7 +163,7 @@ db.transaction((tx) => {
 
 db.transaction((tx) => {
   tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS inspection_image ( images_url TEXT PRIMARY KEY NOT NULL,inspection_id TEXT,FOREIGN KEY(inspection_id) REFERENCES inspection(inspection_id))',
+    'CREATE TABLE IF NOT EXISTS inspection_images(image_uri TEXT PRIMARY KEY NOT NULL, inspection_id TEXT,FOREIGN KEY(inspection_id) REFERENCES inspection(inspection_id))',
     [],
     () => {
       console.log('Images table created');

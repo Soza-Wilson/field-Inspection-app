@@ -22,7 +22,7 @@ const TextDataComponent = (Props: textCompmonentProps) => {
                     name="eye"
                     size={11}
                     color="black"
-                    style={{     
+                    style={{
                     }}
 
                 />
@@ -46,12 +46,16 @@ const styles = StyleSheet.create({
 
     inspectionCard: {
 
-
-        padding:10,
+        borderWidth: 0.4,
+        borderColor: '#2DA15F',
+        padding: 10,
         borderRadius: 5,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        elevation: 10,
+        borderTopLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        
         margin: 10,
         backgroundColor: '#fff'
 
@@ -60,33 +64,36 @@ const styles = StyleSheet.create({
 
     },
 
-    headerText:{
-        fontFamily:'Poppins-SemiBold',
-        fontSize:12,
-        color:'#2DA15F'
+    headerText: {
+        fontFamily: 'Poppins-Medium',
+        fontSize: 13,
+
+        color: '#2DA15F'
     },
-    contentText:{
+    contentText: {
 
-        fontFamily:'Poppins-SemiBold',
-        fontSize:9,
-        textAlign:'left',
-        height:80,
-        padding:5,
-        borderColor:'black',
-        backgroundColor:'lightgrey',
-        borderRadius:5
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 9,
+        textAlign: 'left',
+        height: 80,
+        padding: 5,
+        borderColor: 'black',
+
+        borderRadius: 5
 
 
 
     },
 
- 
-  
-    headerContainer:{
 
-        flexDirection:'row',
-        justifyContent:'space-between',
-        
+
+    headerContainer: {
+
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomWidth: 2,
+        borderColor: 'grey',
+
     }
 
 })

@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const sync_data = () => {
+const ConfigureDivice = () => {
   return (
     <View>
-      <Text>sync_data</Text>
+      <Text>configureDivice</Text>
     </View>
   )
 }
 
-export default sync_data
+export default ConfigureDivice

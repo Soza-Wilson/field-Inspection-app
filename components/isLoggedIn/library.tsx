@@ -18,6 +18,8 @@ import { useInspectionfarmId } from '../../context/farmDetailsProvider';
 import Farm from '../../models/farm';
 import Ion from 'react-native-vector-icons/Ionicons';
 import SelectedGrowerName, { useInspectionType } from '../../context/growerSearch';
+import Util from '../../models/Util'
+import ListSkeloton from '../skelotons/listSkeloton';
 
 
 
@@ -50,6 +52,7 @@ const MyComponent = ({ navigation }: any) => {
   const [farmDetails, setFarmDetails] = useState([])
 
   const { growerName } = useInspectionType()
+  const util = new Util()
   const farm = new Farm("", "", "", "", "", "", "", "", "", "", "")
   let tempFarmData: any = []
 
@@ -76,7 +79,8 @@ const MyComponent = ({ navigation }: any) => {
 
   const handleLongPress = (farm_id: string, grower_name: string, crop: string, variety: string, hectors: string, district: string, area_name: string, physical_address: string) => {
 
-    let farmDetails: any = [farm_id, grower_name, crop, variety, hectors, district, area_name, physical_address,]
+    const name = util.setCapitalLatter(grower_name);
+    let farmDetails: any = [farm_id, name, crop, variety, hectors, district, area_name, physical_address,]
     setFarmDetails(farmDetails)
     handleOpenModal();
 
@@ -91,6 +95,8 @@ const MyComponent = ({ navigation }: any) => {
       for (let i = 0; i < len; i++) {
         tempFarmData.push(data.rows.item(i))
       }
+
+
 
     setFarms(tempFarmData)
 
@@ -149,6 +155,7 @@ const MyComponent = ({ navigation }: any) => {
 
   return (
     <View style={styles.container} >
+     
       <DynamicHeader animHeaderValue={scrollOffsetY} />
       <View style={styles.viewWrappper}>
 
@@ -169,7 +176,7 @@ const MyComponent = ({ navigation }: any) => {
               <TouchableHighlight onPress={() => { [setFarmId(farm.farm_id), navigation.navigate('viewInspection')] }} onLongPress={() => { handleLongPress(farm.farm_id, farm.fullname, farm.crop, farm.variety, farm.hectors, farm.district, farm.area_name, farm.physical_address) }} activeOpacity={0.9}
                 underlayColor="">
                 <View  >
-                  <FarmCard farmDetails={farm} />
+                  <FarmCard farmDetails={farm}growerName={util.setCapitalLatter(farm.fullname)} />
                 </View>
               </TouchableHighlight>
 
@@ -192,27 +199,13 @@ const MyComponent = ({ navigation }: any) => {
         <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Variety: </Text><Text style={styles.cropDetailsText}> {farmDetails[3]}</Text></View>
         <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Class: </Text><Text style={styles.cropDetailsText}> -</Text></View>
         <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Hectors: </Text><Text style={styles.cropDetailsText}> {farmDetails[4]}</Text></View>
-
         <View style={styles.modalSeparator}></View>
-
         <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>District: </Text><Text style={styles.cropDetailsText}> {farmDetails[5]}</Text></View>
         <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Area name : </Text><Text style={styles.cropDetailsText}> {farmDetails[6]}</Text></View>
-
         <View style={styles.modalSeparator}></View>
-
-
         <View style={styles.growerWrapper}><Text style={styles.growerModalNameTitle}>Physical Address: </Text></View>
         <Text style={styles.cropDetailsText}>{farmDetails[7]}</Text>
-
-
         <View style={styles.modalSeparator}></View>
-
-
-
-
-
-
-
       </FarmDetailsModal>
 
 
@@ -278,7 +271,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
 
-    backgroundColor: 'rgb(247,247,249)',
+    backgroundColor: 'rgb(240,240,240)',
 
   },
 

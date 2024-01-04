@@ -25,7 +25,7 @@ import ViewInspectionDetails from '../components/isLoggedIn/inspection/inspectio
 import ViewDetailsData from '../components/isLoggedIn/inspection/inspectionData/viewDetailsData';
 import SyncData from '../components/isLoggedIn/settings/syncDataComponets/syncData';
 import GalleryView from '../components/isLoggedIn/inspection/imagesComponants/galleryView';
-
+import ConfigureDivice from '../components/isLoggedIn/settings/configureDevice/configureDivice';
 
 
 
@@ -84,8 +84,7 @@ function MyTabs() {
             <mainStack.Screen name="inspectionData"  component={ViewDetailsData}  options={{ headerShown: false, presentation:'modal' }} />
             <mainStack.Screen name="syncData"  component={SyncData}  options={{ headerShown: false, presentation:'modal' }} /> 
             <mainStack.Screen name="imageGalleryView"  component={GalleryView}  options={{ headerShown: false, presentation:'modal' }} />               
-
-
+            <mainStack.Screen name="configureDivice"  component={ConfigureDivice}  options={{ headerShown: false, presentation:'modal' }} /> 
 
 
 

@@ -12,6 +12,9 @@ import { TouchableHighlight } from 'react-native';
 import BottomNavigator from '../navigation/custom/bottomNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { date } from 'yup';
+import RNFetchBlob from 'rn-fetch-blob';
+import Util from '../../models/Util';
+
 
 interface userData {
   id: string;
@@ -20,11 +23,14 @@ interface userData {
 
 
 
-}
+}  
+
 
 function Home({ navigation }: any) {
-  const [userName, setUserName] = useState()
+  const [userName, setUserName] :any = useState()
   const [userProfilePicture, setUserProfilePicture] = useState('')
+  const cacheDir = RNFetchBlob.fs.dirs.CacheDir
+  const util = new Util()
   useEffect(() => {
     const timer = setTimeout(() => {
       getUserData()
@@ -37,31 +43,23 @@ function Home({ navigation }: any) {
 
   const getUserData = async () => {
 
-
     try {
-      const value: string | null = await AsyncStorage.getItem('user-data');
+        const value: string | null = await AsyncStorage.getItem('user-data');
 
-      if (value) {
-        const parsedData: any = JSON.parse(value);
-        setUserName(parsedData.fullName)
+        if (value) {
+            const parsedData: any = JSON.parse(value);
+            setUserName((await util.setCapitalLatter(parsedData.fullName)).toString())
 
-        if (parsedData.profilePicture == null) {
-          setUserProfilePicture('')
-
-
-        } else {
-          setUserProfilePicture(parsedData.profilePicture)
+            if (parsedData.profilePicture == null) {
+                setUserProfilePicture('')
+            } else {
+                setUserProfilePicture('file://' + cacheDir + '/' + parsedData.profilePicture) 
+            }
         }
-      }
     } catch (error) {
-      console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
     }
-
-
-
-
-
-  }
+}
 
   return (
     <View style={styles.container}>
@@ -73,7 +71,7 @@ function Home({ navigation }: any) {
         <View style={styles.headerWrapper}>
           <View style={styles.profileWrapper}>
             <Image
-              source={userProfilePicture !== '' ? userProfilePicture : require('../../assets/images/user.jpg')}
+              source={userProfilePicture !== '' ? {uri:userProfilePicture} : require('../../assets/images/user.jpg')}
               style={styles.profile_image}></Image>
             <Text style={styles.profileText}>{userName}</Text>
           </View>

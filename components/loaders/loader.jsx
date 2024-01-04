@@ -15,7 +15,9 @@ const Loader=(props)=> {
   }, []);
 
   return (
+    
     <AnimatedLoader
+    
       visible={visible}
       overlayColor="rgba(255,255,255,2)"
       animationStyle={styles.lottie}

@@ -239,14 +239,7 @@ const getTempData = async()=>{
             onScroll={
               handleScroll
 
-              //   Animated.event([{
-              //   nativeEvent: { contentOffset: {x: scrollx } }
-
-
-
-
-              // }], { useNativeDriver: true },
-              // )
+              
             }
 
             keyExtractor={(item) => item.id}

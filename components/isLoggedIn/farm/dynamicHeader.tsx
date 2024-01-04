@@ -12,6 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 import { Formik } from 'formik';
 import SelectedGrowerName, { useInspectionType } from '../../../context/growerSearch';
+import RNFetchBlob from 'rn-fetch-blob';
+import Util from '../../../models/Util';
+
 
 
 
@@ -39,10 +42,13 @@ const DynamicHeader = ({ animHeaderValue }: dynamicHeaderProps) => {
     return () => clearTimeout(timer); // Clear the timer if the component unmounts
   }, []);
 
-  const [userName, setUserName] = useState()
+  const [userName, setUserName]: any = useState()
   const [userProfilePicture, setUserProfilePicture] = useState('')
   const { setGrowerName } = useInspectionType()
-  
+  const cacheDir = RNFetchBlob.fs.dirs.CacheDir
+  const util = new Util()
+
+
 
 
   const getUserData = async () => {
@@ -53,13 +59,19 @@ const DynamicHeader = ({ animHeaderValue }: dynamicHeaderProps) => {
 
       if (value) {
         const parsedData: any = JSON.parse(value);
-        setUserName(parsedData.fullName)
+        try {
+          setUserName((await util.setCapitalLatter(parsedData.fullName)).toString())
+
+        } catch (error) {
+          console.log(error)
+          setUserName(parsedData.fullName)
+        }
 
         if (parsedData.profilePicture == null) {
           setUserProfilePicture('')
 
         } else {
-          setUserProfilePicture(parsedData.profilePicture)
+          setUserProfilePicture('file://' + cacheDir + '/' + parsedData.profilePicture)
         }
       }
     } catch (error) {
@@ -119,7 +131,7 @@ const DynamicHeader = ({ animHeaderValue }: dynamicHeaderProps) => {
       <View style={styles.headerWrapper}>
         <View style={styles.profileWrapper}>
           <Image
-            source={userProfilePicture !== '' ? userProfilePicture : require('../../../assets/images/user.jpg')}
+            source={userProfilePicture !== '' ? { uri: userProfilePicture } : require('../../../assets/images/user.jpg')}
             style={styles.profile_image}></Image>
           <Text style={styles.profileText}>{userName}</Text>
         </View>

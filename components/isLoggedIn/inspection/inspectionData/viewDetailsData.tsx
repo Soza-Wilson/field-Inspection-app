@@ -12,7 +12,9 @@ import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue, withSpring
 import { color } from 'react-native-elements/dist/helpers'
 import MapBottomSheet from './bottomSheet/mapBottomSheet'
 import ImagesBottomSheet from './bottomSheet/imagesBotttomSheet'
-import DeleteDataBottomSheet from './bottomSheet/deleteDataBottomSheet'
+import DeleteDataBottomSheet from './bottomSheet/editDataBottomSheet'
+import EditDataBottomSheet from './bottomSheet/editDataBottomSheet'
+import BottomSheetContextStatusProvider, { UseBottomSheetProvider } from '../../../../context/bottomSheetEditor'
 
 export interface ViewDetailsScreenProps {
   navigation: NavigationScreenProp<any, any>
@@ -22,6 +24,7 @@ export interface ViewDetailsScreenProps {
 
 const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
+  const { bottomSheetStatus }: any = UseBottomSheetProvider()
   const [bottomSheetType, setBottomSheetType]: any = useState(null);
   const [viewOptions, setViewOptions] = useState(false)
   const [inspectionData, setInspectionData]: any = useState({})
@@ -72,7 +75,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
 
 
-
+ 
   const OptionsComponant = () => {
 
 
@@ -151,23 +154,28 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
     return (
 
-      <View style={{ marginTop: 20, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10,  }}>
 
-        <ScrollView  showsVerticalScrollIndicator={false}>
+      <View style={{ marginTop: 20, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10, }}>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
 
 
           <TextDataComponent title='Isolation Distance' content={Props.route.params.inspectionData.isolationDistance} />
           <TextDataComponent title='Planting Pattern' content={Props.route.params.inspectionData.plantingPattern} />
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypePercentage} title={'Off type percentage '} good={false} />
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence '} good={false} />
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} good={false} />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'off_type_percentage'} numberValue={Props.route.params.inspectionData.offTypePercentage} title={'Off type percentage '} dataType={'int'} good={false} />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'pest_diease_incidence'} numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence '} dataType={'int'} good={false} />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'defective_plants'} numberValue={Props.route.params.inspectionData.defectivePlants} title={'Defective Plants '} dataType={'int'} good={false} />
           <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
           <View style={{ height: 50 }}></View>
 
         </ScrollView>
-        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet inspectionId={Props.route.params.inspectionData.inspectionId} /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+        {bottomSheetStatus ? <EditDataBottomSheet /> : <View></View>}
 
       </View>
+
+
+
 
 
 
@@ -178,19 +186,24 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
   const FloweringDataComponant = () => {
 
     return (
-      <View style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10,  }}>
+
+      <View style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10, }}>
         <ScrollView
 
           showsVerticalScrollIndicator={false}>
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} good />
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.femalesReceptiveSkills} title={'Female receptive skills '} good />
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} good />
-          <DonartChartComponent numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} good={false} />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'pollinating_females'} numberValue={Props.route.params.inspectionData.pollinatingFemales} title={'Pollinating females '} dataType={'int'} good />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'female_receptive_skills'} numberValue={Props.route.params.inspectionData.femalesReceptiveSkills} title={'Female receptive skills '} dataType={'int'}good />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'male_elemination'} numberValue={Props.route.params.inspectionData.maleElemination} title={'Male elemination '} dataType={'int'} good />
+          <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'pest_disease_incidence'} numberValue={Props.route.params.inspectionData.pestDeseaseIncidence} title={'Pest disease incidence'} dataType={'int'} good={false} />
           <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
           <View style={{ height: 50 }}></View>
         </ScrollView>
-        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet inspectionId={Props.route.params.inspectionData.inspectionId}  /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+        {bottomSheetStatus ? <EditDataBottomSheet /> : <View></View>}
       </View>
+
+
+
 
     )
 
@@ -204,14 +217,17 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
     return (
 
 
-      <View style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10,  }} >
+      <View style={{ marginTop: 10, flex: 1, backgroundColor: 'rgb(247,247,249)', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 10, }} >
 
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.offTypeCobs} title={'Off type cobs at shelling '} good={false} />
-        <DonartChartComponent numberValue={Props.route.params.inspectionData.defectiveCobs} title={'Defective cobs at shelling '} good={false} />
+        <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'off_typecobs_at_shelling'} numberValue={Props.route.params.inspectionData.offTypeCobs} title={'Off type cobs at shelling '} dataType={'int'} good={false} />
+        <DonartChartComponent inspectionId={Props.route.params.inspectionData.inspectionId} dbParamName={'defective_cobs_at_shelling'} numberValue={Props.route.params.inspectionData.defectiveCobs} title={'Defective cobs at shelling '} dataType={'int'} good={false} />
         <TextDataComponent title='Inspection remarks' content={Props.route.params.inspectionData.remarks} />
         <View style={{ height: 50 }}></View>
-        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet /> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+        {bottomSheetType == 'map' ? <MapBottomSheet /> : bottomSheetType == 'images' ? <ImagesBottomSheet  inspectionId={Props.route.params.inspectionData.inspectionId}/> : bottomSheetType == 'images' ? <DeleteDataBottomSheet /> : <View></View>}
+        {bottomSheetStatus ? <EditDataBottomSheet /> : <View></View>}
       </View>
+
+
 
 
 
@@ -277,6 +293,7 @@ const ViewDetailsData = (Props: ViewDetailsScreenProps) => {
 
 
       <OptionsComponant />
+  
 
 
 

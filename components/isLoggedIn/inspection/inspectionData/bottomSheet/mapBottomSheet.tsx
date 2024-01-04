@@ -7,7 +7,7 @@ import {
 } from '@gorhom/bottom-sheet';
 
 const MapBottomSheet = () => {
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       handlePresentModalPress()
@@ -18,7 +18,7 @@ const MapBottomSheet = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%','80%'], []);
+  const snapPoints = useMemo(() => ['25%', '50%', '80%'], []);
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -29,7 +29,7 @@ const MapBottomSheet = () => {
   }, []);
 
   const renderBackdrop = useCallback(
-   (props: any) => (
+    (props: any) => (
       <BottomSheetBackdrop
         {...props}
         disappearsOnIndex={-1}
@@ -38,22 +38,23 @@ const MapBottomSheet = () => {
     ),
     []
   );
- 
+
 
   // renders
   return (
     <BottomSheetModalProvider>
       <View style={styles.container}>
-      
+
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
           backdropComponent={renderBackdrop}
           onChange={handleSheetChanges}
+          backgroundStyle={{ borderRadius: 50 }}
         >
           <View style={styles.contentContainer}>
-            <Text>Map Unavailable</Text>
+            <Text style={styles.headerText}>Map Unavailable</Text>
           </View>
         </BottomSheetModal>
       </View>
@@ -66,12 +67,16 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     justifyContent: 'center',
-   
+
   },
   contentContainer: {
     flex: 1,
     alignItems: 'center',
   },
+  headerText: {
+    fontFamily: 'Poppins-Bold',
+     fontSize: 12
+  }
 });
 
 export default MapBottomSheet;

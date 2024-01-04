@@ -10,7 +10,9 @@ import { TouchableHighlight } from 'react-native';
 import ViewInspection from '../viewInspection';
 import Inspection from '../../../../models/inspection';
 import Farm from '../../../../models/farm'
-
+import Util from '../../../../models/Util';
+import Evil from 'react-native-vector-icons/EvilIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useInspectionfarmId } from '../../../../context/farmDetailsProvider';
 import { NavigationScreenProp } from 'react-navigation';
@@ -32,11 +34,13 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
   }, []);
   const { farmId } = useInspectionfarmId()
   let [farmDetails, setFarmDetails]: any = useState([])
+  let [grower, setGrowerName]: any = useState([])
   const [vergitativeData, setVergitativeData]: any = useState([])
 
   const [backSize, setBackSize]: any = useState(20)
   const [floweringData, setFloweringData]: any = useState([])
   const [preHarvestData, setPreHarvestData]: any = useState([])
+  const util = new Util()
 
 
   //  parsing the farm ID to the Farm class and calling the getFarmDetails method 
@@ -68,8 +72,10 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
   //  setting farm details 
 
   const setFarmsdata = async () => {
-    const data: object = await getFarmDetails()
+    const data: any = await getFarmDetails()
     setFarmDetails(data)
+    setGrowerName(util.setCapitalLatter(data.fullname))
+    
 
   }
 
@@ -81,12 +87,14 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
 
 
 
+
   }
 
   //  getting vergitative flowering  data form inspectionData object
   const GetFloweringData = async () => {
     const data: any = await getInspectionData('flowering')
     setFloweringData(data)
+   
 
   }
 
@@ -94,6 +102,7 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
   const getPreHarvestData = async () => {
     const data: any = await getInspectionData('pre_harvest')
     setPreHarvestData(data)
+    
 
 
 
@@ -138,23 +147,24 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
 
           <View style={styles.farmDetails}>
 
-            <Font
+            <Evil
               name="user"
-              size={15}
+              size={20}
               color="black"
               style={{
                
                 color: "grey",
                 borderColor: 'grey',
-                margin: 4,
-                borderRadius: 10
+                margin: 2,
+               
+                
 
               }}
             />
-            <View style={[styles.farmDetails, { margin:2,paddingLeft: 0 }]}>
+            <View style={[styles.farmDetails, { paddingLeft: 0 }]}>
               <Text style={styles.growerDetailsText}>
 
-                {farmDetails.fullname}
+                {grower}
               </Text>
             </View>
 
@@ -164,7 +174,7 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
           <View style={styles.farmDetails}>
 
             <Ion
-              name="ios-location"
+              name="ios-location-outline"
               size={15}
               color="black"
               style={{
@@ -190,8 +200,8 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
 
           <View style={styles.farmDetails}>
 
-            <Font5
-              name="seedling"
+            <MaterialIcons
+              name="tree-outline"
               size={15}
               color="black"
               style={{
@@ -281,8 +291,8 @@ const styles = StyleSheet.create({
 
   farmDetailsContainer: {
 
-    margin: 10,
-    borderBottomWidth: 0.3,
+    margin: 15,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     justifyContent: 'space-around'
   },
   farmDetails: {

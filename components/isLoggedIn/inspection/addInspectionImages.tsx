@@ -1,4 +1,4 @@
-import { View, Text, TouchableHighlight, PermissionsAndroid, ScrollView } from 'react-native'
+import { View, Text, TouchableHighlight, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import StageTips from './stageTips'
@@ -24,6 +24,9 @@ import { Platform } from 'react-native';
 import idGenerator from './inspectionForms/idGenerator/idGenerator';
 import SelectedInspectionFarmId from '../../../context/farmDetailsProvider';
 import { useInspectionfarmId } from '../../../context/farmDetailsProvider';
+import { requestCameraPermission } from '../../../util/appPermisions';
+
+
 
 
 import GeoLocation from '../../../models/geo';
@@ -39,6 +42,7 @@ const AddInspectionImages = ({ navigation }: any) => {
             handleInspectionId()
             getGeoLocationData()
             createImagesFolder()
+
 
 
         }, 0);
@@ -66,35 +70,44 @@ const AddInspectionImages = ({ navigation }: any) => {
     const width = Dimensions.get('window').width;
 
 
-    //  images fs 
 
-    const dirs = RNFetchBlob.fs.dirs; //Use the dir API 
-    const imagesFolderPath = dirs.DocumentDir+ '/inspectionImages';
+    //  getting data from cache
+    const cacheDir = RNFetchBlob.fs.dirs.CacheDir;
+    // Specify the destination folder
+    const imagesFolderPath = RNFetchBlob.fs.dirs.DocumentDir + '/inspectionImages';
+
+    const createImagesFolder = async () => {
+        // creating images folder for each inspection entry
+
+        try {
+            const result: boolean = await RNFetchBlob.fs.exists(imagesFolderPath)
+            result ? result : RNFetchBlob.fs.mkdir(imagesFolderPath)
+            console.log('created images : ' + result + '')
+
+        } catch (error) {
+
+            console.log(error)
+
+        }
+
+    }
+
+    const moveSelectedImages = async () => {
+
+        tempImageFiles.forEach((element: string) => {
+            const data = element.split("cache/")
+            const uploadedImages = new UploadedImages(data[1], inspectionId)
+            uploadedImages.addImage()
+        });
+
+
+    }
+
 
     // requesting user camera permissions 
-    const requestCameraPermission = async () => {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.CAMERA,
-                {
-                    title: "App Camera Permission",
-                    message: "App needs access to your camera ",
-                    buttonNeutral: "Ask Me Later",
-                    buttonNegative: "Cancel",
-                    buttonPositive: "OK"
-                }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
 
-                return true
-            } else {
-
-                return false
-            }
-        } catch (err) {
-            console.warn(err);
-        }
-    };
+    
+  
 
 
     // using the react native image picker library to take images and upload already existing
@@ -127,6 +140,10 @@ const AddInspectionImages = ({ navigation }: any) => {
             })
 
         }
+        ).catch(
+            error=>{
+                console.log(error)
+            }
         )
 
     }
@@ -184,15 +201,9 @@ const AddInspectionImages = ({ navigation }: any) => {
 
             const options: CameraOptions = {
                 mediaType: 'photo',
-
-
                 includeBase64: true,
                 saveToPhotos: true,
-
-
-
             }
-
             const result = await launchImageLibrary(options, (response: any) => {
                 if (response.didCancel) {
 
@@ -200,24 +211,31 @@ const AddInspectionImages = ({ navigation }: any) => {
                 else {
                     response.assets.forEach((element: any) => {
                         setTempImageFiles([...tempImageFiles, element.uri]);
+
                     });
-
                 }
-
-
-
-
             });
-
         })
-
-
-
-
     }
 
 
     //  Saving all collected inspection data into the SQLite database 
+    //    here we are playiing around with images data to see if we can use there somewhere else 
+    const playWithFiles = async () => {
+        let counter = 0
+        let images: any = []
+        const cacheDir = RNFetchBlob.fs.dirs.CacheDir
+        const files = await RNFetchBlob.fs.ls(cacheDir);
+        files.forEach(element => {
+            if (element[0] == 'r') {
+                images.push('file://' + cacheDir + '/' + element)
+                console.log('file://' + cacheDir + '/' + element)
+                counter++
+            }
+        });
+        setTempImageFiles(images)
+        console.log(counter)
+    }
 
 
     const saveInspectionData = async () => {
@@ -271,26 +289,16 @@ const AddInspectionImages = ({ navigation }: any) => {
         try {
 
             const geoLocation = new GeoLocation(inspectionId, geoLoaction.latitude, geoLoaction.longitude, geoLoaction.altitude, geoLoaction.accuracy, geoLoaction.speed)
-            const insertOperation = await geoLocation.registerGeoLocation()
-
-
+            geoLocation.registerGeoLocation()
 
         } catch (e) {
-
             console.log(e)
-
         }
-
         try {
-
-            handleImages()
-
+            moveSelectedImages()
         } catch (error) {
 
-           
-
         }
-
         try {
             navigation.navigate('viewInspection')
         } catch (error) {
@@ -298,83 +306,7 @@ const AddInspectionImages = ({ navigation }: any) => {
         }
 
 
-
-        //  passing inspection data to the data model
-
-
-        //  calling the insert data function from the data model 
-
-
-
-        // if data inserted successfully resert the async storage tocken 
-
-
-
     }
-
-    const createImagesFolder= async () => {
-        // creating images folder for each inspection entry
-
-       
-
-        try {
-
-            const result : boolean = await RNFetchBlob.fs.exists(imagesFolderPath)
-            result ? result: RNFetchBlob.fs.mkdir(imagesFolderPath)
-            console.log('created images path '+result+'')
-            
-        } catch (error) {
-
-            console.log(error)
-
-        }
-
-
-
-    }
-
-
-    const handleImages = async() => {
-
-    
-
-            tempImageFiles.forEach( async (item: any) => {
-
-                const imageId = idGenerator()
-                  
-                const imageStatus =await RNFetchBlob.fs.exists(item)
-
-                if(imageStatus){
-                        const destinationPath = `${imagesFolderPath}/${imageId}.jpg`; 
-                        RNFetchBlob.fs.mv(item, destinationPath)
-                         
-                        const image = new UploadedImages(imageId, inspectionId)
-                        image.addImage()
-        
-                        .then(()=>{
-                            console.log('Image moved successfully.');
-                        }) 
-                        
-
-                }
-                
-                
-               // Replace 'image.jpg' with your desired image name 
-               
-                   
-                    
-
-                // const image = new UploadedImages(item, inspectionId)
-                // image.addImage()
-
-            });
-
-        }
-      
-           
-
-
-    
 
     const getInspectionData = async (): Promise<object> => {
 
@@ -387,7 +319,6 @@ const AddInspectionImages = ({ navigation }: any) => {
 
                 parsedData = JSON.parse(value);
                 setInspectionData(parsedData)
-
 
             }
         } catch (error) {
@@ -412,22 +343,12 @@ const AddInspectionImages = ({ navigation }: any) => {
                 parsedData = JSON.parse(value);
                 setUserData(parsedData)
 
-
-
-                // if (parsedData.profilePicture == null) {
-                //     setUserProfilePicture('')
-
-                // } else {
-                //     setUserProfilePicture(parsedData.profilePicture)
-                // }
             }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
 
         return parsedData
-
-
 
     }
 
@@ -443,14 +364,6 @@ const AddInspectionImages = ({ navigation }: any) => {
             if (value) {
                 parsedData = JSON.parse(value);
                 setGeoLocation(parsedData)
-
-
-                // if (parsedData.profilePicture == null) {
-                //     setUserProfilePicture('')
-
-                // } else {
-                //     setUserProfilePicture(parsedData.profilePicture)
-                // }
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -593,7 +506,7 @@ const AddInspectionImages = ({ navigation }: any) => {
                         {tempImageFiles.map((data: any, index: number) => (
                             // Step 3: Render components based on the array elements
                             <TouchableHighlight activeOpacity={0.9}
-                                underlayColor="" key={index} onPress={() => navigation.navigate('imageGalleryView',{images: tempImageFiles, selectImageIndex: selectImageIndex})}>
+                                underlayColor="" key={index} onPress={() => navigation.navigate('imageGalleryView')}>
 
                                 <Image
                                     style={{ height: 150, width: 91 * 2, margin: 4, borderRadius: 5 }}
@@ -624,73 +537,55 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
 
-    
-
-        return (
 
 
-
-            <View style={styles.mainContainer}>
-                <StageTips stage={3} heading='Field Images' description='Take or upload field images' inspectionType={inspectionType === 0 ? 'Vergitative' : inspectionType === 1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation}
-                    previousPage='addGeoLocation' />
-
-                <View style={styles.galleryView}>
-                    <TempImageGallary />
-
-
-                    <TouchableHighlight activeOpacity={0.9}
-                        underlayColor="" style={styles.uploadCategory} onPress={() => {
-                            if (showButton) {
-                                setShowButton(false)
-                            }
-                            else {
-
-                                setShowButton(true)
-
-                            }
-
-                        }}>
-
-                        <View >
-                            {/* <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}></View> */}
-
-                            <Enty
-
-                                name="plus"
-                                size={20}
-                                color="black"
-                                style={{
-
-                                    color: "#FFFFFF",
+    return (
 
 
 
+        <View style={styles.mainContainer}>
+            <StageTips stage={3} heading='Field Images' description='Take or upload field images' inspectionType={inspectionType === 0 ? 'Vergitative' : inspectionType === 1 ? 'Flowering' : 'Pre Harvest'} navigation={navigation}
+                previousPage='addGeoLocation' />
 
-                                }}
-                            />
+            <View style={styles.galleryView}>
+                <TempImageGallary />
 
-
-
-                            <CameraButtons />
-
-
-                        </View>
-
-
-                    </TouchableHighlight>
-
-
-
-
-
-                </View>
 
                 <TouchableHighlight activeOpacity={0.9}
-                    underlayColor="" onPress={() => saveDataConformation()}>
+                    underlayColor="" style={styles.uploadCategory} onPress={() => {
+                        if (showButton) {
+                            setShowButton(false)
+                        }
+                        else {
 
-                    <View style={styles.saveButton}>
+                            setShowButton(true)
 
-                        <Text style={styles.saveText} > Save Data</Text>
+                        }
+
+                    }}>
+
+                    <View >
+                        {/* <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}></View> */}
+
+                        <Enty
+
+                            name="plus"
+                            size={20}
+                            color="black"
+                            style={{
+
+                                color: "#FFFFFF",
+
+
+
+
+                            }}
+                        />
+
+
+
+                        <CameraButtons />
+
 
                     </View>
 
@@ -700,14 +595,32 @@ const AddInspectionImages = ({ navigation }: any) => {
 
 
 
+
             </View>
 
+            <TouchableHighlight activeOpacity={0.9}
+                underlayColor="" onPress={() => saveDataConformation()}>
 
-        )
+                <View style={styles.saveButton}>
+
+                    <Text style={styles.saveText} > Save Data</Text>
+
+                </View>
+
+
+            </TouchableHighlight>
 
 
 
-    }
+
+        </View>
+
+
+    )
+
+
+
+}
 
 
 

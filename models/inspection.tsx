@@ -62,7 +62,7 @@ class Inspection {
 
 
     }
- 
+
 
 
 
@@ -70,9 +70,9 @@ class Inspection {
 
     addVergitativeInspection = async () => {
 
-                     
 
-    
+
+
 
         try {
 
@@ -80,7 +80,7 @@ class Inspection {
                 const results: any = await new Promise((resolve, reject) => {
                     tx.executeSql(
                         'INSERT INTO inspection (inspection_id,inspection_date,inspection_time,farm_id,user_id,inspection_type,isolation_distance,planting_pattern,off_type_percentage,pest_disease_incidence,defective_plants,inspection_remarks) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
-                        [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.isolationDistance, this.plantingPattern, this.offTypePercentage, this.pestDiseaseIncidence,this.defectPlants, this.remarks],
+                        [this.id, this.inspectionDate, this.inspectionTime, this.farmId, this.userId, this.inspectionType, this.isolationDistance, this.plantingPattern, this.offTypePercentage, this.pestDiseaseIncidence, this.defectPlants, this.remarks],
                         (tx, result) => {
                             console.log('Data inserted. ID' + this.id)
                             return 'successful'
@@ -136,7 +136,7 @@ class Inspection {
 
     }
 
-  
+
 
 
 
@@ -184,7 +184,7 @@ class Inspection {
                             console.log(result.rows.item(0))
 
                         }
-                       
+
 
                     }
                     else {
@@ -271,6 +271,31 @@ class Inspection {
 
     }
 
+    editInspectionData = async (Id: string, fieldName: string, data: string | number) => {
+
+        try {
+
+            const tx: any = await new Promise((resolve, reject) => {
+                db.transaction((tx) => resolve(tx), reject);
+            });
+
+            const results: any = await new Promise((resolve, reject) => {
+                tx.executeSql(
+                    'UPDATE inspection SET ' + fieldName + ' = ? WHERE `inspection_id` = ?',
+                    [data, Id],
+                    (tx: any, results: any) => resolve(console.log(results)),
+                    (_: any, error: any) => reject(error)
+                );
+            });
+
+
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
     deleteInspection = async () => {
 
 
@@ -293,6 +318,58 @@ class Inspection {
             console.log(error)
 
         }
+
+    }
+
+    async getAllData() {
+
+        try {
+
+            const tx: any = await new Promise((resolve, reject) => {
+                db.transaction((tx) => resolve(tx), reject);
+            });
+
+            const results: any = await new Promise((resolve, reject) => {
+                tx.executeSql(
+                    'SELECT * FROM inspection',
+                    [],
+                    (tx: any, results: any) => resolve(results),
+                    (_: any, error: any) => reject(error)
+                );
+            });
+
+            const len = results.rows.length;
+            if (len >= 1) {
+                //reserting data tocken before adding new tocken
+                try {
+                    await AsyncStorage.removeItem('' + this.inspectionType + '-inspection-data')
+                } catch (error) {
+                    console.log(error)
+                }
+                // parsing results data into aysnc await function 
+                try {
+
+                    let data = [];
+
+                    let count = 0;
+                    while (count < len) {
+                        data.push(results.rows.item(count))
+                        count++
+                    }
+                    return data
+
+                } catch (e) {
+                    console.log(e)
+                }
+                console.log("found " + len + " inspection entries");
+
+            } else {
+                console.log('no data found ')
+            }
+        } catch (error) {
+            console.error("Error during sign-in:", error);
+        }
+
 
 
 

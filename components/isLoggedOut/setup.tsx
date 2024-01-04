@@ -8,20 +8,14 @@ import {
   TouchableHighlight,
   Alert,
   KeyboardAvoidingView,
+  StatusBar,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import NetInfo from "@react-native-community/netinfo";
-import db from '../../util/database';
-import user from '../../models/user';
-import Crop from '../../models/crop';
 import Loader from '../loaders/loader';
 import CheckLoader from '../loaders/check';
-import Variety from '../../models/variety';
-import Grower from '../../models/grower';
-import Farm from '../../models/farm';
-import { validatePathConfig } from '@react-navigation/native';
+import ApiHandler from '../../models/api';
+import { object, string } from 'yup';
+
 
 
 type DeviceSetupProps = {
@@ -32,12 +26,34 @@ type DeviceSetupProps = {
 }
 
 const DeviceSetup = ({ navigation }: { navigation: any }) => {
-  const host = 'https://022f-137-115-0-27.ngrok-free.app/requests';
+  const host = 'https://c546-137-115-0-33.ngrok-free.app/requests';
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [loaderData, setLoaderData] = useState("");
   const [isConnected, setIsConnection] = useState()
+  const [apiData, setApiData]: any = useState({ 'userName': '', 'key': 'key' })
+  const apiHandler = new ApiHandler();
+  const [userName,setUserName] : any = useState(null)
+  const [key,setKey]:any = useState(null)
 
+
+  const validationSchema = object().shape({
+    // Define your form fields and their validation rules here
+    // For example:
+
+    username: string().required('Host user name is required'),
+    key: string().required('key is required'),
+    // Add more fields and their validations as needed
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      getApiData();
+
+
+    }, 0);
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+  }, []);
 
 
   const closeLoader = () => {
@@ -59,200 +75,58 @@ const DeviceSetup = ({ navigation }: { navigation: any }) => {
   Sending a fetch request to the STTS API 
   if connected getting required table data and inserting into the SQlite database
   */
-  const connectToServer = () => {
-    // isLoading will open up the loader 
+  const connectToServer = async () => {
     setIsLoading(true);
-    setLoaderData("Connecting...");
-    fetch(host + '/connection')
-      .then(response => response.json())
-      .then(jsonData => {
-        setLoaderData("Connected");
-        closeLoader()
-        if (jsonData[0].status == 'connected') {
-          addUsers(host);
-        }
-      })
-      .catch(error => {
+    setLoaderData("connecting....")
 
-        closeLoader();
-        Alert.alert("failed to connect to server")
-        console.log(error);
-      });
-  };
-
-
-
-  // getting all required data
-
-  function addUsers(url: string) {
+    const isConnected = await apiHandler.checkConnection();
+    if (isConnected) {
+      apiAuthenticate()
+    } else {
+      setIsLoading(false)
+      Alert.alert("failed to connect to server")
     
-    setLoaderData("Fetching data...");
-    fetch(url + '/getUsers')
-      .then(response => response.json())
-      .then(jsonData => {
-        let counter = 0;
-        try {
-          jsonData.forEach((element: any) => {
-            const User = new user(
-              element.id,
-              element.fullname,
-              element.email,
-              element.password,
-            );
-            // checking if all entries have been passed to the create user class if so move to the next function( insert crop data)
-            counter++;
-            User.registerUser();
-            if (counter == jsonData.length) {
-            
-              addCrop(url)
+    }
 
-            } else {
-            }
-          });
-
-        } catch (error) {
-
-        }
-
-      })
-      .catch(error => {
-        
-        console.log(error);
-
-      });
+    // isLoading will open up the loader 
+  }
+  const getApiData = async () => {
+    const apiData: object | boolean |any = await apiHandler.getApiRegisteredData()
+    setApiData(apiData);
+    setUserName(apiData.userName)
+    setKey(apiData.key)
   }
 
-  function addCrop(url: string) {
-    setIsLoading(true);
-    let counter = 0;
-    fetch(url + '/getCrops')
-      .then(response => response.json())
-      .then(jsonData => {
 
-        try {
-          jsonData.forEach((element: any) => {
-            const crop = new Crop(element.crop_id, element.crop_name);
-            crop.createCrop();
-
-            // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
-            counter++;
-            if (counter == jsonData.length) {
-             
-              addVariety(url)
-            } else {
-
-            }
-          });
-
-        } catch (error) {
-
-        }
-
-      })
-      .catch(error => {
-        //   console.log(error);
-        console.log(error);
-      });
+  const apiAuthenticate = async () => {
+    setLoaderData("Authenticating...")
+    const isAuthenticated = await apiHandler.apiSignIn(userName,key)
+  
+    if(!isAuthenticated){
+      Alert.alert("Error during API Authentication")
+      setIsLoading(false);
+    }
+    else{getDeviceData()}
   }
-
-  function addVariety(url: string) {
-    setIsLoading(true);
-    let counter = 0;
-    fetch(url + '/getVarieties')
-      .then(response => response.json())
-      .then(jsonData => {
-
-        try {
-          jsonData.forEach((element: any) => {
-            const variety = new Variety(element.variety_id, element.variety_name, element.cropCrop_id);
-            variety.createVariety()
-
-            // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
-            counter++;
-            if (counter == jsonData.length) {
-              
-              addGrowers(url)
-            } else {
-
-            }
-          });
-
-        } catch (error) {
-
-        }
-
-      })
-
-
-
+  const getDeviceData = async ()=>{
+    setLoaderData("Fetching data ...")
+    await apiHandler.getUsers()
+    await apiHandler.getCrops()
+    await apiHandler.getVarieties()
+    await apiHandler.getGrowers()
+    await apiHandler.getFarms()
+    
+    setIsDone(true)
+    setIsLoading(false)
+    closeCheck()
+   
+    
+    
   }
-  function addGrowers(url: string) {
-    setIsLoading(true);
-    let counter = 0;
-    fetch(url + '/getGrowers')
-      .then(response => response.json())
-      .then(jsonData => {
-
-        try {
-          jsonData.forEach((element: any) => {
-            const grower = new Grower(element.grower_id, element.fullname, element.email);
-            grower.createGrower()
-
-            // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
-            counter++;
-            if (counter == jsonData.length) {
-             
-              addFarms(url)
-            } else {
-
-            }
-          });
-
-        } catch (error) {
-
-        }
-
-      })
-
-  }
-
-  function addFarms(url: string) {
-    setIsLoading(true);
-    let counter = 0;
-    fetch(url + '/getFarms')
-      .then(response => response.json())
-      .then(jsonData => {
-
-        try {
-          jsonData.forEach((element: any) => {
-            const farm = new Farm(element.farm_id, element.hectors, element.region, element.district,
-              element.area_name, element.physical_address,
-              element.address, element.epa, element.cropCropId, element.varietyVarietyId,element.growerGrowerId);
-            farm.createFarm()
-
-            // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
-            counter++;
-            if (counter == jsonData.length) {
-              closeLoader();
-              setIsDone(true)
-              closeCheck()
-              
-            } else {
-
-            }
-          });
-
-        } catch (error) {
-
-        }
-
-      })
-
-  }
-
 
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
+      <StatusBar hidden />
       <View style={styles.info_container}>
         <Text style={styles.text}>Connect to server</Text>
       </View>
@@ -270,39 +144,59 @@ const DeviceSetup = ({ navigation }: { navigation: any }) => {
       ) : (<></>
 
       )}
-      <View>
-        <TextInput
-          placeholderTextColor="rgb(100,101,118)"
-          style={styles.input}
-          placeholder="Host name "
-          keyboardType="default"
-        />
-      </View>
+
+
 
       <View>
-        <TextInput
-          placeholderTextColor="rgb(100,101,118)"
-          style={styles.input}
-          placeholder=" Access key "
-          keyboardType="default"
-        />
-      </View>
 
-      <TouchableHighlight
-        activeOpacity={0.9}
-        underlayColor=""
-        onPress={() => connectToServer()}>
-        <View style={styles.signInButton}>
-          <Text style={styles.connectButtonText}>Connect</Text>
-
-          <MaterialIcons
-
-            name="database-sync"
-            size={20}
-            color="#FFFFFF"
+        <View>
+          <TextInput
+            placeholderTextColor="rgb(100,101,118)"
+            style={styles.input}
+            placeholder="Host name "
+            onChangeText={newText => setUserName(newText)}
+            defaultValue={apiData === null ? "" : apiData.userName}
+            keyboardType="default"
+            
           />
+
         </View>
-      </TouchableHighlight>
+
+        <View>
+          <TextInput
+            placeholderTextColor="rgb(100,101,118)"
+            style={styles.input}
+            placeholder=" Access key "
+            keyboardType="default"
+            secureTextEntry={true}
+            passwordRules={null}
+            onChangeText={newText => setKey(newText)}
+            defaultValue={apiData === null ? "" : apiData.key}
+
+          // value={apiData === null ? "" : apiData.key}
+
+
+          />
+
+
+        </View>
+
+        <TouchableHighlight
+          activeOpacity={0.9}
+          underlayColor=""
+          onPress={() => {connectToServer()}}>
+          <View style={styles.signInButton}>
+            <Text style={styles.connectButtonText}>Connect</Text>
+
+
+          </View>
+        </TouchableHighlight>
+
+
+
+      </View>
+
+
 
       <TouchableHighlight
         activeOpacity={0.9}
@@ -312,6 +206,8 @@ const DeviceSetup = ({ navigation }: { navigation: any }) => {
           <Text style={styles.connectButtonText}>Back</Text>
         </View>
       </TouchableHighlight>
+
+
     </KeyboardAvoidingView>
   );
 };
@@ -345,6 +241,14 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
 
+  validationText: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 10,
+    color: '#FF0000',
+    marginLeft: 20
+
+  },
+
   input: {
     color: 'black',
     borderBottomWidth: 3,
@@ -359,9 +263,9 @@ const styles = StyleSheet.create({
   signInButton: {
     marginTop: 50,
     backgroundColor: '#2DA15F',
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: 'center',
-    padding: 15,
+    padding: 9,
     marginLeft: 20,
     marginRight: 20,
     flexDirection: 'row',
@@ -379,11 +283,11 @@ const styles = StyleSheet.create({
   },
 
   configureButton: {
-    marginTop: 50,
+    marginTop: 35,
     backgroundColor: '#2DA15F',
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: 'center',
-    padding: 15,
+    padding: 9,
     marginLeft: 20,
     marginRight: 20,
     flexDirection: 'row',
@@ -391,15 +295,15 @@ const styles = StyleSheet.create({
   },
 
   connectButtonText: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 14,
+    fontFamily: 'Poppins-Bold',
+    fontSize: 11,
     color: '#FFFFFF',
     marginRight: 5,
   },
 
   splitButtons: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 14,
+    fontFamily: 'Poppins-Bold',
+    fontSize: 11,
     color: 'Black',
   },
 });

@@ -230,9 +230,14 @@ const ViewInspectionDetails = ({ navigation }: ViewInspectionDetailsScreenProps)
         <ScrollView style={styles.inspectionCardContainer}
           showsVerticalScrollIndicator={false}>
 
+
           {vergitativeData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='vergitative' /> : <InspectionCardComponent navigation={navigation} inspectionStage='vergitative' inspectionDataObject={vergitativeData} />}
           {floweringData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='flowering' /> : <InspectionCardComponent navigation={navigation} inspectionStage='flowering' inspectionDataObject={floweringData} />}
           {preHarvestData.inspectionType === 'no_data' ? <NoDataCardComponent navigation={navigation} inspectionStage='pre_harvest' /> : <InspectionCardComponent navigation={navigation} inspectionStage='pre_harvest' inspectionDataObject={preHarvestData} />}
+            
+            <View style={{height:200}}>
+
+</View>
 
 
         </ScrollView>

@@ -141,7 +141,7 @@ const AddGeoLocation = ({navigation}:any) => {
                 <View style={styles.textWrapper}>
 
                     <Text style={styles.labelText}> Latitude  *</Text>
-                    <TextInput style={styles.userInput}
+                    <TextInput style={[styles.userInput,{borderRadius:20}]}
                         placeholder='0000000'
                         placeholderTextColor={"black"}
                         editable ={false}>
@@ -156,7 +156,7 @@ const AddGeoLocation = ({navigation}:any) => {
                 <View style={styles.textWrapper}>
 
                     <Text style={styles.labelText}> Longitude  *</Text>
-                    <TextInput style={styles.userInput}
+                    <TextInput style={[styles.userInput,{borderRadius:20}]}
                         placeholder='000000'
                         placeholderTextColor={"black"}
                         
@@ -173,7 +173,7 @@ const AddGeoLocation = ({navigation}:any) => {
                 <View style={styles.textWrapper}>
 
                     <Text style={styles.labelText}> Accurancy  *</Text>
-                    <TextInput style={styles.userInput}
+                    <TextInput style={[styles.userInput,{borderRadius:20}]}
                         placeholder='000000'
                         placeholderTextColor={"black"}
                         editable ={false}>
@@ -188,7 +188,7 @@ const AddGeoLocation = ({navigation}:any) => {
                 <View style={styles.textWrapper}>
 
                     <Text style={styles.labelText}> Speed  *</Text>
-                    <TextInput style={styles.userInput}
+                    <TextInput style={[styles.userInput,{borderRadius:20}]}
                         placeholder='0000000'
                         placeholderTextColor={"black"}
                         editable ={false}>
@@ -227,14 +227,34 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
 
+    saveButton: {
+
+        padding: 10,
+        margin: 5,
+        marginTop: 40,
+        borderRadius: 20,
+        backgroundColor: "#2DA15F",
+
+    },
+    saveText: {
+
+        textAlign: "center",
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 12,
+        color: "#FFFFFF"
+
+
+
+
+    },
+
     getLocation: {
 
-        padding: 25,
+        padding: 10,
+        margin: 5,
+        marginTop: 40,
+        borderRadius: 20,
         backgroundColor: "#2DA15F",
-        margin: 10,
-        borderRadius: 5,
-        alignContent: 'center',
-        justifyContent: 'center'
 
     },
 
@@ -258,9 +278,7 @@ const styles = StyleSheet.create({
 
     userInput: {
 
-        backgroundColor: 'rgb(247,247,249)',
-        borderRadius: 5,
-        borderColor: "grey",
+        marginTop: 14, backgroundColor: 'rgb(247,247,249)', fontFamily: 'Poppins-Bold', fontSize: 10
 
 
 

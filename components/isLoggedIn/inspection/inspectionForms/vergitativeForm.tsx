@@ -83,11 +83,14 @@ const VergitativeForm = (props: formProps) => {
         //  Inserting temp data into aysnc storage vergitative inpection tocken   
         //  We are not directry inserting data into the database incase the user goes back without completing the registration process 
 
+        // props.navigation.navigate('addGeoLocation');
+
         try {
-            setInspectionType('vergitative')
+            //setInspectionType('vergitative')
             const jsonValue = JSON.stringify(inspectionData);
             await AsyncStorage.setItem('vergitative-data', jsonValue);
             props.navigation.navigate('addGeoLocation');
+            console.log("yeah")
 
 
         } catch (e) {

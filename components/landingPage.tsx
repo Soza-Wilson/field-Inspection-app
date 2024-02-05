@@ -63,7 +63,7 @@ const LandingPage = ({navigation}: {navigation: any}) => {
 
         <Text style={styles.text}>
 
-          assess all registered fields,
+          Assess all registered fields,
           streamlining the process and ensuring
           thorough evaluation.
         </Text>
@@ -83,6 +83,7 @@ const LandingPage = ({navigation}: {navigation: any}) => {
 
         <TouchableHighlight activeOpacity={0.9}
           underlayColor="#DDDDDD"
+          style={{borderRadius:20}}
           onPress={() => navigation.navigate('signin')}>
 
           <View style={styles.home}>
@@ -105,7 +106,8 @@ const LandingPage = ({navigation}: {navigation: any}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    flexDirection:'column',
+    justifyContent:'space-between',
     backgroundColor: '#FFFFFF',
   },
   home_image: {
@@ -128,13 +130,14 @@ const styles = StyleSheet.create({
   },
   swipe_container: {
     borderRadius: 20,
-    marginTop: 170,
+   
     padding: 15,
     flexDirection: "row",
     alignItems: "center",
     justifyContent:"space-between",
     marginLeft: 20,
     marginRight: 20,
+    marginBottom:10,
 
     backgroundColor: 'rgb(247,247,249)'
 

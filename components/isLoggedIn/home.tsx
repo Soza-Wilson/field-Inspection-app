@@ -63,7 +63,8 @@ function Home({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+         <StatusBar backgroundColor='#2DA15F' />
+      
 
 
       <View>
@@ -85,7 +86,8 @@ function Home({ navigation }: any) {
             />
           </View>
         </View>
-        <View style={styles.headerSeparator}></View>
+        
+        
 
         <View style={styles.align_card}>
           <TouchableHighlight
@@ -210,6 +212,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     alignItems: 'center',
+    borderBottomColor:"black",
+    borderBottomWidth:2,
+    paddingBottom:20,
+    margin:20
   },
   profileText: {
     fontFamily: 'Poppins-SemiBold',

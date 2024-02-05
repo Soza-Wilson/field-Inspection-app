@@ -42,6 +42,7 @@ const AddInspectionImages = ({ navigation }: any) => {
             handleInspectionId()
             getGeoLocationData()
             createImagesFolder()
+            getCameraPermission();
 
 
 
@@ -52,6 +53,7 @@ const AddInspectionImages = ({ navigation }: any) => {
     const [inspectionId, setInspectionId]: any = useState()
     const [inspectionData, setInspectionData]: any = useState()
     const [geoLoaction, setGeoLocation]: any = useState()
+    const [cameraPer, setCameraPer]: any = useState()
 
     const { inspectionType } = useInspectionType()
     const { farmId } = useInspectionfarmId()
@@ -106,8 +108,18 @@ const AddInspectionImages = ({ navigation }: any) => {
 
     // requesting user camera permissions 
 
-    
-  
+    const getCameraPermission = () => {
+        const res = requestCameraPermission()
+        setCameraPer(res);
+
+
+
+
+
+    }
+
+
+
 
 
     // using the react native image picker library to take images and upload already existing
@@ -132,16 +144,18 @@ const AddInspectionImages = ({ navigation }: any) => {
                 }
 
                 else {
-                    response.assets.forEach((element: any) => {
-                        setTempImageFiles([...tempImageFiles, element.uri]);
-                    });
+
+                    console.log(response);
+                    // response.assets.forEach((element: any) => {
+                    //     setTempImageFiles([...tempImageFiles, element.uri]);
+                    // });
 
                 }
             })
 
         }
         ).catch(
-            error=>{
+            error => {
                 console.log(error)
             }
         )
@@ -642,9 +656,10 @@ const styles = StyleSheet.create({
 
     saveButton: {
 
-        padding: 25,
-        margin: 10,
-        borderRadius: 5,
+        padding: 10,
+        margin: 5,
+        marginTop: 40,
+        borderRadius: 20,
         backgroundColor: "#2DA15F",
 
     },
@@ -654,7 +669,6 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-SemiBold",
         fontSize: 12,
         color: "#FFFFFF"
-
 
 
 

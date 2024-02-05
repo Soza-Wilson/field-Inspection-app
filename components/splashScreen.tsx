@@ -30,7 +30,7 @@ const Splash = ({ navigation }: { navigation: any }) => {
     <View style={styles.container}>
       <StatusBar backgroundColor='#2DA15F' />
 
-      <View >
+      <View style={styles.contentWrapper}>
         <View style={styles.icon_home}>
           <Icon
 
@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2DA15F',
+
+    alignItems: "center",
+    justifyContent: 'center'
+
   },
   headerWripper: {
     flexDirection: 'row',
@@ -66,8 +70,8 @@ const styles = StyleSheet.create({
   },
 
   icon_home: {
-    marginLeft: 165,
-    marginTop: 300,
+    alignItems: 'center', justifyContent: 'center', marginBottom: 10
+
   },
   header: {
     fontFamily: 'Poppins-Bold',
@@ -83,8 +87,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
 
-    marginLeft: 120,
-    marginTop: 20,
+
   },
+  contentWrapper: {
+    flexDirection: 'column'
+
+  }
 });
 export default Splash;

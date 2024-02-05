@@ -34,19 +34,19 @@ const UserProfile = ({ navigation }: any) => {
     const [showImageButtons, setShowImageButton] = useState(false)
     const cacheDir = RNFetchBlob.fs.dirs.CacheDir
 
-    const [userName, setUserName] :any = useState()
+    const [userName, setUserName]: any = useState()
     const [userId, setUserId]: any = useState()
     const [email, setEmail] = useState()
     const [userProfilePicture, setUserProfilePicture] = useState('')
     const { setIsLoggedIn }: any = UseLogIn()
     const util = new Util()
-    
+
 
 
     useEffect(() => {
         const timer = setTimeout(() => {
             getUserData()
-          
+
         }, 0);
         return () => clearTimeout(timer); // Clear the timer if the component unmounts
     }, []);
@@ -131,11 +131,11 @@ const UserProfile = ({ navigation }: any) => {
 
                 else {
                     response.assets.forEach((element: any) => {
-                         setUserProfilePicture(element.uri)
-                         setShowImageButton(false)
+                        setUserProfilePicture(element.uri)
+                        setShowImageButton(false)
                         UpdateProfilePicture(element.uri)
-                        
-                        
+
+
                     });
 
                 }
@@ -187,14 +187,14 @@ const UserProfile = ({ navigation }: any) => {
                 setEmail(parsedData.email)
                 const date = Date
 
-                
+
 
 
                 if (parsedData.profilePicture == null) {
                     setUserProfilePicture('')
 
                 } else {
-                    setUserProfilePicture('file://' + cacheDir + '/' + parsedData.profilePicture) 
+                    setUserProfilePicture('file://' + cacheDir + '/' + parsedData.profilePicture)
                 }
             }
         } catch (error) {
@@ -202,7 +202,7 @@ const UserProfile = ({ navigation }: any) => {
         }
     }
 
-    const UpdateProfilePicture = async (image:string) => {
+    const UpdateProfilePicture = async (image: string) => {
         let imageData = image.split('cache/')
         const data = {
             id: userId,
@@ -210,7 +210,7 @@ const UserProfile = ({ navigation }: any) => {
             fullName: userName,
             profilePicture: imageData[1]
         }
-        const userClass= new user(userId,"","","")
+        const userClass = new user(userId, "", "", "")
         userClass.updateProfilePicture(imageData[1])
         updateUserTempData(data)
 
@@ -234,8 +234,10 @@ const UserProfile = ({ navigation }: any) => {
 
             <View style={styless.headerWrapper}>
                 <TouchableHighlight activeOpacity={0.8}
-                    underlayColor="" onPress={() => navigation.navigate('settings')}>
-                    <View style={[{backgroundColor:'#2DA15F',margin:10}]}>
+                    style={{ borderRadius: 20 }}
+                    underlayColor="green"
+                    onPress={() => navigation.navigate('settings')}>
+                    <View style={[{ backgroundColor: '#2DA15F', margin: 10 }]}>
                         <Mate
                             name='chevron-left'
                             size={20}
@@ -255,7 +257,7 @@ const UserProfile = ({ navigation }: any) => {
 
 
 
-                    <View style={[styles.formContainer, { margin: 20, height: 500, borderRadius:20,backgroundColor:'white'}]} >
+                    <View style={[styles.formContainer, { margin: 20, height: 500, borderRadius: 20, backgroundColor: 'white' }]} >
 
 
 
@@ -310,7 +312,8 @@ const UserProfile = ({ navigation }: any) => {
 
                                 <TouchableHighlight
                                     activeOpacity={0.8}
-                                    underlayColor="" onPress={() => navigation.navigate('editDetails', { type: 'fullname' })}>
+                                    style={{ borderRadius: 40 }}
+                                    underlayColor="#DDDDDD" onPress={() => navigation.navigate('editDetails', { type: 'fullname' })}>
 
                                     <MaterialIcons
                                         name='pen'
@@ -352,7 +355,8 @@ const UserProfile = ({ navigation }: any) => {
 
                                 <TouchableHighlight
                                     activeOpacity={0.8}
-                                    underlayColor="" onPress={() => navigation.navigate('editDetails', { type: 'email' })}>
+                                    style={{ borderRadius: 40 }}
+                                    underlayColor="#DDDDDD" onPress={() => navigation.navigate('editDetails', { type: 'email' })}>
 
                                     <MaterialIcons
                                         name='pen'
@@ -403,7 +407,8 @@ const UserProfile = ({ navigation }: any) => {
 
                                 <TouchableHighlight
                                     activeOpacity={0.8}
-                                    underlayColor="" onPress={() => navigation.navigate('editDetails', { type: 'password' })}>
+                                    style={{ borderRadius: 40 }}
+                                    underlayColor="#DDDDDD" onPress={() => navigation.navigate('editDetails', { type: 'password' })}>
 
                                     <MaterialIcons
                                         name='pen'
@@ -434,10 +439,10 @@ const UserProfile = ({ navigation }: any) => {
                     </View>
 
                     <Image
-                        source={userProfilePicture !== '' ? {uri : userProfilePicture} : require('../../../../assets/images/user.jpg')}
-                       
+                        source={userProfilePicture !== '' ? { uri: userProfilePicture } : require('../../../../assets/images/user.jpg')}
+
                         style={styless.profile_image}
-                        ></Image>
+                    ></Image>
                     <Pressable style={styless.uploadProfilePicture} onPress={() => { showImageButtons ? setShowImageButton(false) : setShowImageButton(true) }} >
                         <View>
 
@@ -488,7 +493,7 @@ const UserProfile = ({ navigation }: any) => {
 const styless = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:"#2DA15F",
+        backgroundColor: "#2DA15F",
         flexDirection: "column",
 
     },
@@ -505,7 +510,6 @@ const styless = StyleSheet.create({
 
         padding: 10,
         borderRadius: 10,
-
         backgroundColor: "white",
         elevation: 2,
         borderColor: "grey"
@@ -514,16 +518,16 @@ const styless = StyleSheet.create({
 
     profile_image: {
         position: 'absolute',
-        top: 0,
-        right: 100,
-        left: 140,
-        width: 100,
-        height: 100,
+        width: 100, height: 100,
+
+
+        left: "35%",
         backgroundColor: "black",
         padding: 50,
         borderRadius: 50,
-        borderColor: 'grey',
-        borderWidth: 2,
+        borderColor: 'white',
+        borderWidth: 8,
+
 
 
     },
@@ -531,23 +535,24 @@ const styless = StyleSheet.create({
     uploadProfilePicture: {
 
         position: 'absolute',
-        top: 87,
-        left: 175,
-        width: 35,
-        height: 35,
+        top: "17%",
+        left: "45%",
+        padding: 5,
         backgroundColor: "#2DA15F",
         elevation: 10,
         borderRadius: 50,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderColor: 'white',
+        borderWidth: 6,
 
     },
 
 
     photoLibrary: {
         position: 'absolute',
-        top: 110,
-        left: 150,
+        top: 130,
+        left: 155,
         width: 25,
         height: 25,
         backgroundColor: "#2DA15F",
@@ -561,8 +566,8 @@ const styless = StyleSheet.create({
 
     useCamera: {
         position: 'absolute',
-        top: 110,
-        left: 210,
+        top: 130,
+        left: 235,
         width: 25,
         height: 25,
         backgroundColor: "#2DA15F",
@@ -587,7 +592,7 @@ const styless = StyleSheet.create({
 
     },
 
-    textData:{
+    textData: {
 
         marginTop: 14, backgroundColor: 'rgb(247,247,249)', fontFamily: 'Poppins-Bold', fontSize: 10
     }

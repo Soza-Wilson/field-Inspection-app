@@ -103,7 +103,7 @@ const Settings = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+     
       <View>
         <View style={styles.clipBoard}>
 

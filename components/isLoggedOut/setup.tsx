@@ -126,7 +126,7 @@ const DeviceSetup = ({ navigation }: { navigation: any }) => {
 
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
-      <StatusBar hidden />
+     
       <View style={styles.info_container}>
         <Text style={styles.text}>Connect to server</Text>
       </View>

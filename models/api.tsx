@@ -4,7 +4,7 @@ import Crop from "./crop";
 import Variety from "./variety";
 import Grower from "./grower";
 import Farm from "./farm";
-const hostUrl = "https://ed7c-137-64-0-15.ngrok-free.app";
+const hostUrl = "https://10db-137-115-0-8.ngrok-free.app";
 
 export
 
@@ -120,7 +120,7 @@ export
                 User.registerUser();
             });
             if (counter == jsonData.length) {
-                console.log(counter + "Users Registered")
+                console.log(counter + " Users Registered")
             }
 
         } catch (error) {
@@ -153,7 +153,7 @@ export
             })
 
             if (counter == jsonData.length) {
-                console.log("Added " + counter + "Crop spicies")
+                console.log("Added " + counter + " Crop spicies")
             }
         } catch (error) {
             console.log(error);
@@ -186,7 +186,7 @@ export
                 // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
                 counter++;
                 if (counter == jsonData.length) {
-                    console.log("Added " + counter + "Varieties")
+                    console.log("Added " + counter + " Varieties")
                 }
             });
 
@@ -222,7 +222,7 @@ export
                 // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
                 counter++;
                 if (counter == jsonData.length) {
-                    console.log("Added " + counter + "Growers")
+                    console.log("Added " + counter + " Growers")
                 }
             });
 
@@ -257,7 +257,7 @@ export
                 // checking if all entries have been passed to the create crop class if so move to the next function( insert variety data)
                 counter++;
                 if (counter == jsonData.length) {
-                    console.log("Added " + counter + "Registered farm")
+                    console.log("Added " + counter + " Registered farm")
                 }
             });
 

@@ -13,6 +13,7 @@ import { emailSchema } from './dataSchema'
 import { passwordSchema } from './dataSchema'
 import Util from '../../../../models/Util'
 import IOS from 'react-native-vector-icons/Ionicons';
+import Evil from 'react-native-vector-icons/EvilIcons'
 
 
 
@@ -108,7 +109,7 @@ const EditProfileDetails = ({ route, navigation }: any) => {
             } catch (error) {
                 console.error(error)
             }
-           
+
 
         }
 
@@ -182,18 +183,17 @@ const EditProfileDetails = ({ route, navigation }: any) => {
                         <View>
                             <View>
 
-                                <Text style={{ padding: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
+                                <Text style={styles.labelText}>
                                     Current name
                                 </Text>
 
-                                <View style={{ flexDirection: 'row', padding: 5, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5 }}>
+                                <View style={{ flexDirection: 'row', padding: 5, backgroundColor: 'rgb(247,247,249)', margin: 5, borderRadius: 30 }}>
 
-                                    <Mate
+                                    <Evil
                                         name='user'
-                                        size={20}
-                                        color={'black'}
-                                        style={{ margin: 10 }}
-
+                                        size={25}
+                                        color={'grey'}
+                                        style={{ margin: 5, backgroundColor: 'rgb(247,247,249)' }}
                                     />
 
                                     <Text style={{ margin: 5, fontFamily: 'Poppins-SemiBold' }}>
@@ -209,12 +209,12 @@ const EditProfileDetails = ({ route, navigation }: any) => {
                             </View>
 
                             <View>
-                                <Text style={{ margin: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
+                                <Text style={styles.labelText}>
                                     Enter New Name
                                 </Text>
 
                                 <TextInput
-                                    placeholder='Enter new name' style={{ padding: 10, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5, fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
+                                    placeholder='Enter new name' style={styles.textFields}
                                     placeholderTextColor="rgb(100,101,118)"
                                     keyboardType="ascii-capable"
                                     autoCorrect={false}
@@ -292,14 +292,14 @@ const EditProfileDetails = ({ route, navigation }: any) => {
 
                             <View>
 
-                                <Text style={{ padding: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
+                                <Text style={styles.labelText}>
                                     Current Email
                                 </Text>
 
-                                <View style={{ flexDirection: 'row', padding: 5, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5 }}>
+                                <View style={{ flexDirection: 'row', padding: 5, backgroundColor: 'rgb(247,247,249)', margin: 5, borderRadius: 30 }}>
 
-                                    <Community
-                                        name='email'
+                                    <IOS
+                                        name='ios-mail-outline'
                                         size={20}
                                         color={'black'}
                                         style={{ margin: 5 }}
@@ -320,12 +320,12 @@ const EditProfileDetails = ({ route, navigation }: any) => {
                             </View>
 
                             <View>
-                                <Text style={{ margin: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
+                                <Text style={styles.labelText}>
                                     Enter new Email Address
                                 </Text>
 
                                 <TextInput
-                                    placeholder='Enter new name' style={{ padding: 10, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5, fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
+                                    placeholder='Enter new name' style={styles.textFields}
                                     placeholderTextColor="rgb(100,101,118)"
                                     keyboardType="ascii-capable"
                                     autoCorrect={false}
@@ -400,12 +400,12 @@ const EditProfileDetails = ({ route, navigation }: any) => {
 
                             <View>
 
-                                <Text style={{ padding: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
+                                <Text style={styles.labelText}>
                                     Enter Current Password
                                 </Text>
 
                                 <TextInput
-                                    placeholder='Current password' style={{ padding: 10, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5, fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
+                                    placeholder='Current password' style={styles.textFields}
                                     placeholderTextColor="rgb(100,101,118)"
                                     keyboardType="ascii-capable"
                                     autoCorrect={false}
@@ -421,12 +421,12 @@ const EditProfileDetails = ({ route, navigation }: any) => {
                             </View>
 
                             <View>
-                                <Text style={{ margin: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
-                                    Enter new Password
+                                <Text style={styles.labelText}>
+                                    New Password
                                 </Text>
 
                                 <TextInput
-                                    placeholder='Enter New Password ' style={{ padding: 10, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5, fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
+                                    placeholder='Enter New Password ' style={styles.textFields}
                                     placeholderTextColor="rgb(100,101,118)"
                                     keyboardType="ascii-capable"
                                     autoCorrect={false}
@@ -442,12 +442,12 @@ const EditProfileDetails = ({ route, navigation }: any) => {
                                 {errors.newPassword && <Text style={styles.validationText}>{errors.newPassword}</Text>}
 
 
-                                <Text style={{ margin: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10 }}>
+                                <Text style={styles.labelText}>
                                     Repeat Password
                                 </Text>
 
                                 <TextInput
-                                    placeholder='Repeat Passoword' style={{ padding: 10, backgroundColor: "rgb(247,240,246)", margin: 5, borderRadius: 5, fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
+                                    placeholder='Repeat Passoword' style={styles.textFields}
                                     placeholderTextColor="rgb(100,101,118)"
                                     keyboardType="ascii-capable"
                                     autoCorrect={false}
@@ -551,11 +551,18 @@ const styles = StyleSheet.create({
     },
     saveButton: {
 
-        padding: 25,
-        margin: 10,
-        borderRadius: 5,
+        // padding: 25,
+        // margin: 10,
+        // borderRadius: 5,
+        // backgroundColor: "#2DA15F",
+
+
+        padding: 10,
+        margin: 5,
+        marginTop: 40,
+        borderRadius: 20,
         backgroundColor: "#2DA15F",
-        marginBottom: 110
+        marginBottom: 110,
 
     },
     saveText: {
@@ -576,6 +583,20 @@ const styles = StyleSheet.create({
         marginLeft: 10
 
 
+    },
+    textFields: {
+
+
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 12, padding: 10, backgroundColor: 'rgb(247,247,249)', borderRadius: 30
+
+
+
+
+    },
+    labelText:{
+
+        padding: 10, fontFamily: 'Poppins-SemiBold', fontSize: 10,color:'black' 
     }
 })
 
